@@ -3,6 +3,9 @@ package edu.nus.seft2.trailblazelearn;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -26,13 +29,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Check for Fb login
         if (checkLoginStatus()) {
+            setContentView(R.layout.activity_main);
 
         } else {
-            navToLogin();
+            handleUserLogin();
         }
     }
 
@@ -40,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         return AccessToken.getCurrentAccessToken() != null;
     }
 
-    private void navToLogin() {
+    private void handleUserLogin() {
         setContentView(R.layout.login_window);
         final String EMAIL = "email";
 
@@ -53,7 +64,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-
+                snip.showToast("Login Successful", getApplicationContext());
+                setContentView(R.layout.activity_main);
+                Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+                setSupportActionBar(myToolbar);
+//                getSupportActionBar().a;
             }
 
             @Override
@@ -69,4 +84,5 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
+
 }
