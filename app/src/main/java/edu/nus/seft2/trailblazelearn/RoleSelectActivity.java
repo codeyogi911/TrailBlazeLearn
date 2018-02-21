@@ -86,5 +86,7 @@ public class RoleSelectActivity extends AppCompatActivity {
     private void updateUI(Object o) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
+
 }

@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         intent.putExtra("fbToken", FbAccount);
 //        intent.putExtra("gSignInClient",mGoogleSignInClient);
         startActivity(intent);
+        finish();
 
     }
 
