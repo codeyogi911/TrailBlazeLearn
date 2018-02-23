@@ -26,10 +26,10 @@ import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    CallbackManager callbackManager = CallbackManager.Factory.create();
-    private GoogleSignInClient mGoogleSignInClient;
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    CallbackManager callbackManager = CallbackManager.Factory.create();
+    private GoogleSignInClient mGoogleSignInClient;
     private AccessToken fbToken = AccessToken.getCurrentAccessToken();
     @Override
     protected void onStart() {
