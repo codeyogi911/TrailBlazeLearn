@@ -30,13 +30,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int RC_SIGN_IN = 9001;
     CallbackManager callbackManager = CallbackManager.Factory.create();
     private GoogleSignInClient mGoogleSignInClient;
-    private AccessToken fbToken = AccessToken.getCurrentAccessToken();
+    private AccessToken fbToken;
+
     @Override
     protected void onStart() {
         super.onStart();
         // Check for existing Google Sign In account
         GoogleSignInAccount gToken = GoogleSignIn.getLastSignedInAccount(this);
         //Check for Fb login
+        fbToken = AccessToken.getCurrentAccessToken();
         if (fbToken != null || gToken != null) {
 //            setContentView(R.layout.activity_main);
             updateUI(gToken, fbToken);
@@ -113,7 +115,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         LoginButton loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList(EMAIL));
         // If you are using in a fragment, call loginButton.setFragment(this);
-
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -121,9 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // App code
                 fbToken = loginResult.getAccessToken();
                 Toast.makeText(getApplicationContext(), "Facebook Login Successful", Toast.LENGTH_LONG).show();
-
                 updateUI(null, fbToken);
-
             }
 
             @Override
