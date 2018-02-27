@@ -1,4 +1,4 @@
-package edu.nus.seft2.trailblazelearn;
+package edu.nus.trailblazelearn.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -24,21 +24,22 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.Arrays;
 
+import edu.nus.trailblazelearn.R;
+
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "SignInActivity";
-    private static final int RC_SIGN_IN = 9001;
     CallbackManager callbackManager = CallbackManager.Factory.create();
     private GoogleSignInClient mGoogleSignInClient;
-    private AccessToken fbToken;
-
+    private static final String TAG = "SignInActivity";
+    private static final int RC_SIGN_IN = 9001;
+    private AccessToken fbToken = AccessToken.getCurrentAccessToken();
     @Override
     protected void onStart() {
         super.onStart();
         // Check for existing Google Sign In account
         GoogleSignInAccount gToken = GoogleSignIn.getLastSignedInAccount(this);
         //Check for Fb login
-        fbToken = AccessToken.getCurrentAccessToken();
         if (fbToken != null || gToken != null) {
 //            setContentView(R.layout.activity_main);
             updateUI(gToken, fbToken);
@@ -115,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         LoginButton loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList(EMAIL));
         // If you are using in a fragment, call loginButton.setFragment(this);
+
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -122,7 +124,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // App code
                 fbToken = loginResult.getAccessToken();
                 Toast.makeText(getApplicationContext(), "Facebook Login Successful", Toast.LENGTH_LONG).show();
+
                 updateUI(null, fbToken);
+
             }
 
             @Override

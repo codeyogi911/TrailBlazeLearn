@@ -1,4 +1,4 @@
-package edu.nus.seft2.trailblazelearn;
+package edu.nus.trailblazelearn.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -18,6 +18,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import edu.nus.trailblazelearn.*;
 
 public class RoleSelectActivity extends AppCompatActivity {
     String welcomeMsg;
