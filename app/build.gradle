@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "edu.nus.seft2.trailblazelearn"
+        applicationId "edu.nus.trailblazelearn"
         minSdkVersion 25
         targetSdkVersion 27
         versionCode 1

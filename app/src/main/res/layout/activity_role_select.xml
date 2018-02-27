@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.nus.seft2.trailblazelearn.edu.nus.trailblazelearn.activity.RoleSelectActivity">
+    tools:context="edu.nus.trailblazelearn.activity.RoleSelectActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"

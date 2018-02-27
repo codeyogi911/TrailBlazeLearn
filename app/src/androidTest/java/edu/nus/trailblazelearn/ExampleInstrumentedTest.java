@@ -1,4 +1,4 @@
-package edu.nus.seft2.trailblazelearn;
+package edu.nus.trailblazelearn;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("edu.nus.seft2.trailblazelearn", appContext.getPackageName());
+        assertEquals("edu.nus.trailblazelearn", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package edu.nus.seft2.trailblazelearn;
+package edu.nus.trailblazelearn;
 
 import org.junit.Test;
 
