@@ -18,8 +18,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
     List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-            new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build());
+            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
+//            new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build()
+    );
     private FirebaseAuth mAuth;
 
     @Override
