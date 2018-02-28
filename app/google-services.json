@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "785501381483",
+    "firebase_url": "https://trailblazelearn-5b12e.firebaseio.com",
+    "project_id": "trailblazelearn-5b12e",
+    "storage_bucket": "trailblazelearn-5b12e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785501381483:android:3b0a3da4cdf109ec",
+        "android_client_info": {
+          "package_name": "edu.nus.trailblazelearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785501381483-0b9feububga4lfq1i10ljbkovq376391.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.nus.trailblazelearn",
+            "certificate_hash": "8166103c4efb20ba011eeea6a149ef4c39e23dbc"
+          }
+        },
+        {
+          "client_id": "785501381483-ldkevq52jh423b155etonakmkj4tgdnn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy4pNYl6qB9TtX7Tcu3SYu6IdDtPBrbhY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785501381483-ldkevq52jh423b155etonakmkj4tgdnn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

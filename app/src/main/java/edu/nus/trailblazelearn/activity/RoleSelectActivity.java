@@ -13,11 +13,13 @@ import android.widget.TextView;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import edu.nus.trailblazelearn.*;
 
@@ -37,17 +39,18 @@ public class RoleSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_role_select);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        gToken = (GoogleSignInAccount) bundle.get("gToken");
-        if (gToken != null) {
-            welcomeMsg = "Welcome " + gToken.getDisplayName();
-        } else {
-            if (Profile.getCurrentProfile() != null) {
-                welcomeMsg = "Welcome " + Profile.getCurrentProfile().getName();
-            }
+//        Intent intent = getIntent();
+//        FirebaseAuth user = intent.getParcelableExtra("user");
+
+//        gToken = (GoogleSignInAccount) bundle.get("gToken");
+//        if (gToken != null) {
+//            welcomeMsg = "Welcome " + gToken.getDisplayName();
+//        } else {
+//            if (Profile.getCurrentProfile() != null) {
+//                welcomeMsg = "Welcome " + Profile.getCurrentProfile().getName();
+//            }
 //             mProfileTracker = new ProfileTracker() {
 //                @Override
 //                protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
@@ -59,32 +62,40 @@ public class RoleSelectActivity extends AppCompatActivity {
 //                }
 //            };
 //            mProfileTracker.startTracking();
-        }
-        TextView textView = findViewById(R.id.welcome_msg);
-        textView.setText(welcomeMsg);
+//        }
+//        TextView textView = findViewById(R.id.welcome_msg);
+//        textView.setText(welcomeMsg);
     }
 
     public void signOut(MenuItem menuItem) {
-        if (gToken != null) {
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestEmail()
-                    .build();
-            GoogleSignIn.getClient(this, gso).signOut()
-                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // [START_EXCLUDE]
-                            updateUI(null);
-                            // [END_EXCLUDE]
-                        }
-                    });
-        } else {
-            LoginManager.getInstance().logOut();
-            updateUI(null);
-        }
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI();
+                        // ...
+                    }
+                });
+//        if (gToken != null) {
+//            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                    .requestEmail()
+//                    .build();
+//            GoogleSignIn.getClient(this, gso).signOut()
+//                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            // [START_EXCLUDE]
+//                            updateUI(null);
+//                            // [END_EXCLUDE]
+//                        }
+//                    });
+//        } else {
+//            LoginManager.getInstance().logOut();
+//            updateUI(null);
+//        }
     }
 
-    private void updateUI(Object o) {
+    private void updateUI() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();

@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">TrailBlazeLearn</string>
+    <!--Facebook Login Data-->
     <string name="facebook_app_id">190126701736931</string>
     <string name="fb_login_protocol_scheme">fb190126701736931</string>
+
     <string name="title_activity_login">Sign in</string>
     <string name="SignOut_text">Sign Out</string>
 
