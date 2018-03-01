@@ -16,10 +16,19 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <Button
+        android:id="@+id/login_trainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="loginTrainer"
         android:text="@string/Trainer_select"
         app:layout_constraintTop_toBottomOf="@id/my_toolbar" />
 
+    <Button
+        android:id="@+id/login_participant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="loginParticipant"
+        android:text="@string/Participant_select"
+        app:layout_constraintTop_toBottomOf="@id/login_trainer" />
 
 </android.support.constraint.ConstraintLayout>

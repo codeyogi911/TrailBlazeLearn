@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <!--<item-->
+    <!--android:id="@+id/action_favorite"-->
+    <!--android:icon="@drawable/ic_favorite_black_48dp"-->
+    <!--android:title="@string/action_favorite"-->
+    <!--app:showAsAction="ifRoom"/>-->
+
+    <!-- Settings, should always be in the overflow -->
+    <item
+        android:id="@+id/to_role_select"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:onClick="toRoleSelect"
+        android:title="@string/to_role_selection"
+        app:showAsAction="never" />
+
+    <!--<item-->
+    <!--android:id="@+id/action_signout"-->
+    <!--android:title="@string/SignOut_text"-->
+    <!--app:showAsAction="never"-->
+    <!--android:icon="@drawable/ic_exit_to_app_black_24dp"-->
+    <!--android:onClick="signOut" />-->
+
+
+</menu>
