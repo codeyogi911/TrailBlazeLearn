@@ -13,11 +13,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
-import java.util.function.Function;
-
-/**
- * Created by Hp on 27-02-2018.
- */
 
 public class dbUtil {
     private static final String TAG = "dbUtil";
@@ -41,23 +36,22 @@ public class dbUtil {
                 });
     }
 
-    public void readFromDB(String collectionName, String key, String value) {
-        db.collection(collectionName).whereEqualTo(key, value)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            //Remove just for log
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-
-//                            return task.getResult();
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-    }
+//    public void readFromDB(String collectionName, String key, String value) {
+//        db.collection(collectionName).whereEqualTo(key, value)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            //Remove just for log
+//                            for (DocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                            }
+//
+//                        } else {
+//                            Log.w(TAG, "Error getting documents.", task.getException());
+//                        }
+//                    }
+//                });
+//    }
 }

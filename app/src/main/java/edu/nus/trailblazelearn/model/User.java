@@ -3,11 +3,11 @@ package edu.nus.trailblazelearn.model;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,56 +15,36 @@ import java.util.Map;
 import edu.nus.trailblazelearn.utility.dbUtil;
 
 public class User {
-    private static final String TAG = "USERINT";
-    private dbUtil db = new dbUtil();
-    private String name;
-    private String email;
-    private String UID;
+    protected static final String TAG = "USER.CLASS";
+    protected dbUtil db = new dbUtil();
+    protected Map<String, Object> data = new HashMap<>();
+    private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
-    public User(String name, String email, String UID) {
-        setEmail(email);
-        setName(name);
-        setUID(UID);
+
+    protected User() {
+        data.put("name", mAuth.getDisplayName());
+        data.put("email", mAuth.getEmail());
         addUser();
     }
 
-    public void addUser() {
-        FirebaseFirestore.getInstance().collection("users").whereEqualTo("uid", UID)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    protected void addUser() {
+        FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().getDocuments().isEmpty()) {
-                                Map<String, Object> payload = new HashMap<>();
-                                payload.put("name", name);
-                                payload.put("email", email);
-                                payload.put("uid", UID);
-                                db.addToDB("users", payload);
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
                     }
                 });
     }
 
-
-    private void setName(String name1) {
-        name = name1;
-    }
-
-    private void setEmail(String email1) {
-        email = email1;
-    }
-
-    public String getUID() {
-        return UID;
-    }
-
-    private void setUID(String UID1) {
-
-        UID = UID1;
+    public Map<String, Object> getData() {
+        return data;
     }
 }
 

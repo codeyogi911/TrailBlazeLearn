@@ -66,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
                 navToWelcome(mAuth);
                 // ...
             } else {
-
                 // Sign in failed, check response for error code
                 // ...
             }

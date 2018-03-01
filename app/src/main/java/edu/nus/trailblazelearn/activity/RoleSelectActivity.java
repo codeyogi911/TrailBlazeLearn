@@ -8,17 +8,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import edu.nus.trailblazelearn.model.*;
 
 import edu.nus.trailblazelearn.*;
+import edu.nus.trailblazelearn.model.User;
 
 public class RoleSelectActivity extends AppCompatActivity {
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -33,12 +33,22 @@ public class RoleSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_role_select);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
-        String name = mAuth.getDisplayName();
-        String email = mAuth.getEmail();
-        String uid = mAuth.getUid();
-        User loggedInUser = new User(name, email, uid);
-//        user.addUser();
+//        new User(
+
+    }
+
+    public void loginTrainer(View view) {
+        Intent intent = new Intent(this, TrainerDefault.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void loginParticipant(View view) {
+
+        Intent intent = new Intent(this, ParticipantDefault.class);
+//        intent.putExtra("participant",new Participant(userData));
+        startActivity(intent);
+        finish();
     }
 
     public void signOut(MenuItem menuItem) {
