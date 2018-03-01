@@ -58,7 +58,6 @@ public class ParticipantDefault extends AppCompatActivity {
         userData.put("uid", mAuth.getUid());
         userData.put("isParticipant", true);
         Participant participant = new Participant();
-//        participant.addUser();
     }
 
 }

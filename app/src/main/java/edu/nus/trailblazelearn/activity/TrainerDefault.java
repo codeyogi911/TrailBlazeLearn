@@ -37,7 +37,6 @@ public class TrainerDefault extends AppCompatActivity {
             }
         });
         Trainer trainer = new Trainer();
-//        trainer.addUser();
     }
 
 }

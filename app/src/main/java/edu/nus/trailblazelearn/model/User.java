@@ -46,9 +46,5 @@ public class User {
     public Map<String, Object> getData() {
         return data;
     }
-
-//    public Object getUID() {
-//        return data.get("uid");
-//    }
 }
 
