@@ -8,25 +8,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
-
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginManager;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import edu.nus.trailblazelearn.model.*;
 
 import edu.nus.trailblazelearn.*;
 
 public class RoleSelectActivity extends AppCompatActivity {
-    String welcomeMsg;
-    GoogleSignInAccount gToken;
-    ProfileTracker mProfileTracker;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,30 +33,12 @@ public class RoleSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_role_select);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-//        Intent intent = getIntent();
-//        FirebaseAuth user = intent.getParcelableExtra("user");
-
-//        gToken = (GoogleSignInAccount) bundle.get("gToken");
-//        if (gToken != null) {
-//            welcomeMsg = "Welcome " + gToken.getDisplayName();
-//        } else {
-//            if (Profile.getCurrentProfile() != null) {
-//                welcomeMsg = "Welcome " + Profile.getCurrentProfile().getName();
-//            }
-//             mProfileTracker = new ProfileTracker() {
-//                @Override
-//                protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-//                    // Fetch user details from New Profile
-//                    welcomeMsg = "Welcome "+ Profile.getCurrentProfile().getName();
-//                    TextView textView = findViewById(R.id.welcome_msg);
-//                    textView.setText(welcomeMsg);
-//                    mProfileTracker.stopTracking();
-//                }
-//            };
-//            mProfileTracker.startTracking();
-//        }
-//        TextView textView = findViewById(R.id.welcome_msg);
-//        textView.setText(welcomeMsg);
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        String name = mAuth.getDisplayName();
+        String email = mAuth.getEmail();
+        String uid = mAuth.getUid();
+        User loggedInUser = new User(name, email, uid);
+//        user.addUser();
     }
 
     public void signOut(MenuItem menuItem) {
@@ -76,23 +50,6 @@ public class RoleSelectActivity extends AppCompatActivity {
                         // ...
                     }
                 });
-//        if (gToken != null) {
-//            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                    .requestEmail()
-//                    .build();
-//            GoogleSignIn.getClient(this, gso).signOut()
-//                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            // [START_EXCLUDE]
-//                            updateUI(null);
-//                            // [END_EXCLUDE]
-//                        }
-//                    });
-//        } else {
-//            LoginManager.getInstance().logOut();
-//            updateUI(null);
-//        }
     }
 
     private void updateUI() {
