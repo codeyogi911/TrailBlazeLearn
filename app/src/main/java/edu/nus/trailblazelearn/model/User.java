@@ -1,10 +1,6 @@
 package edu.nus.trailblazelearn.model;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,26 +17,26 @@ public class User {
     private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
 
-    protected User() {
+    public User() {
         data.put("name", mAuth.getDisplayName());
         data.put("email", mAuth.getEmail());
-        addUser();
+//        addUser();
     }
 
-    protected void addUser() {
-        FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
+    public Task<Void> addUser() {
+        return FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data);
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "DocumentSnapshot successfully written!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w(TAG, "Error writing document", e);
+//                    }
+//                });
     }
 
     public Map<String, Object> getData() {
