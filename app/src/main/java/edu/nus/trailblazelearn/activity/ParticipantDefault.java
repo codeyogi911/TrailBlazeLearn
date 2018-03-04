@@ -2,15 +2,19 @@ package edu.nus.trailblazelearn.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -19,8 +23,10 @@ import java.util.Map;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.model.Participant;
+import edu.nus.trailblazelearn.model.User;
 
 public class ParticipantDefault extends AppCompatActivity {
+    private static final String TAG = "PDActivity";
     Map<String, Object> userData = new HashMap<>();
     FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -32,10 +38,24 @@ public class ParticipantDefault extends AppCompatActivity {
     }
 
     public void toRoleSelect(MenuItem menuItem) {
-        Intent intent = new Intent(this,
-                RoleSelectActivity.class);
-        startActivity(intent);
-        finish();
+        User user = new User();
+        user.addUser()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Intent intent = new Intent(getApplicationContext(),
+                                RoleSelectActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
 
     @Override
@@ -53,10 +73,7 @@ public class ParticipantDefault extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        userData.put("name", mAuth.getDisplayName());
-        userData.put("email", mAuth.getEmail());
-        userData.put("uid", mAuth.getUid());
-        userData.put("isParticipant", true);
+//        Creating a new participant
         Participant participant = new Participant();
     }
 
