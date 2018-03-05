@@ -12,7 +12,16 @@
     <string name="title_activity_participant_default">Participant Default</string>
     <string name="title_activity_trainer_default">TrainerDefault</string>
     <string name="to_role_selection">Switch Roles</string>
-
+    <string name="trail_name_validation_msg">Please enter trail name</string>
+    <string name="trail_description_validation_msg">Please enter trail description</string>
+    <string name="trail_startDate_validation_msg">Please enter learning trail start date</string>
+    <string name="trail_endDate_validation_msg">Please enter learning trail end date</string>
+    <string name="trail_save_successful">Trail details saved successfully</string>
+    <string name="trail_name">Trail Name</string>
+    <string name="trail_description">Learning Trail Description</string>
+    <string name="trail_startdate">Select start date</string>
+    <string name="trail_enddate">End Date</string>
+    <string name="save">Save</string>
     <!--<string name="server_client_id">1003877520054-qo2mu0eef8hftiem9gf0d1vl2o5krcsn.apps.googleusercontent.com</string>-->
     <!-- Strings related to login -->
     <!--<string name="prompt_email">Email</string>-->
