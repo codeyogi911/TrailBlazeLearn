@@ -14,12 +14,23 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
 
-public class dbUtil {
+public final class dbUtil {
     private static final String TAG = "dbUtil";
     QuerySnapshot lastRead;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static FirebaseFirestore db;
 
-    public void addToDB(String collectionName, Map<String, Object> data) {
+    static{
+        db = FirebaseFirestore.getInstance();
+    }
+
+    /**
+     * API to add map with
+     * values to be saved in database
+     * @param collectionName
+     * @param data
+     */
+
+    public static void addToDB(String collectionName, Map<String, Object> data) {
         db.collection(collectionName)
                 .add(data)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -35,6 +46,32 @@ public class dbUtil {
                     }
                 });
     }
+
+    /**
+     * API to persist an object
+     * into DB
+     * @param collectionName
+     * @param data
+     */
+    public static void addRecordForCollection(String collectionName, Object data) {
+        db.collection(collectionName)
+                .add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+    }
+
+
+
 
 //    public void readFromDB(String collectionName, String key, String value) {
 //        db.collection(collectionName).whereEqualTo(key, value)
