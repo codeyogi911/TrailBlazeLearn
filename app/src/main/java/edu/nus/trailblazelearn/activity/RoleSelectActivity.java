@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,16 +13,10 @@ import android.view.View;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.nus.trailblazelearn.R;
-public class RoleSelectActivity extends AppCompatActivity {
-    private static final String TAG = "RSActivity";
-    private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
+public class RoleSelectActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -35,34 +28,11 @@ public class RoleSelectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Auto redirection to trainer or participant
-        FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid())
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
-                        if (document.get("isTrainer") != null && (boolean) task.getResult().get("isTrainer")) {
-                            loginTrainer(null);
-                        } else if (document.get("isParticipant") != null && (boolean) task.getResult().get("isParticipant")) {
-                            loginParticipant(null);
-                        } else {
-                            createUI();
-                        }
-                    } else {
-                        Log.d(TAG, "No such document");
-                        createUI();
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+        createUI();
     }
 
     private void createUI() {
+
         setContentView(R.layout.activity_role_select);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -81,20 +51,33 @@ public class RoleSelectActivity extends AppCompatActivity {
     }
 
     public void signOut(MenuItem menuItem) {
+//        localDB localDB = new localDB();
+//        edu.nus.trailblazelearn.model.User user = new edu.nus.trailblazelearn.model.User();
+//        user.setData(localDB.getFromLocal(this,"user"));
+////        localDB.getFromLocal("user")
+//                user.save().addOnCompleteListener(
+//                new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+        navtoLogin();
+//                        } else {
+////                          Handle error
+//                        }
+//                    }
+//                });
+//    }
+    }
+
+    public void navtoLogin() {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
-                        updateUI();
-                        // ...
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 });
     }
-
-    private void updateUI() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
 }

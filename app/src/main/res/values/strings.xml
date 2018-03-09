@@ -22,6 +22,11 @@
     <string name="trail_startdate">Select start date</string>
     <string name="trail_enddate">End Date</string>
     <string name="save">Save</string>
+    <string name="dialog_enter_trail_code">Enter Trail Code</string>
+    <string name="add">ADD</string>
+    <string name="cancel">CANCEL</string>
+    <string name="trail_code_example">YYYYMMDD-Name</string>
+    <string name="localuser_file">loggedinUser</string>
     <!--<string name="server_client_id">1003877520054-qo2mu0eef8hftiem9gf0d1vl2o5krcsn.apps.googleusercontent.com</string>-->
     <!-- Strings related to login -->
     <!--<string name="prompt_email">Email</string>-->

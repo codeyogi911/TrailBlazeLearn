@@ -3,7 +3,6 @@ package edu.nus.trailblazelearn.utility;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -16,12 +15,13 @@ import java.util.Map;
 
 public final class dbUtil {
     private static final String TAG = "dbUtil";
-    QuerySnapshot lastRead;
     public static FirebaseFirestore db;
 
     static{
         db = FirebaseFirestore.getInstance();
     }
+
+    QuerySnapshot lastRead;
 
     /**
      * API to add map with
@@ -71,24 +71,14 @@ public final class dbUtil {
     }
 
 
+    //      Query DB using key and value
+    public Task<QuerySnapshot> readWithKey(String collectionName, String key, String value) {
+        return db.collection(collectionName).whereEqualTo(key, value)
+                .get();
+    }
 
-
-//    public void readFromDB(String collectionName, String key, String value) {
-//        db.collection(collectionName).whereEqualTo(key, value)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            //Remove just for log
-//                            for (DocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                            }
-//
-//                        } else {
-//                            Log.w(TAG, "Error getting documents.", task.getException());
-//                        }
-//                    }
-//                });
-//    }
+    //      Query DB using docID
+    public Task<DocumentSnapshot> readWithDocID(String collectionName, String docID) {
+        return db.collection(collectionName).document(docID).get();
+    }
 }
