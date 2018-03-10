@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
@@ -29,12 +30,9 @@ import edu.nus.trailblazelearn.adapter.RecyclerAdapter;
 import edu.nus.trailblazelearn.fragment.SelectTrailDialogFragment;
 import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.dbUtil;
-import edu.nus.trailblazelearn.utility.localDB;
 
 public class ParticipantDefault extends AppCompatActivity implements SelectTrailDialogFragment.NoticeDialogListener {
     private static final String TAG = "PDActivity";
-    //    Map<String, Object> userData = new HashMap<>();
-//    FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
     dbUtil dbUtil = new dbUtil();
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -56,6 +54,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
                 if (task.isSuccessful()) {
                     Intent intent = new Intent(getApplicationContext(),
                             RoleSelectActivity.class);
+                    intent.putExtra("user", (Serializable) participant.getData());
                     startActivity(intent);
                     finish();
                 } else {
@@ -72,12 +71,17 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        localDB localDB = new localDB();
-//        Map<String,Object> map = localDB.getFromLocal("user.map");
-        participant = new User(this);
-        participant.setData(localDB.getFromLocal(this, "user.map"));
+//        Map<String,Object> map = (Map<String, Object>) getIntent().getExtras().getSerializable("user");
+//        participant = new User(this);
+//        participant.setData(map);
+//        participant.initialize().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                participant.grantParticipant();
+//            }
+//        });
+        participant = User.getInstance();
         participant.grantParticipant();
-//        participant.save();
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

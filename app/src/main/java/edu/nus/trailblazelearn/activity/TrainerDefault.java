@@ -13,12 +13,12 @@ import android.view.View;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.model.User;
-import edu.nus.trailblazelearn.utility.localDB;
 
 public class TrainerDefault extends AppCompatActivity {
     private static final String TAG = "TDActivity";
     //    FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
     private User trainer;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -33,6 +33,7 @@ public class TrainerDefault extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +41,18 @@ public class TrainerDefault extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        localDB localDB = new localDB();
-//        Map<String,Object> map = localDB.getFromLocal("user.map");
-        trainer = new User(this);
-        trainer.setData(localDB.getFromLocal(this, "user.map"));
+        trainer = User.getInstance();
         trainer.grantTrainer();
-//        trainer.save();
+//        localDB localDB = new localDB();
+//        Map<String,Object> map = localDB.getFromLocal("user.map");
+//        trainer = new User(this);
+//        trainer.initialize().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                trainer.grantTrainer();
+////                trainer.getData().get("name")
+//            }
+//        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

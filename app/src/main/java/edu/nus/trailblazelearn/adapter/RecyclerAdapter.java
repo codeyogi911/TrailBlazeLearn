@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
-import edu.nus.trailblazelearn.utility.localDB;
+import edu.nus.trailblazelearn.model.User;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private List<String> enrolledTrails = new ArrayList<>();
-    private localDB localDB = new localDB();
+    //    private localDB localDB = new localDB();
     private List<String> titles = new ArrayList<>();
     private List<String> details = new ArrayList<>();
 
@@ -39,7 +39,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 //            R.drawable.android_image_8 };
 
     public RecyclerAdapter(Context context) {
-        List<String> t = (List<String>) localDB.getFromLocal(context, "user.map").get("enrolledTrails");
+        final List<String> t = (List<String>) User.getInstance().getData().get("enrolledTrails");
+//        List<String> t = (List<String>) localDB.getFromLocal(context, "user.map").get("enrolledTrails");
+//         new User(context).initialize().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                t = (List<String>) documentSnapshot.get("enrolledTrails");
+//            }
+//        });
+        User.getInstance().getData().get("enrolledTrails");
         List<String> df = new ArrayList<>();
         df.add("Default");
         enrolledTrails = t == null ? df : t;

@@ -1,6 +1,5 @@
 package edu.nus.trailblazelearn.model;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -17,23 +16,36 @@ import java.util.List;
 import java.util.Map;
 
 import edu.nus.trailblazelearn.utility.dbUtil;
-import edu.nus.trailblazelearn.utility.localDB;
 
 public class User {
     private static final String TAG = "User.CLASS";
+    //    private Context context;
+    private static User user;
     private Map<String, Object> data = new HashMap<>();
     private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private dbUtil dbUtil = new dbUtil();
-    private localDB localDB = new localDB();
-    private Context context;
+//    private boolean isInitialised;
 
-    public User(Context context1) {
-        context = context1;
+    private User() {
+//        context = context1;
+        initialize();
     }
 
-    public Task<DocumentSnapshot> populateData() {
-        return dbUtil.readWithDocID("users", mAuth.getUid())
+    public static User getInstance() {
+        if (user == null) {
+            user = new User();
+        }
+        return user;
+    }
+
+    public static void signOut() {
+        user = null;
+    }
+
+    public void initialize() {
+//        final boolean rtn;
+        dbUtil.readWithDocID("users", mAuth.getUid())
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -41,17 +53,15 @@ public class User {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getData());
-//                                localDB.saveLocally(context, document.getData(), "user.map");
                                 setData(document.getData());
                             } else {
                                 Log.d(TAG, "No such document, creating new user in DB");
                                 Map<String, Object> temp = new HashMap<>();
                                 temp.put("name", mAuth.getDisplayName());
                                 temp.put("email", mAuth.getEmail());
-//                                localDB.saveLocally(context,temp, "user.map");
                                 setData(temp);
+                                save();
                             }
-                            save();
                         } else {
 //                    Add exception handling
                             Log.d(TAG, "get failed with ", task.getException());
@@ -82,7 +92,6 @@ public class User {
 
     //  Saves to Firebase
     public Task<Void> save() {
-        localDB.saveLocally(context, data, "user.map");
         return db.collection("users").document(mAuth.getUid()).set(data);
     }
 

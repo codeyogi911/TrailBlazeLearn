@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import edu.nus.trailblazelearn.R;
 
 public class RoleSelectActivity extends AppCompatActivity {
+//    Map<String,Object> map;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,7 +33,7 @@ public class RoleSelectActivity extends AppCompatActivity {
     }
 
     private void createUI() {
-
+//        map = (Map<String, Object>) getIntent().getExtras().getSerializable("user");
         setContentView(R.layout.activity_role_select);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -40,12 +41,14 @@ public class RoleSelectActivity extends AppCompatActivity {
 
     public void loginTrainer(View view) {
         Intent intent = new Intent(this, TrainerDefault.class);
+//        intent.putExtra("user",(Serializable) map);
         startActivity(intent);
         finish();
     }
 
     public void loginParticipant(View view) {
         Intent intent = new Intent(this, ParticipantDefault.class);
+//        intent.putExtra("user",(Serializable) map);
         startActivity(intent);
         finish();
     }
@@ -74,6 +77,7 @@ public class RoleSelectActivity extends AppCompatActivity {
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
+                        edu.nus.trailblazelearn.model.User.signOut();
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                         finish();
