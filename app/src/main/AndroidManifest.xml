@@ -3,6 +3,9 @@
     package="edu.nus.trailblazelearn">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
@@ -33,6 +36,11 @@
             android:name=".activity.TrainerDefault"
             android:label="@string/title_activity_trainer_default"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".activity.ParticipantAddItemActivity"/>
+        <activity android:name=".activity.ParticipantItemListActivity"/>
+        <activity android:name=".activity.ParticipantItemActivity"/>
+        <activity android:name=".activity.UploadDialogActivity"/>
+        <activity android:name=".activity.UploadImageActivity"/>
     </application>
 
 </manifest>
