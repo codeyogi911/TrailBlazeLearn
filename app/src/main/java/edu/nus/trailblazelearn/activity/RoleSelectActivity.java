@@ -33,7 +33,6 @@ public class RoleSelectActivity extends AppCompatActivity {
     }
 
     private void createUI() {
-//        map = (Map<String, Object>) getIntent().getExtras().getSerializable("user");
         setContentView(R.layout.activity_role_select);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -41,35 +40,18 @@ public class RoleSelectActivity extends AppCompatActivity {
 
     public void loginTrainer(View view) {
         Intent intent = new Intent(this, TrainerDefault.class);
-//        intent.putExtra("user",(Serializable) map);
         startActivity(intent);
         finish();
     }
 
     public void loginParticipant(View view) {
         Intent intent = new Intent(this, ParticipantDefault.class);
-//        intent.putExtra("user",(Serializable) map);
         startActivity(intent);
         finish();
     }
 
     public void signOut(MenuItem menuItem) {
-//        localDB localDB = new localDB();
-//        edu.nus.trailblazelearn.model.User user = new edu.nus.trailblazelearn.model.User();
-//        user.setData(localDB.getFromLocal(this,"user"));
-////        localDB.getFromLocal("user")
-//                user.save().addOnCompleteListener(
-//                new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
         navtoLogin();
-//                        } else {
-////                          Handle error
-//                        }
-//                    }
-//                });
-//    }
     }
 
     public void navtoLogin() {

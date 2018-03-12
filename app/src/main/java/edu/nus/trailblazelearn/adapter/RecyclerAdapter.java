@@ -3,7 +3,6 @@ package edu.nus.trailblazelearn.adapter;
  * Created by Shashwat on 9/3/2018.
  */
 
-import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ import edu.nus.trailblazelearn.model.User;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private List<String> enrolledTrails = new ArrayList<>();
-    //    private localDB localDB = new localDB();
     private List<String> titles = new ArrayList<>();
     private List<String> details = new ArrayList<>();
 
@@ -38,29 +36,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 //            R.drawable.android_image_7,
 //            R.drawable.android_image_8 };
 
-    public RecyclerAdapter(Context context) {
+    public RecyclerAdapter() {
         final List<String> t = (List<String>) User.getInstance().getData().get("enrolledTrails");
-//        List<String> t = (List<String>) localDB.getFromLocal(context, "user.map").get("enrolledTrails");
-//         new User(context).initialize().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                t = (List<String>) documentSnapshot.get("enrolledTrails");
-//            }
-//        });
-        User.getInstance().getData().get("enrolledTrails");
         List<String> df = new ArrayList<>();
         df.add("Default");
         enrolledTrails = t == null ? df : t;
-//        for (Iterator<String> i = enrolledTrails.iterator(); i.hasNext();) {
-//            String item = i.next();
-//
-//        }
-//        if (enrolledTrails == null) {
-//            titles.add("Please add a trail");
-//            details.add("Use the Add button below to enroll for a new trail!");
-//        }
-//            titles = strings;
-//        details = (List<String>) localDB.getFromLocal(context, "user.map").get("trailDescription");
     }
 
     @Override

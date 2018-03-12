@@ -50,28 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             loginRoleSelect();
         }
-//        loggedInUser = new User(this);
-//        loggedInUser.initialize().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot documentSnapshot = task.getResult();
-//                    if (documentSnapshot.exists()) {
-//                        if (documentSnapshot.get("isTrainer") != null && (boolean) task.getResult().get("isTrainer")) {
-//                            loginTrainer();
-//                        } else if (documentSnapshot.get("isParticipant") != null && (boolean) task.getResult().get("isParticipant")) {
-//                            loginParticipant();
-//                        } else {
-//                            loginRoleSelect();
-//                        }
-//                    } else
-//                        loginRoleSelect();
-//
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -88,8 +66,6 @@ public class LoginActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK) {
-                // Successfully signed in
-//                FirebaseUser user = mAuth.getCurrentUser();
                 navToWelcome();
                 // ...
             } else {
@@ -101,21 +77,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginTrainer() {
         Intent intent = new Intent(this, TrainerDefault.class);
-//        intent.putExtra("user",(Serializable) loggedInUser.getData());
         startActivity(intent);
         finish();
     }
 
     private void loginParticipant() {
         Intent intent = new Intent(this, ParticipantDefault.class);
-//        intent.putExtra("user",(Serializable)loggedInUser.getData());
         startActivity(intent);
         finish();
     }
 
     private void loginRoleSelect() {
         Intent intent = new Intent(getApplicationContext(), RoleSelectActivity.class);
-//        intent.putExtra("user",(Serializable) loggedInUser.getData());
         startActivity(intent);
         finish();
     }

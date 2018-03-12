@@ -19,16 +19,12 @@ import edu.nus.trailblazelearn.utility.dbUtil;
 
 public class User {
     private static final String TAG = "User.CLASS";
-    //    private Context context;
     private static User user;
     private Map<String, Object> data = new HashMap<>();
     private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private dbUtil dbUtil = new dbUtil();
-//    private boolean isInitialised;
-
     private User() {
-//        context = context1;
         initialize();
     }
 
@@ -43,8 +39,7 @@ public class User {
         user = null;
     }
 
-    public void initialize() {
-//        final boolean rtn;
+    private void initialize() {
         dbUtil.readWithDocID("users", mAuth.getUid())
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -91,8 +86,8 @@ public class User {
     }
 
     //  Saves to Firebase
-    public Task<Void> save() {
-        return db.collection("users").document(mAuth.getUid()).set(data);
+    public void save() {
+        db.collection("users").document(mAuth.getUid()).set(data);
     }
 
     //  data getter
@@ -101,7 +96,7 @@ public class User {
     }
 
     //  data setter
-    public void setData(Map<String, Object> in) {
+    private void setData(Map<String, Object> in) {
         data = in;
     }
 

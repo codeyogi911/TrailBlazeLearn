@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.Serializable;
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
@@ -48,20 +47,9 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
 
     public void toRoleSelect(MenuItem menuItem) {
         participant.revokeParticipant();
-        participant.save().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Intent intent = new Intent(getApplicationContext(),
-                            RoleSelectActivity.class);
-                    intent.putExtra("user", (Serializable) participant.getData());
-                    startActivity(intent);
-                    finish();
-                } else {
-
-                }
-            }
-        });
+        Intent intent = new Intent(getApplicationContext(), RoleSelectActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -70,16 +58,6 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         setContentView(R.layout.activity_participant_default);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        Map<String,Object> map = (Map<String, Object>) getIntent().getExtras().getSerializable("user");
-//        participant = new User(this);
-//        participant.setData(map);
-//        participant.initialize().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                participant.grantParticipant();
-//            }
-//        });
         participant = User.getInstance();
         participant.grantParticipant();
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -100,7 +78,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerAdapter(this);
+        adapter = new RecyclerAdapter();
         recyclerView.setAdapter(adapter);
 
     }
