@@ -33,6 +33,8 @@
             android:name=".activity.TrainerDefault"
             android:label="@string/title_activity_trainer_default"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".activity.CreateLearningTrailActivity" />
+        <activity android:name=".activity.LearningTrailListActivity"></activity>
     </application>
 
 </manifest>
