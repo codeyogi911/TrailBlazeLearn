@@ -27,7 +27,7 @@ public class LearningTrailHelper {
      * @param trailObj
      */
     public void createTrail(LearningTrail trailObj) {
-        dbUtil.addRecordForCollection("LearningTrail", trailObj);
+        dbUtil.addRecordForCollection("LearningTrail", trailObj,trailObj.getTrailCode());
     }
 
     /**
