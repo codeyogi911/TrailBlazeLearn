@@ -154,15 +154,29 @@ public final class dbUtil {
     }
 
     /**
-     * API to persist an object
+     * API to persist an object based on
+     * passed reference id
      * into DB
      * @param collectionName
      * @param data
      */
-    public static void addRecordForCollection(String collectionName, Object data) {
-        db.collection(collectionName)
-                .add(data)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+    public static void addRecordForCollection(String collectionName, Object data,String referenceId) {
+        db.collection(collectionName).document(referenceId).set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+                /*.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
@@ -173,7 +187,7 @@ public final class dbUtil {
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
                     }
-                });
+                })*/;
     }
 
 
