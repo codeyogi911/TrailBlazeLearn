@@ -18,7 +18,7 @@ public interface ApplicationConstants {
     /**Toast messages**/
     String toastMessageForDbFailure = "An error occurred,please try later!";
     String toastMessageForAddingTrailFailure="New trail creation failed,please try later!";
-    String getToastMessageForUpdateTrailFailure="Trail updation failed,please try later!";
+    String getToastMessageForUpdateTrailFailure = "Trail update failed,please try later!";
 
     /**Error messages*/
     String errorDbSelectionForCollectionFailed = "Listen failed while selecting from collection Learning Trail.";
