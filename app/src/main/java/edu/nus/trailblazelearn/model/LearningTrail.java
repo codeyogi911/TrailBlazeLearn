@@ -1,20 +1,13 @@
 package edu.nus.trailblazelearn.model;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import edu.nus.trailblazelearn.utility.dbUtil;
 
 /**
  * Created by RMukherjee.
  */
 
-public class LearningTrail {
+public class LearningTrail implements Serializable {
 
     private static final String TAG = "LearningTrail.CLASS";
 

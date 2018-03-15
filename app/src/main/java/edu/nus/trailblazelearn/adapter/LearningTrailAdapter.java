@@ -2,9 +2,7 @@ package edu.nus.trailblazelearn.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,9 +20,12 @@ import edu.nus.trailblazelearn.model.LearningTrail;
 
 public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdapter.ViewHolder> {
 
+
     private static final String TAG = "LearningTrailAdapter";
+    public int currentPosition;
     private List<LearningTrail> lstLearningTrail;
     private Context mContext;
+
 
 
     public LearningTrailAdapter(List<LearningTrail> lstLearningTrail, Context mContext) {
@@ -32,49 +33,10 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
         this.mContext = mContext;
     }
 
-
-
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    //List<LearningTrail> learningTrailLst = trailHelper.fetchTrailListForTrainer();
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener,LongClickListener {
-
-        public TextView mTextCode;
-        public TextView mTextView;
-        LongClickListener longClickListener;
-
-
-        public ViewHolder(View v) {
-            super(v);
-            mTextCode = v.findViewById(R.id.tv_trail_code);
-            mTextView = v.findViewById(R.id.tv_trail_name);
-            v.setOnLongClickListener(this);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            this.longClickListener.onItemLongClick(getLayoutPosition());
-            return false;
-
-        }
-
-        public void setLongClickListener(LongClickListener lcObj){
-            this.longClickListener = lcObj;
-        }
-
-
-        @Override
-        public void onItemLongClick(int position) {
-            //v.setOnCreateContextMenuListener(this);
-        }
-    }
-
     @Override
     public int getItemCount() {
         return lstLearningTrail.size();
     }
-
 
     @Override
     public LearningTrailAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -89,19 +51,19 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final int currentPosition = position;
         holder.mTextCode.setText(lstLearningTrail.get(position).getTrailCode());
         holder.mTextView.setText(lstLearningTrail.get(position).getTrailName());
 
         holder.setLongClickListener(new LongClickListener() {
             @Override
             public void onItemLongClick(int position) {
-                final LearningTrail trailObjData =lstLearningTrail.get(currentPosition);
+                currentPosition = position;
+                final LearningTrail trailObjData = lstLearningTrail.get(position);
                 Toast.makeText(mContext,trailObjData.getTrailCode(),Toast.LENGTH_SHORT).show();
 
             }
         });
-        final LearningTrail trailObjData =lstLearningTrail.get(currentPosition);
+
     }
 
     /**
@@ -109,7 +71,7 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
      * long press event
      * @param trailObjData
      */
-    private void removeLearningTrail(LearningTrail trailObjData) {
+    public void removeLearningTrail(LearningTrail trailObjData) {
         int currPosition =  lstLearningTrail.indexOf(trailObjData);
         lstLearningTrail.remove(currPosition);
         notifyItemRemoved(currPosition);
@@ -118,6 +80,48 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public int selectedItemPosition() {
+        return currentPosition;
+
+    }
+
+    // Provide a reference to the views for each data item
+    // Complex data items may need more than one view per item, and
+    // you provide access to all the views for a data item in a view holder
+    //List<LearningTrail> learningTrailLst = trailHelper.fetchTrailListForTrainer();
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, LongClickListener {
+
+        public TextView mTextCode;
+        public TextView mTextView;
+        LongClickListener longClickListener;
+
+
+        public ViewHolder(View v) {
+            super(v);
+            mTextCode = v.findViewById(R.id.tv_trail_code);
+            mTextView = v.findViewById(R.id.tv_trail_name);
+            v.setOnLongClickListener(this);
+
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            this.longClickListener.onItemLongClick(getLayoutPosition());
+            return false;
+
+        }
+
+        public void setLongClickListener(LongClickListener lcObj) {
+            this.longClickListener = lcObj;
+        }
+
+
+        @Override
+        public void onItemLongClick(int position) {
+            currentPosition = position;
+        }
     }
 
 }

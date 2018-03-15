@@ -1,10 +1,7 @@
 package edu.nus.trailblazelearn.helper;
 
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import edu.nus.trailblazelearn.exception.TrailDaoException;
+import edu.nus.trailblazelearn.exception.TrailHelperException;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.utility.dbUtil;
 
@@ -26,22 +23,28 @@ public class LearningTrailHelper {
      * object which needs to be persisted.
      * @param trailObj
      */
-    public void createTrail(LearningTrail trailObj) {
-        dbUtil.addRecordForCollection("LearningTrail", trailObj,trailObj.getTrailCode());
+    public void createTrail(LearningTrail trailObj) throws TrailHelperException {
+        try {
+            dbUtil.addRecordForCollection("LearningTrail", trailObj, trailObj.getTrailCode());
+        } catch (TrailDaoException daoExcept) {
+            throw new TrailHelperException("Error occurred in createTrail invoking addRecordForCollection ", daoExcept);
+        }
+
+
     }
 
     /**
-     * API to invoke the call for
-     * fetching the trail object list
-     * for logged in Trainer
-     * @return
+     * API to invoke DB passing the
+     * object which needs to be persisted.
+     * @param trailObj
      */
-    public List<LearningTrail> fetchTrailListForTrainer(){
-
-        //List<LearningTrail> learningTrailLst = new ArrayList<LearningTrail>();
-        List<LearningTrail> learningTrailLst = dbUtil.fetchTrailList("ms.romila@gmail.com");
-        Log.d(TAG,"List size of LearningTrail::"+learningTrailLst.size());
-        return learningTrailLst;
+    public void updateTrail(LearningTrail trailObj) throws TrailHelperException {
+        try {
+            dbUtil.addRecordForCollection("LearningTrail", trailObj, trailObj.getTrailCode());
+        } catch (TrailDaoException daoExcept) {
+            throw new TrailHelperException("Error occurred in updateTrail invoking addRecordForCollection ", daoExcept);
+        }
     }
+
 
 }

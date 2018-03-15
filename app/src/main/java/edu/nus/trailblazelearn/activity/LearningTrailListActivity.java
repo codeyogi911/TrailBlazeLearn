@@ -1,9 +1,14 @@
 package edu.nus.trailblazelearn.activity;
 
+/**
+ * Created by RMukherjee on 07-03-2018.
+ */
+
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,8 +21,9 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -28,17 +34,17 @@ import java.util.List;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.LearningTrailAdapter;
-import edu.nus.trailblazelearn.helper.LearningTrailHelper;
 import edu.nus.trailblazelearn.model.LearningTrail;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
-public class LearningTrailListActivity extends AppCompatActivity {
+public class LearningTrailListActivity extends AppCompatActivity implements ApplicationConstants {
 
-    private static final String TAG = "LearningTrailListActivity";
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private static final String TAG = ApplicationConstants.trailActivityListClassName;
     Toolbar toolBarListLearningActivity;
     ProgressBar mProgressBar;
+    private RecyclerView mRecyclerView;
+    private LearningTrailAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     private List<LearningTrail> learningTrailLst;
     private FirebaseFirestore mFireStore;
 
@@ -46,6 +52,7 @@ public class LearningTrailListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "Start of onCreate API call");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_trail_list);
         toolBarListLearningActivity = findViewById(R.id.tb_trail_list_header);
@@ -64,44 +71,49 @@ public class LearningTrailListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         //Set Adapter
-        mAdapter = new LearningTrailAdapter(learningTrailLst,this);
+        mAdapter = new LearningTrailAdapter(learningTrailLst, this);
         mRecyclerView.setAdapter(mAdapter);
 
         //Register context menu with list item
         registerForContextMenu(mRecyclerView);
 
 
-
         //Set mFireStore to call Firebase Collection
         // [START listen_multiple]
-        mFireStore.collection("LearningTrail")
-                .whereEqualTo("userId","ms.romila@gmail.com" )
+
+        mFireStore.collection(ApplicationConstants.learningTrailCollection)
+                .whereEqualTo(ApplicationConstants.userId, "ms.romila@gmail.com")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
                                         @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
-                            Log.w(TAG, "Listen failed.", e);
+                            Log.w(TAG, ApplicationConstants.errorDbSelectionForCollectionFailed, e);
+                            Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
                             return;
                         }
-
-
-                        Log.w(TAG,"Query snapshot :"+value.getQuery());
-
                         for (DocumentChange doc : value.getDocumentChanges()) {
-
                             LearningTrail learningTrailObj = doc.getDocument().toObject(LearningTrail.class);
-                            learningTrailLst.add(learningTrailObj);
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
+                                learningTrailLst.add(learningTrailObj);
+                            } else if (doc.getType() == DocumentChange.Type.MODIFIED) {
+                                int editedPosition = mAdapter.currentPosition;
+                                Log.d(TAG, "Edited position :: " + mAdapter.currentPosition);
+                                Log.d(TAG, "Learning code ::" + learningTrailObj.getTrailDescription());
+                                learningTrailLst.set(editedPosition, learningTrailObj);
+                            }
+
                             mAdapter.notifyDataSetChanged();
                         }
 
-                        Log.d(TAG, "Current learning trail list size for trainer: "+learningTrailLst.size());
+                        Log.d(TAG, "Current learning trail list size for trainer: " + learningTrailLst.size());
                     }
                 });
         // [END listen_multiple]
 
 
         mProgressBar.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "End of onCreate API call");
 
     }
 
@@ -111,47 +123,75 @@ public class LearningTrailListActivity extends AppCompatActivity {
      * @param v
      */
     public void startActivityForCreateTrail(View v){
+        Log.d(TAG, "Start of startActivityForCreateTrail API call");
         Intent intent = new Intent(getApplicationContext(), CreateLearningTrailActivity.class);
         startActivity(intent);
+        Log.d(TAG, "End of startActivityForCreateTrail API call");
     }
 
     /**
-     * API to create menu for Edit and Delete option
+     * API to create and inflate
+     * menu for Edit and Delete option
      * @param menu
      * @param v
      * @param menuInfo
      */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        Log.d(TAG, "Start of onCreateContextMenu API call");
         super.onCreateContextMenu(menu,v,menuInfo);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_context_menu,menu);
+        Log.d(TAG, "End of onCreateContextMenu API call");
+
     }
 
     /**
-     * API to remove or edit on context menu
+     * API to remove or edit on click of respective context menu
      * @param item
      * @return
      */
     @Override
     public boolean onContextItemSelected(MenuItem item){
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Log.d(TAG, "Start of onContextItemSelected API call");
+        super.onContextItemSelected(item);
+        final AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final int position = mAdapter.selectedItemPosition();
 
-       Log.d(TAG, "onContextTemSelected info selected: "+info.position);
         switch(item.getItemId()){
 
             case R.id.edit_menu_item :
+                LearningTrail trailObj = new LearningTrail();
+                trailObj = learningTrailLst.get(position);
+                Intent intentObj = new Intent(this, CreateLearningTrailActivity.class);
+                intentObj.putExtra("trailCode", trailObj);
+                startActivity(intentObj);
                 mAdapter.notifyDataSetChanged();
+                Log.d(TAG, "R.id.edit_menu_item: " + item.getItemId());
                 return true;
             case R.id.delete_menu_item :
-                learningTrailLst.remove(info.position);
-                mAdapter.notifyDataSetChanged();
+                Log.d(TAG, "Trail code to be deleted.." + learningTrailLst.get(position).getTrailCode());
+                mFireStore.collection("LearningTrail").document("/" + learningTrailLst.get(position).getTrailCode())
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                mAdapter.removeLearningTrail(learningTrailLst.get(position));
+                                Log.d(TAG, "Learning Trail successfully deleted...size is!" + learningTrailLst.size());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "Error deleting learning trail", e);
+                            }
+                        });
                 return true;
             default:
+                Log.d(TAG, "End of onContextItemSelected API call");
                 return super.onContextItemSelected(item);
         }
+
     }
-
-
 }

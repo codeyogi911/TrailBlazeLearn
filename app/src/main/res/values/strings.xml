@@ -17,6 +17,7 @@
     <string name="trail_description_validation_msg">Please enter trail description</string>
     <string name="trail_startDate_validation_msg">Please enter learning trail start date</string>
     <string name="trail_endDate_validation_msg">Please enter learning trail end date</string>
+    <string name="trail_startDate_validation_less_currDate_msg">Trail Start Date must be greater than current date</string>
     <string name="trail_save_successful">Trail details saved successfully</string>
     <string name="trail_name">Trail Name</string>
     <string name="trail_description">Learning Trail Description</string>
@@ -28,9 +29,11 @@
     <string name="cancel">CANCEL</string>
     <string name="trail_code_example">YYYYMMDD-Name</string>
     <string name="localuser_file">loggedinUser</string>
-    <string name="page_heading_learning">Learning Trail</string>
+    <string name="page_heading_learning">Create Learning Trail</string>
     <string name="page_heading_learning_list">Learning Trails</string>
-
+    <string name="page_edit_heading_learning">Update Learning Trail</string>
+    <string name="update">Update</string>
+    <string name="trail_update_successful">Trail details updated sucessfully</string>
 
 
 </resources>

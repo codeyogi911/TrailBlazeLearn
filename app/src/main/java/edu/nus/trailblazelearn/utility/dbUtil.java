@@ -23,25 +23,24 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
+import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.ParticipantItem;
-import edu.nus.trailblazelearn.model.UploadedFiles;
 
 public final class dbUtil {
     private static final String TAG = "dbUtil";
     public static FirebaseFirestore db;
-    private static StorageReference storageReference;
     public static Uri fileUri;
     public static ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
     public static ArrayList<String> imageUriList = new ArrayList<>();
     public static ArrayList<String> videoUriList = new ArrayList<>();
     public static ArrayList<String> audioUriList = new ArrayList<>();
     public static ArrayList<String> documentUriList = new ArrayList<>();
+    private static StorageReference storageReference;
     private static ArrayList<String> fileTypes;
 
     static{
@@ -160,7 +159,9 @@ public final class dbUtil {
      * @param collectionName
      * @param data
      */
-    public static void addRecordForCollection(String collectionName, Object data,String referenceId) {
+    public static void addRecordForCollection(String collectionName, Object data, String referenceId) throws TrailDaoException {
+
+
         db.collection(collectionName).document(referenceId).set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -174,20 +175,6 @@ public final class dbUtil {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
-
-
-                /*.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                })*/;
     }
 
 
@@ -235,4 +222,6 @@ public final class dbUtil {
     public Task<DocumentSnapshot> readWithDocID(String collectionName, String docID) {
         return db.collection(collectionName).document(docID).get();
     }
+
+
 }
