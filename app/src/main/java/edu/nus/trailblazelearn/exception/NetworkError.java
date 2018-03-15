@@ -10,6 +10,10 @@ import edu.nus.trailblazelearn.R;
  */
 
 public class NetworkError extends AppCompatActivity {
+    public static void catchException(Exception e) {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

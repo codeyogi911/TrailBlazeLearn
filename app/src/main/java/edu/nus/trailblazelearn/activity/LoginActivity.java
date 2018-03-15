@@ -17,12 +17,11 @@ import edu.nus.trailblazelearn.model.User;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
-    private static final String TAG = "LoginActivity.Class";
+    //    private static final String TAG = "LoginActivity.Class";
     List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
+            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(), new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build()
     );
     private FirebaseAuth mAuth;
-    private User loggedInUser;
 
     @Override
     protected void onStart() {
@@ -42,14 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navToWelcome() {
-        loggedInUser = User.getInstance();
-        if (loggedInUser.getData().get("isTrainer") != null && (boolean) loggedInUser.getData().get("isTrainer")) {
-            loginTrainer();
-        } else if (loggedInUser.getData().get("isParticipant") != null && (boolean) loggedInUser.getData().get("isParticipant")) {
-            loginParticipant();
-        } else {
-            loginRoleSelect();
-        }
+        User.getInstance(this);
     }
 
     @Override
@@ -73,24 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                 // ...
             }
         }
-    }
-
-    private void loginTrainer() {
-        Intent intent = new Intent(this, TrainerDefault.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void loginParticipant() {
-        Intent intent = new Intent(this, ParticipantDefault.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void loginRoleSelect() {
-        Intent intent = new Intent(getApplicationContext(), RoleSelectActivity.class);
-        startActivity(intent);
-        finish();
     }
 }
 
