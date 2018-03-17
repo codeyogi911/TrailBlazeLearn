@@ -110,8 +110,6 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                     }
                 });
         // [END listen_multiple]
-
-
         mProgressBar.setVisibility(View.INVISIBLE);
         Log.d(TAG, "End of onCreate API call");
 
@@ -168,7 +166,6 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                 intentObj.putExtra("trailCode", trailObj);
                 startActivity(intentObj);
                 mAdapter.notifyDataSetChanged();
-                Log.d(TAG, "R.id.edit_menu_item: " + item.getItemId());
                 return true;
             case R.id.delete_menu_item :
                 Log.d(TAG, "Trail code to be deleted.." + learningTrailLst.get(position).getTrailCode());
