@@ -10,6 +10,7 @@ public interface ApplicationConstants {
     String trailActivityListClassName = "LearningTrailListActivity";
     String trailActivityCreateClassName ="CreateLearningTrailActivity";
     String trailCodeParam = "trailCode";
+    String underScoreConstants = "_";
 
     /***DB Collection related constants**/
     String learningTrailCollection ="LearningTrail";
@@ -22,4 +23,6 @@ public interface ApplicationConstants {
 
     /**Error messages*/
     String errorDbSelectionForCollectionFailed = "Listen failed while selecting from collection Learning Trail.";
+
+
 }
