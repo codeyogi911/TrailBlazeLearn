@@ -1,6 +1,8 @@
 package edu.nus.trailblazelearn.model;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,24 +17,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.nus.trailblazelearn.activity.ParticipantDefault;
+import edu.nus.trailblazelearn.activity.RoleSelectActivity;
+import edu.nus.trailblazelearn.activity.TrainerDefault;
+import edu.nus.trailblazelearn.exception.NetworkError;
 import edu.nus.trailblazelearn.utility.dbUtil;
 
 public class User {
     private static final String TAG = "User.CLASS";
     private static User user;
+    private static AppCompatActivity context;
     private Map<String, Object> data = new HashMap<>();
     private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private dbUtil dbUtil = new dbUtil();
+
     private User() {
         initialize();
     }
 
-    public static User getInstance() {
+    public static User getInstance(Object context1) {
         if (user == null) {
+            context = (AppCompatActivity) context1;
             user = new User();
         }
         return user;
+    }
+
+    public static User getInstance() {
+        return getInstance(null);
     }
 
     public static void signOut() {
@@ -57,12 +69,43 @@ public class User {
                                 setData(temp);
                                 save();
                             }
+                            redirect();
                         } else {
 //                    Add exception handling
                             Log.d(TAG, "get failed with ", task.getException());
+                            NetworkError.catchException(task.getException());
+//                            Intent intent = new Intent(this,NetworkError.class);
                         }
                     }
                 });
+    }
+
+    private void redirect() {
+        if (getData().get("isTrainer") != null && (boolean) getData().get("isTrainer")) {
+            loginTrainer();
+        } else if (getData().get("isParticipant") != null && (boolean) getData().get("isParticipant")) {
+            loginParticipant();
+        } else {
+            loginRoleSelect();
+        }
+    }
+
+    private void loginTrainer() {
+        Intent intent = new Intent(context.getApplicationContext(), TrainerDefault.class);
+        context.startActivity(intent);
+        context.finish();
+    }
+
+    private void loginParticipant() {
+        Intent intent = new Intent(context.getApplicationContext(), ParticipantDefault.class);
+        context.startActivity(intent);
+        context.finish();
+    }
+
+    private void loginRoleSelect() {
+        Intent intent = new Intent(context.getApplicationContext(), RoleSelectActivity.class);
+        context.startActivity(intent);
+        context.finish();
     }
 
     public void grantTrainer() {
@@ -87,7 +130,7 @@ public class User {
 
     //  Saves to Firebase
     public void save() {
-        db.collection("users").document(mAuth.getUid()).set(data);
+        FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data);
     }
 
     //  data getter

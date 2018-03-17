@@ -27,7 +27,8 @@
                 android:background="?attr/colorPrimary"
                 android:elevation="4dp"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:popupTheme="@style/Theme.AppCompat.Light" />
+                app:popupTheme="@style/Theme.AppCompat.Light"
+                app:title="Enroll for Learning Trail" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:backgroundTint="@color/cardview_light_background"
+        app:srcCompat="@android:drawable/ic_search_category_default" />
 
 </android.support.design.widget.CoordinatorLayout>
