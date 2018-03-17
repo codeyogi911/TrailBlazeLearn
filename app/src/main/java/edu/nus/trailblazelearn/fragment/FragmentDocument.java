@@ -1,4 +1,4 @@
-package edu.nus.trailblazelearn;
+package edu.nus.trailblazelearn.fragment;
 
 
 import android.support.v4.app.Fragment;

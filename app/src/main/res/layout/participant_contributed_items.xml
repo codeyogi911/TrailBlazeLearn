@@ -1,9 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.nus.trailblazelearn.ParticipantContributedItemsActivity">
+    android:id="@+id/participant_item_relative_layout"
+    android:scrollbars="vertical"
+    tools:context="edu.nus.trailblazelearn.activity.ParticipantContributedItemsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/participant_in_item_name"
+        android:textSize="40dp"
+        android:text="Name"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/participant_in_item_description"
+        android:textSize="20dp"
+        android:text="Description"
+        android:layout_below="@id/participant_in_item_name"/>
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tab_layout"
+        android:layout_below="@+id/participant_in_item_description"
+        android:background="?attr/actionBarItemBackground"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AlertDialog.AppCompat.Light">
+
+    </android.support.design.widget.TabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/tab_layout"
+        />
+
+</RelativeLayout>

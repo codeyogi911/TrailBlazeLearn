@@ -35,17 +35,20 @@
         <activity
             android:name=".activity.TrainerDefault"
             android:label="@string/title_activity_trainer_default"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-
-        <activity android:name=".activity.ParticipantAddItemActivity"/>
-        <activity android:name=".activity.ParticipantItemListActivity"/>
-        <activity android:name=".activity.ParticipantItemActivity"/>
-        <activity android:name=".activity.UploadDialogActivity"/>
-        <activity android:name=".activity.UploadImageActivity"/>
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.ParticipantAddItemActivity" />
+        <activity android:name=".activity.ParticipantItemListActivity" />
+        <activity android:name=".activity.ParticipantItemActivity" />
+        <activity android:name=".activity.UploadDialogActivity" />
+        <activity android:name=".activity.UploadImageActivity" />
         <activity android:name=".activity.CreateLearningTrailActivity" />
-        <activity android:name=".activity.LearningTrailListActivity"></activity>
-
+        <activity android:name=".activity.LearningTrailListActivity" />
+        <activity android:name=".activity.ParticipantContributedItemsActivity" />
+        <activity android:name=".FragmentImageActivity" />
+        <activity android:name=".FragmentVideoActivity" />
+        <activity android:name=".UploadAudioActivity" />
+        <activity android:name=".UploadButtonActivity" />
+        <activity android:name=".AudioListActivity"></activity>
     </application>
 
 </manifest>

@@ -44,18 +44,18 @@ public class AddParticipantItemHelper extends AsyncTask<ArrayList<Uri>, Void, Vo
         //Uri uri = uris[0].get(0);
         for(Uri uriLocal:uris[0]){
             if(uriHashMap.get("image") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB("Ragu","activity/images/"+uriLocal.getLastPathSegment(), uriLocal, context, "Image Uploaded Successfully", progressBar, "image");
+                resultMessgae = dbUtil.addFilesToDB("Ragu","images/"+uriLocal.getPath(), uriLocal, context, "Image Uploaded Successfully", progressBar, "image");
 
             }
             if(uriHashMap.get("video") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB("Ragu","activity/videos/"+uriLocal.getLastPathSegment(), uriLocal, context, "Video Uploaded Successfully", progressBar, "video");
+                resultMessgae = dbUtil.addFilesToDB("Ragu","videos/"+uriLocal.getPath(), uriLocal, context, "Video Uploaded Successfully", progressBar, "video");
             }
 
             if(uriHashMap.get("audio") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB("Ragu","activity/audios/"+uriLocal.getLastPathSegment(), uriLocal, context, "Audio Uploaded Successfully", progressBar, "audio");
+                resultMessgae = dbUtil.addFilesToDB("Ragu","audios/"+uriLocal.getPath(), uriLocal, context, "Audio Uploaded Successfully", progressBar, "audio");
             }
             if(uriHashMap.get("document") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userEmail,"activity/documents/"+uriLocal.getLastPathSegment(), uriLocal, context, "Document Uploaded Successfully", progressBar,"document");
+                resultMessgae = dbUtil.addFilesToDB(userEmail,"documents/"+uriLocal.getPath(), uriLocal, context, "Document Uploaded Successfully", progressBar,"document");
             }
         }
         return null;

@@ -1,11 +1,16 @@
 package edu.nus.trailblazelearn.activity;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
@@ -21,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -31,6 +37,7 @@ import android.widget.VideoView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +56,8 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     EditText imageDescription;
     VideoView videoView;
     ImageView imageView;
+    ImageButton imageButtonPlay, imageButtonPause, imageButtonStop;
+    TextView audioName;
     ProgressBar addItemProgressbar;
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int RESULT_LOAD_AUDIO = 2;
@@ -68,10 +77,21 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     private String userEmail;
     private UploadedFiles uploadedFiles;
     ArrayList<String> fileUri = null;
-    private ArrayList<String> fileType;
+    private ArrayList<String> uploadedVideoList = new ArrayList<>();
+    private ArrayList<String> uploadedImageList = new ArrayList<>();
+    private ArrayList<String> uploadedAudioList = new ArrayList<>();
+    private ArrayList<String> uploadedFileList = new ArrayList<>();
     private ParticipantItem participantItem;
+    private int imageLimit;
+    private int videoLimit;
+    private int audioLimit;
+    private int fileLimit;
 
     //String[] imageTypes = {"image/png"};
+
+    SharedPreferences sharedPref;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +99,17 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         setContentView(R.layout.participant_add_item);
         user = User.getInstance();
         userEmail = (String) user.getData().get("email");
+
+        sharedPref = getApplicationContext().getSharedPreferences("CONSTANTS", Context.MODE_PRIVATE);
+        sharedPref.edit().putInt("IMAGE_LIMIT", 1).commit();
+        sharedPref.edit().putInt("VIDEO_LIMIT", 3).commit();
+        sharedPref.edit().putInt("AUDIO_LIMIT", 3).commit();
+        sharedPref.edit().putInt("FILE_LIMIT", 1).commit();
+
+        imageLimit = sharedPref.getInt("IMAGE_LIMIT", 1);
+        videoLimit = sharedPref.getInt("VIDEO_LIMIT", 3);
+        audioLimit = sharedPref.getInt("AUDIO_LIMIT", 3);
+        fileLimit = sharedPref.getInt("FILE_LIMIT", 1);
 
         /*Toolbar addActivityToonbar = findViewById(R.id.add_activity);
         addActivityToonbar.setTitle("ADD ACTIVITY");*/
@@ -152,11 +183,8 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                 uriHashMap.put("audio", selectedFile);
                 dialogUpload(selectedFile, RESULT_LOAD_AUDIO, name.getName());
             } else if (requestCode == RESULT_LOAD_DOCUMENT) {
-                String id = DocumentsContract.getDocumentId(selectedFile);
-                /*final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://"), Long.valueOf(id));*/
                 imageURL = getDataColumn(getApplicationContext(), selectedFile, null, null);
-                name = new File(imageURL);
+                name = new File(selectedFile.getPath());
                 uriArrayList.add(selectedFile);
                 uriHashMap.put("document", selectedFile);
                 dialogUpload(selectedFile, RESULT_LOAD_DOCUMENT, name.getName());
@@ -166,7 +194,8 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         }
     }
 
-    private void dialogUpload(Uri uri, final int code, final String name) {
+    private void dialogUpload(final Uri uri, final int code, final String name) {
+
         View dialogView = null;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ParticipantAddItemActivity.this);
         dialogBuilder.setTitle("Confirm it BudDy");
@@ -191,13 +220,54 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
             dialogView = getLayoutInflater().inflate(R.layout.upload_image, null);
             imageView = dialogView.findViewById(R.id.upload_image);
             imageView.setImageURI(uri);
-            selectedImageName.setText(name);
+
+        }
+        if(code == RESULT_LOAD_AUDIO) {
+            dialogView = getLayoutInflater().inflate(R.layout.upload_audio, null);
+            audioName = dialogView.findViewById(R.id.audio_name);
+            audioName.setText(name);
+            imageButtonPlay = dialogView.findViewById(R.id.play_button);
+            imageButtonPause = dialogView.findViewById(R.id.pause_button);
+            imageButtonPause.setVisibility(View.INVISIBLE);
+            imageButtonStop = dialogView.findViewById(R.id.stop_button);
+            imageButtonStop.setVisibility(View.INVISIBLE);
+
+           final MediaPlayer mediaPlayer = source(uri);
+
+            imageButtonPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mediaPlayer.start();
+                    imageButtonPlay.setVisibility(View.INVISIBLE);
+                    imageButtonPause.setVisibility(View.VISIBLE);
+                    imageButtonStop.setVisibility(View.VISIBLE);
+                }
+            });
+            imageButtonPause.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mediaPlayer.pause();
+                    imageButtonPause.setVisibility(View.INVISIBLE);
+                    imageButtonPlay.setVisibility(View.VISIBLE);
+
+                }
+            });
+            imageButtonStop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mediaPlayer.stop();
+                    imageButtonPlay.setVisibility(View.INVISIBLE);
+                    imageButtonStop.setVisibility(View.INVISIBLE);
+                    imageButtonPause.setVisibility(View.INVISIBLE);
+                }
+            });
         }
         Button uploadButton = dialogView.findViewById(R.id.upload_action);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
         dialogBuilder.setView(dialogView);
         final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
+
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,13 +276,25 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                 alertDialog.dismiss();
                 addItemProgressbar.setVisibility(View.VISIBLE);
                 if(code == RESULT_LOAD_VIDEO || code == RESULT_LOAD_VIDEO_CAPTURE) {
-                    selectedVideoName.setText(name);
+                    uploadedVideoList.add(name);
+                    if(uploadedVideoList.size()<= videoLimit)
+                        selectedVideoName.setText("Files Uploaded :" + uploadedVideoList.size() + "/" + videoLimit);
+                    if(uploadedVideoList.size() == videoLimit)
+                        chooseVideo.setEnabled(false);
                 }
                 if(code == RESULT_LOAD_IMAGE || code == RESULT_LOAD_IMAGE_CAPTURE) {
-                    selectedImageName.setText(name);
+                    uploadedImageList.add(name);
+                    if(uploadedImageList.size()<=imageLimit)
+                        selectedImageName.setText("Files Uploaded :" + uploadedImageList.size() + "/" + imageLimit);
+                    if(uploadedImageList.size() == imageLimit)
+                        chooseImage.setEnabled(false);
                 }
                 if(code == RESULT_LOAD_AUDIO) {
-                    selectedAudioName.setText(name);
+                    uploadedAudioList.add(name);
+                    if(uploadedAudioList.size()<=audioLimit)
+                    selectedAudioName.setText("Files Uploaded :" + uploadedAudioList.size() + "/" + audioLimit);
+                    if(uploadedAudioList.size() == audioLimit)
+                        chooseAudio.setEnabled(false);
                 }
                 if(code == RESULT_LOAD_DOCUMENT) {
                     selectedFileName.setText(name);
@@ -220,7 +302,6 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                 uriHashMap.clear();
             }
         });
-
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,6 +310,19 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         });
 
     }
+
+    private MediaPlayer source(Uri uri) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mediaPlayer.setDataSource(getApplicationContext(), uri);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mediaPlayer;
+    }
+
 
     public static String getDataColumn(Context context, Uri uri, String selection,
                                        String[] selectionArgs) {
@@ -342,7 +436,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                         participantItem.setAudioUri(dbUtil.audioUriList);
                     }
                     if(dbUtil.documentUriList != null) {
-                        participantItem.setFileUrl(dbUtil.documentUriList);
+                        participantItem.setFileUri(dbUtil.documentUriList);
                     }
 
                     dbUtil.addObjectToDB("participantActivities", participantItem);

@@ -1,12 +1,13 @@
 package edu.nus.trailblazelearn.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by dpak1 on 3/11/2018.
  */
 
-public class ParticipantItem {
+public class ParticipantItem implements Serializable {
     private String  userId;
     private String learningTrailId;
     private int trailStationId;
@@ -77,11 +78,11 @@ public class ParticipantItem {
         this.trailStationId = trailStationId;
     }
 
-    public ArrayList<String> getFileUrl() {
+    public ArrayList<String> getFileUri() {
         return fileUri;
     }
 
-    public void setFileUrl(ArrayList<String> fileUrl) {
+    public void setFileUri(ArrayList<String> fileUrl) {
         this.fileUri = fileUrl;
     }
 

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.nus.trailblazelearn.FragmentImageActivity">
+    android:id="@+id/fragment_image_grid_layout"
+    android:orientation="horizontal"
+    android:layout_columnSpan="2"
+    tools:context="edu.nus.trailblazelearn.fragment.FragmentImage">
 
-</android.support.constraint.ConstraintLayout>
+
+</GridLayout>

@@ -23,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,22 +31,22 @@ import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.ParticipantItem;
+import edu.nus.trailblazelearn.model.UploadedFiles;
 
 public final class dbUtil {
     private static final String TAG = "dbUtil";
     public static FirebaseFirestore db;
+    private static StorageReference storageReference;
     public static Uri fileUri;
     public static ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
     public static ArrayList<String> imageUriList = new ArrayList<>();
     public static ArrayList<String> videoUriList = new ArrayList<>();
     public static ArrayList<String> audioUriList = new ArrayList<>();
     public static ArrayList<String> documentUriList = new ArrayList<>();
-    private static StorageReference storageReference;
     private static ArrayList<String> fileTypes;
 
     static{
         db = FirebaseFirestore.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     QuerySnapshot lastRead;
@@ -92,7 +93,7 @@ public final class dbUtil {
     }
     //To do.. saving image/video/audio/document files to db
     public static String addFilesToDB(final String userEmail, final String child, final Uri uri, final Context context, final String resultMessage, final ProgressBar progressBar, final String check) {
-        storageReference = storageReference.child(userEmail).child(child);
+        storageReference = FirebaseStorage.getInstance().getReference("activity").child(userEmail).child(child);
         storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -159,9 +160,7 @@ public final class dbUtil {
      * @param collectionName
      * @param data
      */
-    public static void addRecordForCollection(String collectionName, Object data, String referenceId) throws TrailDaoException {
-
-
+    public static void addRecordForCollection(String collectionName, Object data,String referenceId) throws TrailDaoException {
         db.collection(collectionName).document(referenceId).set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -178,14 +177,14 @@ public final class dbUtil {
     }
 
 
-/**
+    /**
      * API to fetch list of learning trails
      * for logged in Trainer
      * @param trainerId
      * @return
      */
     public static List<LearningTrail> fetchTrailList(String trainerId){
-         final List<LearningTrail> learningTrailLst = new ArrayList<LearningTrail>();
+        final List<LearningTrail> learningTrailLst = new ArrayList<LearningTrail>();
 
         // [START listen_multiple]
         db.collection("LearningTrail")
@@ -222,6 +221,4 @@ public final class dbUtil {
     public Task<DocumentSnapshot> readWithDocID(String collectionName, String docID) {
         return db.collection(collectionName).document(docID).get();
     }
-
-
 }
