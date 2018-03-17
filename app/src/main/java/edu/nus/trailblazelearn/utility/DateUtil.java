@@ -14,7 +14,7 @@ import java.util.Locale;
 public class DateUtil {
 
     private static final String TAG = "DateUtil";
-    private static SimpleDateFormat sdfFormt = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+    private static SimpleDateFormat sdfFormt = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     /**
      * API to return Date
      * from String date object
@@ -76,5 +76,54 @@ public class DateUtil {
         }
         Log.d(TAG, "End compareStartDateWithCurrentDate API");
         return startDateisBeforeCurrentDate;
+    }
+
+    /**
+     * API to compare End Date should
+     * be before Start Date
+     *
+     * @param trailStartDate
+     * @return
+     */
+    public static boolean compareStartDateWithEndDate(Date trailStartDate, Date trailEndDate) {
+        Log.d(TAG, "Start compareStartDateWithEndDate API");
+        Log.d(TAG, "End Date :" + trailEndDate + " Start Date :" + trailStartDate);
+        boolean endDateIsBeforeStartDate = false;
+
+
+        if (trailEndDate.compareTo(trailStartDate) < 0) {
+            endDateIsBeforeStartDate = true;
+        } else {
+            endDateIsBeforeStartDate = false;
+        }
+        Log.d(TAG, "End compareStartDateWithEndDate API");
+        return endDateIsBeforeStartDate;
+    }
+
+    /**
+     * API to compare End Date should
+     * be before Start Date
+     *
+     * @param trailStartDate
+     * @return
+     */
+    public static boolean compareStartDateWithEndDate(String trailStartDate, String trailEndDate) {
+        Log.d(TAG, "Start compareStartDateWithEndDate API");
+        Log.d(TAG, "End Date :" + trailEndDate + " Start Date :" + trailStartDate);
+        boolean endDateIsBeforeStartDate = false;
+        try {
+            Date trailStartObjDate = sdfFormt.parse(trailEndDate);
+            Date trailEndObjDate = sdfFormt.parse(trailStartDate);
+            if (trailEndObjDate.compareTo(trailEndObjDate) < 0) {
+                endDateIsBeforeStartDate = true;
+            } else {
+                endDateIsBeforeStartDate = false;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "End compareStartDateWithEndDate API");
+        return endDateIsBeforeStartDate;
     }
   }
