@@ -1,9 +1,12 @@
 package edu.nus.trailblazelearn.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +14,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.activity.CreateLearningTrailActivity;
 import edu.nus.trailblazelearn.interfaces.LongClickListener;
 import edu.nus.trailblazelearn.model.LearningTrail;
 
@@ -59,11 +63,11 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
             public void onItemLongClick(int position) {
                 currentPosition = position;
                 final LearningTrail trailObjData = lstLearningTrail.get(position);
-                Toast.makeText(mContext,trailObjData.getTrailCode(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, trailObjData.getTrailCode(), Toast.LENGTH_SHORT).show();
 
             }
-        });
 
+        });
     }
 
     /**
@@ -91,7 +95,7 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     //List<LearningTrail> learningTrailLst = trailHelper.fetchTrailListForTrainer();
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, LongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, LongClickListener,OnClickListener {
 
         public TextView mTextCode;
         public TextView mTextView;
@@ -103,6 +107,7 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
             mTextCode = v.findViewById(R.id.tv_trail_code);
             mTextView = v.findViewById(R.id.tv_trail_name);
             v.setOnLongClickListener(this);
+            v.setOnClickListener(this);
 
         }
 
@@ -121,6 +126,19 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
         @Override
         public void onItemLongClick(int position) {
             currentPosition = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.i(TAG,"Start of onClick method");
+            int position = getLayoutPosition();
+            LearningTrail trailObj = new LearningTrail();
+            trailObj = lstLearningTrail.get(position);
+            Intent intentObj = new Intent(mContext, CreateLearningTrailActivity.class);
+            intentObj.putExtra("trailCode", trailObj);
+            Log.i(TAG,"trailCode::"+trailObj.getTrailCode());
+            mContext.startActivity(intentObj);
+            Log.i(TAG,"End of onClick method");
         }
     }
 

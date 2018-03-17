@@ -10,7 +10,7 @@ import edu.nus.trailblazelearn.utility.dbUtil;
  */
 
 public class LearningTrailHelper {
-    private static final String TAG = "LearningTrailHelper";
+    private static final String TAG = "LearningTrailHelper.class";
 
     /**
      * Constructor
