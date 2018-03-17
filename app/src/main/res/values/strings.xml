@@ -17,7 +17,8 @@
     <string name="trail_description_validation_msg">Please enter trail description</string>
     <string name="trail_startDate_validation_msg">Please enter learning trail start date</string>
     <string name="trail_endDate_validation_msg">Please enter learning trail end date</string>
-    <string name="trail_startDate_validation_less_currDate_msg">Trail Start Date must be greater than current date</string>
+    <string name="trail_startDate_validation_less_currDate_msg">Trail Start Date must be after or same as Current Date</string>
+    <string name="trail_endDate_validation_less_startDate_msg">Trail End Date must be after Trail Start Date</string>
     <string name="trail_save_successful">Trail details saved successfully</string>
     <string name="trail_name">Trail Name</string>
     <string name="trail_description">Learning Trail Description</string>
