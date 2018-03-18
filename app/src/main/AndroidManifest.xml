@@ -46,9 +46,11 @@
         <activity android:name=".activity.ParticipantContributedItemsActivity" />
         <activity android:name=".FragmentImageActivity" />
         <activity android:name=".FragmentVideoActivity" />
-        <activity android:name=".UploadAudioActivity" />
-        <activity android:name=".UploadButtonActivity" />
-        <activity android:name=".AudioListActivity"></activity>
+        <activity android:name=".activity.UploadAudioActivity" />
+        <activity android:name=".activity.UploadButtonActivity" />
+        <activity android:name=".activity.AudioListActivity" />
+        <activity android:name=".activity.UploadDocumentActivity" />
+        <activity android:name=".activity.DocumentListActivity"></activity>
     </application>
 
 </manifest>

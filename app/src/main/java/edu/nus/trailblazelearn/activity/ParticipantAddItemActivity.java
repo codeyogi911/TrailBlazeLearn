@@ -38,7 +38,10 @@ import android.widget.VideoView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,7 +60,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     VideoView videoView;
     ImageView imageView;
     ImageButton imageButtonPlay, imageButtonPause, imageButtonStop;
-    TextView audioName;
+    TextView audioName, documentName;
     ProgressBar addItemProgressbar;
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int RESULT_LOAD_AUDIO = 2;
@@ -80,12 +83,12 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     private ArrayList<String> uploadedVideoList = new ArrayList<>();
     private ArrayList<String> uploadedImageList = new ArrayList<>();
     private ArrayList<String> uploadedAudioList = new ArrayList<>();
-    private ArrayList<String> uploadedFileList = new ArrayList<>();
+    private ArrayList<String> uploadedDocumentList = new ArrayList<>();
     private ParticipantItem participantItem;
     private int imageLimit;
     private int videoLimit;
     private int audioLimit;
-    private int fileLimit;
+    private int documentLimit;
 
     //String[] imageTypes = {"image/png"};
 
@@ -109,7 +112,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         imageLimit = sharedPref.getInt("IMAGE_LIMIT", 1);
         videoLimit = sharedPref.getInt("VIDEO_LIMIT", 3);
         audioLimit = sharedPref.getInt("AUDIO_LIMIT", 3);
-        fileLimit = sharedPref.getInt("FILE_LIMIT", 1);
+        documentLimit = sharedPref.getInt("FILE_LIMIT", 1);
 
         /*Toolbar addActivityToonbar = findViewById(R.id.add_activity);
         addActivityToonbar.setTitle("ADD ACTIVITY");*/
@@ -194,8 +197,9 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         }
     }
 
+        Date today = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_DD");
     private void dialogUpload(final Uri uri, final int code, final String name) {
-
         View dialogView = null;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ParticipantAddItemActivity.this);
         dialogBuilder.setTitle("Confirm it BudDy");
@@ -262,6 +266,19 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                 }
             });
         }
+        if(code == RESULT_LOAD_DOCUMENT) {
+            dialogView = getLayoutInflater().inflate(R.layout.upload_document, null);
+            documentName = dialogView.findViewById(R.id.dialog_upload_document);
+            documentName.setText("Doc_"+simpleDateFormat.format(today));
+            documentName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "application/*");
+                    startActivity(intent);
+                }
+            });
+        }
         Button uploadButton = dialogView.findViewById(R.id.upload_action);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
         dialogBuilder.setView(dialogView);
@@ -297,7 +314,11 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                         chooseAudio.setEnabled(false);
                 }
                 if(code == RESULT_LOAD_DOCUMENT) {
-                    selectedFileName.setText(name);
+                    uploadedDocumentList.add(name);
+                    if(uploadedDocumentList.size()<=documentLimit)
+                    selectedFileName.setText("Files Uploaded :" + uploadedDocumentList.size() + "/" + documentLimit);
+                    if(uploadedDocumentList.size() == documentLimit)
+                        chooseDocument.setEnabled(false);
                 }
                 uriHashMap.clear();
             }

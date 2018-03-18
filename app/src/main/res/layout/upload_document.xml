@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="edu.nus.trailblazelearn.activity.UploadDocumentActivity">
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_upload_document"
         android:layout_centerHorizontal="true"
-        android:id="@+id/upload_image"/>
+        android:textSize="15dp"/>
+
     <include layout="@layout/upload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/upload_image"/>
-</RelativeLayout>
+        android:layout_below="@id/dialog_upload_document"/>
 
+</RelativeLayout>

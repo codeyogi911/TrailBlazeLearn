@@ -36,7 +36,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 FragmentAudio fragmentAudio = new FragmentAudio(participantItem);
                 return fragmentAudio;
             case 3:
-                FragmentDocument fragmentDocument = new FragmentDocument();
+                FragmentDocument fragmentDocument = new FragmentDocument(participantItem);
                 return fragmentDocument;
             default:
                 return null;

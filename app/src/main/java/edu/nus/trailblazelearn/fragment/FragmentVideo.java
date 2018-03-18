@@ -31,7 +31,7 @@ public class FragmentVideo extends Fragment {
     private ParticipantItem participantItem = new ParticipantItem();
     MediaController mediaController;
     File file;
-    private static String videoUri;
+    //private static String videoUri;
 
     public FragmentVideo(ParticipantItem participantItem) {
         this.participantItem = participantItem;
@@ -47,7 +47,7 @@ public class FragmentVideo extends Fragment {
         View fragmentVideoView = inflater.inflate(R.layout.fragment_video, container, false);
         GridLayout videoGridLayout = fragmentVideoView.findViewById(R.id.fragment_video_grid_layout);
         for(int i = 0; i<participantItem.getVideoUri().size();i++) {
-            videoUri = participantItem.getVideoUri().get(i);
+            final String videoUri = participantItem.getVideoUri().get(i);
             VideoView videoView = new VideoView(fragmentVideoView.getContext());
             GridLayout.LayoutParams lpVideo = new GridLayout.LayoutParams();
             lpVideo.height = 400;
@@ -56,9 +56,7 @@ public class FragmentVideo extends Fragment {
             videoView.setLayoutParams(lpVideo);
             videoView.setVideoURI(Uri.parse(videoUri));
             videoView.requestFocus();
-        /*mediaController = new MediaController(fragmentVideoView.getContext());
-        videoView.setMediaController(mediaController);
-        mediaController.setAnchorView(videoView);*/
+
             videoView.setZOrderOnTop(false);
             videoView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -69,16 +67,8 @@ public class FragmentVideo extends Fragment {
                     startActivity(intent);
                     return false;
                 }
-            }); /*{
-                @Override
-                public void onClick(View v) {
-                    //videoView.start();
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    intent.setDataAndType(Uri.parse(videoUri), "video*//*");
-                    startActivity(intent);
-                }
-            });*/
+            });
+
             videoView.seekTo(100);
 
             videoGridLayout.addView(videoView);

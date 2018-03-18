@@ -76,8 +76,6 @@ public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItem
                 holder.fileIcon.setVisibility(View.INVISIBLE);
         }
 
-        int adpaterPosition = getItemViewType(position);
-
 
         holder.participantItem.setOnClickListener(new View.OnClickListener() {
             @Override
