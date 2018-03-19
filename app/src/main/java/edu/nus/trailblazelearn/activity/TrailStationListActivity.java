@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +32,7 @@ import java.util.List;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.TrailStationListAdapter;
+import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
@@ -43,7 +46,7 @@ public class TrailStationListActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager recyclerLayoutManager;
     private List<TrailStation> trailStationList;
     private FirebaseFirestore firebaseFirestore;
-    private String trailCode = "123";
+    private String trailCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class TrailStationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_station_list);
         toolBarStationListActivity = findViewById(R.id.StationListHeader);
-        toolBarStationListActivity.setTitle(getString(R.string.page_heading_learning_list));
+        toolBarStationListActivity.setTitle("Trail Sttions");
         recyclerView = (RecyclerView) findViewById(R.id.StationRecyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -70,12 +73,14 @@ public class TrailStationListActivity extends AppCompatActivity {
 
         //Register context menu with list item
         registerForContextMenu(recyclerView);
+        LearningTrail trailObj = (LearningTrail) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
+        trailCode= trailObj.getTrailCode();
 
 
         //Set mFireStore to call Firebase Collection
 
-        firebaseFirestore.collection("Trail Station")
-                .whereEqualTo(trailCode, "123")
+        firebaseFirestore.collection("TrailStation")
+                .whereEqualTo("trailCode",trailObj.getTrailCode())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -114,6 +119,7 @@ public class TrailStationListActivity extends AppCompatActivity {
     public void CreateTrailStation(View v) {
         Log.d(TAG, "Start CreateTrailStation");
         Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
+        intent.putExtra("trailCode",trailCode);
         startActivity(intent);
         Log.d(TAG, "End Create Trail Station");
     }

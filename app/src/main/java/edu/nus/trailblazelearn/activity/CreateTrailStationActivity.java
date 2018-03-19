@@ -44,8 +44,9 @@ public class CreateTrailStationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //Get the trailCode from Intent passed
-        final LearningTrail editTrailObj = (LearningTrail) getIntent().getSerializableExtra(ApplicationConstants.trailCodeParam);
-        trailCode = editTrailObj.getTrailCode();
+      //  final TrailStation trailStationObj = (TrailStation) getIntent().getSerializableExtra(ApplicationConstants.trailCodeParam);
+        trailCode =(String) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
+        //trailCode = trailStationObj.getTrailCode();
 
         //txtDetails = (TextView) findViewById(R.id.text1);
         stationName = (EditText) findViewById(R.id.station_name);
@@ -116,12 +117,9 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     private void createStation(TrailStation trailStation) {
         // TODO
         if (!TextUtils.isEmpty(trailCode)) {
-            try {
-                dbUtil.addRecordForCollection("Trail Station", trailStation, trailStation.getTrailCode());
-            } catch (TrailDaoException e) {
-                e.printStackTrace();
-            }
+                dbUtil.addObjectToDB("Trail Station", trailStation);
             Toast.makeText(CreateTrailStationActivity.this, "Station Created Successfully", Toast.LENGTH_SHORT).show();
+        finish();
         }
     }
 
