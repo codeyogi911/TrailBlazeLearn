@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
-import edu.nus.trailblazelearn.activity.CreateTrailStationActivity;
+import edu.nus.trailblazelearn.activity.TrailStationListActivity;
 import edu.nus.trailblazelearn.interfaces.LongClickListener;
 import edu.nus.trailblazelearn.model.LearningTrail;
 
@@ -134,7 +134,7 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
             int position = getLayoutPosition();
             LearningTrail trailObj = new LearningTrail();
             trailObj = lstLearningTrail.get(position);
-            Intent intentObj = new Intent(mContext, CreateTrailStationActivity.class);
+            Intent intentObj = new Intent(mContext, TrailStationListActivity.class);
             intentObj.putExtra("trailCode", trailObj);
             Log.i(TAG,"trailCode::"+trailObj.getTrailCode());
             mContext.startActivity(intentObj);
