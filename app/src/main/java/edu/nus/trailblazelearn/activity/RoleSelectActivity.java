@@ -39,7 +39,7 @@ public class RoleSelectActivity extends AppCompatActivity {
     }
 
     public void loginTrainer(View view) {
-        Intent intent = new Intent(this, ParticipantItemListActivity.class);
+        Intent intent = new Intent(this, LearningTrailListActivity.class);
         startActivity(intent);
         finish();
     }

@@ -15,11 +15,13 @@ public interface ApplicationConstants {
     /***DB Collection related constants**/
     String learningTrailCollection ="LearningTrail";
     String userId="userId";
+    String trailCode = "trailCode";
 
     /**Toast messages**/
     String toastMessageForDbFailure = "An error occurred,please try later!";
     String toastMessageForAddingTrailFailure="New trail creation failed,please try later!";
     String getToastMessageForUpdateTrailFailure = "Trail update failed,please try later!";
+    String toastMessageForDuplicateEntryForLearningTrailCode = "Learning trail cannot be created,as record exist for trail code!";
 
     /**Error messages*/
     String errorDbSelectionForCollectionFailed = "Listen failed while selecting from collection Learning Trail.";

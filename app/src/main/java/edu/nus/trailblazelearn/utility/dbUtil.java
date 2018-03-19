@@ -23,7 +23,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,18 +30,17 @@ import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.ParticipantItem;
-import edu.nus.trailblazelearn.model.UploadedFiles;
 
 public final class dbUtil {
     private static final String TAG = "dbUtil";
     public static FirebaseFirestore db;
-    private static StorageReference storageReference;
     public static Uri fileUri;
     public static ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
     public static ArrayList<String> imageUriList = new ArrayList<>();
     public static ArrayList<String> videoUriList = new ArrayList<>();
     public static ArrayList<String> audioUriList = new ArrayList<>();
     public static ArrayList<String> documentUriList = new ArrayList<>();
+    private static StorageReference storageReference;
     private static ArrayList<String> fileTypes;
 
     static{
@@ -180,15 +178,15 @@ public final class dbUtil {
     /**
      * API to fetch list of learning trails
      * for logged in Trainer
-     * @param trainerId
+     * @param trailCode
      * @return
      */
-    public static List<LearningTrail> fetchTrailList(String trainerId){
+    public static List<LearningTrail> fetchTrailListForTrailCode(final String trailCode) {
         final List<LearningTrail> learningTrailLst = new ArrayList<LearningTrail>();
 
         // [START listen_multiple]
-        db.collection("LearningTrail")
-                .whereEqualTo("userId","ms.romila@gmail.com" )
+        db.collection(ApplicationConstants.learningTrailCollection)
+                .whereEqualTo(ApplicationConstants.trailCode, trailCode)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -198,10 +196,10 @@ public final class dbUtil {
                             return;
                         }
 
-                        Log.w(TAG,"Query snapshot :"+value.getQuery());
                         for (DocumentSnapshot doc : value.getDocuments()) {
                             LearningTrail learningTrailObj = doc.toObject(LearningTrail.class);
                             learningTrailLst.add(learningTrailObj);
+                            Log.d(TAG, "Record existing for trail code " + trailCode);
                         }
 
                         Log.d(TAG, "Current learning trail list size for trainer: "+learningTrailLst.size());
@@ -211,6 +209,36 @@ public final class dbUtil {
 
         return learningTrailLst;
     }
+
+    /**
+     * API to check the presence of record against trailCode
+     *
+     * @param collectionName
+     * @param docId
+     * @return
+     */
+    public static List<LearningTrail> fetchRecordWithRefernceIdForLearningTrail(String collectionName, String docId) {
+        final List<LearningTrail> trailList = new ArrayList<LearningTrail>();
+        /*DocumentReference docRef = db.collection(collectionName).document(docId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        trailList.add(document.toObject(LearningTrail.class));
+                        Log.d(TAG, "Record existing :: DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such Learning Trail");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });*/
+        return trailList;
+    }
+
     //      Query DB using key and value
     public Task<QuerySnapshot> readWithKey(String collectionName, String key, String value) {
         return db.collection(collectionName).whereEqualTo(key, value)

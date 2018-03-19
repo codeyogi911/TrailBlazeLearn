@@ -298,17 +298,17 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
             edTrailStartDate.setError(getString(R.string.trail_startDate_validation_msg));
             isValid = false;
         }
-        if (DateUtil.compareStartDateWithCurrentDate(edTrailStartDate.getText().toString().trim())) {
+        /*if (DateUtil.compareStartDateWithCurrentDate(edTrailStartDate.getText().toString().trim())) {
             edTrailStartDate.setError(getString(R.string.trail_startDate_validation_less_currDate_msg));
-        }
+        }*/
         if (TextUtils.isEmpty(edTrailEndDate.getText().toString().trim())) {
             edTrailEndDate.setError(getString(R.string.trail_endDate_validation_msg));
             isValid = false;
         }
-        if (DateUtil.compareStartDateWithEndDate(edTrailStartDate.getText().toString().trim(), edTrailEndDate.getText().toString().trim())) {
+        /*if (DateUtil.compareStartDateWithEndDate(edTrailStartDate.getText().toString().trim(), edTrailEndDate.getText().toString().trim())) {
             edTrailEndDate.setError(getString(R.string.trail_endDate_validation_less_startDate_msg));
             isValid = false;
-        }
+        }*/
 
         return isValid;
     }
@@ -372,12 +372,21 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
      * @param trailName
      * @return
      */
-    private String constructTrailCode(String startDate,String trailName){
+    private String constructTrailCode(String startDate, String trailName) throws TrailActivityException {
         Log.d(TAG, "Start of constructTrailCode API");
         StringBuilder trailCodeStr = new StringBuilder();
         trailCodeStr.append(startDate);
         trailCodeStr.append(ApplicationConstants.underScoreConstants);
         trailCodeStr.append(trailName);
+
+        //Check the trailCode exist in DB if so return message to Trainer
+       /* LearningTrailHelper trailHelper = new LearningTrailHelper();
+        if(trailHelper.IsTrailCodeDuplicate(trailCodeStr.toString())){
+            Toast.makeText(CreateLearningTrailActivity.this, ApplicationConstants.toastMessageForDuplicateEntryForLearningTrailCode,
+                    Toast.LENGTH_LONG).show();
+            throw new TrailActivityException("Duplicate entry attempted for trail code");
+        }*/
+
         Log.d(TAG, "End of constructTrailCode API");
         return trailCodeStr.toString();
     }

@@ -1,5 +1,9 @@
 package edu.nus.trailblazelearn.helper;
 
+import android.util.Log;
+
+import java.util.List;
+
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.exception.TrailHelperException;
 import edu.nus.trailblazelearn.model.LearningTrail;
@@ -46,5 +50,22 @@ public class LearningTrailHelper {
         }
     }
 
+    /**
+     * API which check for duplicate
+     * trail code against DB for Collection
+     * LearningTrail
+     *
+     * @param trailCodeStr
+     * @return
+     */
 
+    public boolean IsTrailCodeDuplicate(String trailCodeStr) {
+        List<LearningTrail> learningTrailsLstObj = dbUtil.fetchTrailListForTrailCode(trailCodeStr);
+        if (learningTrailsLstObj.size() > 0) {
+            Log.i(TAG, "Trail code already exist" + trailCodeStr);
+            return true;
+        }
+        Log.i(TAG, "Trail code does not exist" + trailCodeStr);
+        return false;
+    }
 }
