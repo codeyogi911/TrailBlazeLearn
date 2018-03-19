@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,54 +15,49 @@ import java.util.List;
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.activity.CreateTrailStationActivity;
 import edu.nus.trailblazelearn.interfaces.LongClickListener;
-import edu.nus.trailblazelearn.model.LearningTrail;
+import edu.nus.trailblazelearn.model.TrailStation;
 
 /**
- * Created by RMukherjee on 07-03-2018.
+ * Created by Dharini.
  */
 
-public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdapter.ViewHolder> {
+public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationListAdapter.ViewHolder> {
+    private static final String TAG = "TrailStationAdaper";
+    public int itemPosition;
+    private List<TrailStation> trailStationList;
+    private Context context;
 
-
-    private static final String TAG = "LearningTrailAdapter";
-    public int currentPosition;
-    private List<LearningTrail> lstLearningTrail;
-    private Context mContext;
-
-
-
-    public LearningTrailAdapter(List<LearningTrail> lstLearningTrail, Context mContext) {
-        this.lstLearningTrail = lstLearningTrail;
-        this.mContext = mContext;
+    public TrailStationListAdapter(List<TrailStation> trailStationList, Context context) {
+        this.trailStationList = trailStationList;
+        this.context = context;
     }
 
     @Override
     public int getItemCount() {
-        return lstLearningTrail.size();
+        return trailStationList.size();
     }
 
     @Override
-    public LearningTrailAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         // Create a new view.
         View viewObj = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.learning_trail_item, viewGroup, false);
+                .inflate(R.layout.trail_station_list, viewGroup, false);
 
-        ViewHolder viewHolderObj = new  ViewHolder(viewObj);
+        ViewHolder viewHolderObj = new ViewHolder(viewObj);
         return viewHolderObj;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextCode.setText(lstLearningTrail.get(position).getTrailCode());
-        holder.mTextView.setText(lstLearningTrail.get(position).getTrailName());
+        holder.textView.setText(trailStationList.get(position).getTrailStationName());
 
         holder.setLongClickListener(new LongClickListener() {
             @Override
             public void onItemLongClick(int position) {
-                currentPosition = position;
-                final LearningTrail trailObjData = lstLearningTrail.get(position);
-                Toast.makeText(mContext, trailObjData.getTrailCode(), Toast.LENGTH_SHORT).show();
+                itemPosition = position;
+                final TrailStation trailStationObj = trailStationList.get(itemPosition);
+                Toast.makeText(context, trailStationObj.getTrailCode(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -73,11 +67,12 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
     /**
      * API to remove Learning trail object on
      * long press event
-     * @param trailObjData
+     *
+     * @param trailStationObj
      */
-    public void removeLearningTrail(LearningTrail trailObjData) {
-        int currPosition =  lstLearningTrail.indexOf(trailObjData);
-        lstLearningTrail.remove(currPosition);
+    public void removeTrailStation(TrailStation trailStationObj) {
+        int currPosition = trailStationList.indexOf(trailStationObj);
+        trailStationList.remove(currPosition);
         notifyItemRemoved(currPosition);
     }
 
@@ -87,7 +82,7 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
     }
 
     public int selectedItemPosition() {
-        return currentPosition;
+        return itemPosition;
 
     }
 
@@ -95,17 +90,17 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     //List<LearningTrail> learningTrailLst = trailHelper.fetchTrailListForTrainer();
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, LongClickListener,OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, LongClickListener, View.OnClickListener {
 
-        public TextView mTextCode;
-        public TextView mTextView;
+        public TextView textCode;
+        public TextView textView;
         LongClickListener longClickListener;
 
 
         public ViewHolder(View v) {
             super(v);
-            mTextCode = v.findViewById(R.id.tv_trail_code);
-            mTextView = v.findViewById(R.id.tv_trail_name);
+            //textCode = v.findViewById(R.id.tv_trail_cod);
+            textView = v.findViewById(R.id.StationName);
             v.setOnLongClickListener(this);
             v.setOnClickListener(this);
 
@@ -125,21 +120,20 @@ public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdap
 
         @Override
         public void onItemLongClick(int position) {
-            currentPosition = position;
+            itemPosition = position;
         }
 
         @Override
         public void onClick(View v) {
-            Log.i(TAG,"Start of onClick method");
+            Log.i(TAG, "Start of onClick method");
             int position = getLayoutPosition();
-            LearningTrail trailObj = new LearningTrail();
-            trailObj = lstLearningTrail.get(position);
-            Intent intentObj = new Intent(mContext, CreateTrailStationActivity.class);
-            intentObj.putExtra("trailCode", trailObj);
-            Log.i(TAG,"trailCode::"+trailObj.getTrailCode());
-            mContext.startActivity(intentObj);
-            Log.i(TAG,"End of onClick method");
+            TrailStation trailStationObj = new TrailStation();
+            trailStationObj = trailStationList.get(position);
+            Intent intent = new Intent(context, CreateTrailStationActivity.class);
+            intent.putExtra("trailCode", trailStationObj);
+            Log.i(TAG, "stationName:" + trailStationObj.getTrailCode());
+            context.startActivity(intent);
+            Log.i(TAG, "End of onClick method");
         }
     }
-
 }
