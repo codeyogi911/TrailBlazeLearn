@@ -24,6 +24,7 @@ import edu.nus.trailblazelearn.exception.TrailActivityException;
 import edu.nus.trailblazelearn.exception.TrailHelperException;
 import edu.nus.trailblazelearn.helper.LearningTrailHelper;
 import edu.nus.trailblazelearn.model.LearningTrail;
+import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.DateUtil;
 
@@ -42,6 +43,8 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
     private boolean editMode;
     private boolean addOperationSuccess;
     private boolean updateOperationSuccess;
+    private User user;
+    private String userEmail;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         edTrailDescription = findViewById(R.id.et_trail_description);
         edTrailStartDate = findViewById(R.id.et_trail_startdate);
         edTrailEndDate = findViewById(R.id.et_trail_enddate);
+
+        user = User.getInstance();
+        userEmail = (String) user.getData().get(ApplicationConstants.email);
 
         try {
 
@@ -125,7 +131,6 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
                             }, mYear, mMonth, mDay);
                     Date edTrailStartDateObj = constructDateFromString(edTrailStartDate.getText().toString());
                     datePickerDialog.getDatePicker().setMinDate(edTrailStartDateObj.getTime());
-                    //datePickerDialog .getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                     datePickerDialog.show();
                 }
             });
@@ -360,7 +365,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "Error in pouplateTrail as trail code is null ");
         }
-        trailObj.setUserId("ms.romila@gmail.com");
+        trailObj.setUserId(userEmail);
         Log.d(TAG, "End of pouplateTrail API");
         return trailObj;
     }

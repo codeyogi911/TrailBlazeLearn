@@ -35,6 +35,7 @@ import java.util.List;
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.LearningTrailAdapter;
 import edu.nus.trailblazelearn.model.LearningTrail;
+import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
 public class LearningTrailListActivity extends AppCompatActivity implements ApplicationConstants {
@@ -47,6 +48,8 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
     private RecyclerView.LayoutManager mLayoutManager;
     private List<LearningTrail> learningTrailLst;
     private FirebaseFirestore mFireStore;
+    private User user;
+    private String userEmail;
 
 
 
@@ -60,6 +63,10 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
         mProgressBar = findViewById(R.id.pb_trail_list);
         mFireStore = FirebaseFirestore.getInstance();
+
+        user = User.getInstance();
+        userEmail = (String) user.getData().get(ApplicationConstants.email);
+
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -82,7 +89,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         // [START listen_multiple]
 
         mFireStore.collection(ApplicationConstants.learningTrailCollection)
-                .whereEqualTo(ApplicationConstants.userId, "ms.romila@gmail.com")
+                .whereEqualTo(ApplicationConstants.userId, userEmail)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -163,13 +170,13 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                 LearningTrail trailObj = new LearningTrail();
                 trailObj = learningTrailLst.get(position);
                 Intent intentObj = new Intent(this, CreateLearningTrailActivity.class);
-                intentObj.putExtra("trailCode", trailObj);
+                intentObj.putExtra(ApplicationConstants.trailCode, trailObj);
                 startActivity(intentObj);
                 mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.delete_menu_item :
                 Log.d(TAG, "Trail code to be deleted.." + learningTrailLst.get(position).getTrailCode());
-                mFireStore.collection("LearningTrail").document("/" + learningTrailLst.get(position).getTrailCode())
+                mFireStore.collection(ApplicationConstants.learningTrailCollection).document("/" + learningTrailLst.get(position).getTrailCode())
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

@@ -210,35 +210,6 @@ public final class dbUtil {
         return learningTrailLst;
     }
 
-    /**
-     * API to check the presence of record against trailCode
-     *
-     * @param collectionName
-     * @param docId
-     * @return
-     */
-    public static List<LearningTrail> fetchRecordWithRefernceIdForLearningTrail(String collectionName, String docId) {
-        final List<LearningTrail> trailList = new ArrayList<LearningTrail>();
-        /*DocumentReference docRef = db.collection(collectionName).document(docId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null && document.exists()) {
-                        trailList.add(document.toObject(LearningTrail.class));
-                        Log.d(TAG, "Record existing :: DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d(TAG, "No such Learning Trail");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });*/
-        return trailList;
-    }
-
     //      Query DB using key and value
     public Task<QuerySnapshot> readWithKey(String collectionName, String key, String value) {
         return db.collection(collectionName).whereEqualTo(key, value)

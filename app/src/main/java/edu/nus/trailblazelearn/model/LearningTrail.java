@@ -9,8 +9,6 @@ import java.util.Date;
 
 public class LearningTrail implements Serializable {
 
-    private static final String TAG = "LearningTrail.CLASS";
-
     private String trailName;
     private String trailCode;
     private String trailDescription;
@@ -18,13 +16,11 @@ public class LearningTrail implements Serializable {
     private Date endDate;
     private String userId;
 
+    /**
+     * Default Constructor
+     */
     public LearningTrail() {
-        this.trailName = trailName;
-        this.trailCode = trailCode;
-        this.trailDescription = trailDescription;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.userId = userId;
+
     }
 
     public String getTrailName() {

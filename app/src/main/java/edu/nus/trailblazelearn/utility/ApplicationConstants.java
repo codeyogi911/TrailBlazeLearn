@@ -16,6 +16,7 @@ public interface ApplicationConstants {
     String learningTrailCollection ="LearningTrail";
     String userId="userId";
     String trailCode = "trailCode";
+    String email = "email";
 
     /**Toast messages**/
     String toastMessageForDbFailure = "An error occurred,please try later!";

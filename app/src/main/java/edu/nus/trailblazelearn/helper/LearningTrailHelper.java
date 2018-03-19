@@ -7,10 +7,11 @@ import java.util.List;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.exception.TrailHelperException;
 import edu.nus.trailblazelearn.model.LearningTrail;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.dbUtil;
 
 /**
- * Created by Romila on 06-03-2018.
+ * Created by RMukherjee on 06-03-2018.
  */
 
 public class LearningTrailHelper {
@@ -29,7 +30,7 @@ public class LearningTrailHelper {
      */
     public void createTrail(LearningTrail trailObj) throws TrailHelperException {
         try {
-            dbUtil.addRecordForCollection("LearningTrail", trailObj, trailObj.getTrailCode());
+            dbUtil.addRecordForCollection(ApplicationConstants.learningTrailCollection, trailObj, trailObj.getTrailCode());
         } catch (TrailDaoException daoExcept) {
             throw new TrailHelperException("Error occurred in createTrail invoking addRecordForCollection ", daoExcept);
         }
@@ -44,7 +45,7 @@ public class LearningTrailHelper {
      */
     public void updateTrail(LearningTrail trailObj) throws TrailHelperException {
         try {
-            dbUtil.addRecordForCollection("LearningTrail", trailObj, trailObj.getTrailCode());
+            dbUtil.addRecordForCollection(ApplicationConstants.learningTrailCollection, trailObj, trailObj.getTrailCode());
         } catch (TrailDaoException daoExcept) {
             throw new TrailHelperException("Error occurred in updateTrail invoking addRecordForCollection ", daoExcept);
         }
