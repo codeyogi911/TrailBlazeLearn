@@ -99,7 +99,6 @@ public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationLi
 
         public ViewHolder(View v) {
             super(v);
-            //textCode = v.findViewById(R.id.tv_trail_cod);
             textView = v.findViewById(R.id.StationName);
             v.setOnLongClickListener(this);
             v.setOnClickListener(this);
