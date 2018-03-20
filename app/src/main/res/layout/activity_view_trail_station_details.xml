@@ -9,7 +9,7 @@
     tools:context="edu.nus.trailblazelearn.activity.TrailStationDetailsActivity">
 
     <TextView
-        android:id="@+id/StationNameTitle"
+        android:id="@+id/StationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
