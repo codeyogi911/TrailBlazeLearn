@@ -35,12 +35,13 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     private Button btnSave, btnSearch;
     private String trailCode;
     private boolean editStation;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail_station);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.tb_trail_header);
         setSupportActionBar(toolbar);
 
         //Get the trailCode from Intent passed
@@ -90,6 +91,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 final TrailStation editStationObj = (TrailStation) getIntent().getSerializableExtra(stationName);
 
                 if (!editStation) {
+                    toolbar.setTitle("Create Trail Station");
                     createStation(trailStationObj);
                 } else {
                     updateTrailStation();
@@ -117,7 +119,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     private void createStation(TrailStation trailStation) {
         // TODO
         if (!TextUtils.isEmpty(trailCode)) {
-                dbUtil.addObjectToDB("Trail Station", trailStation);
+                dbUtil.addObjectToDB("TrailStation", trailStation);
             Toast.makeText(CreateTrailStationActivity.this, "Station Created Successfully", Toast.LENGTH_SHORT).show();
         finish();
         }

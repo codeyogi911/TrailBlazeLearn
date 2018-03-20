@@ -14,6 +14,7 @@ import java.util.List;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.activity.CreateTrailStationActivity;
+import edu.nus.trailblazelearn.activity.TrailStationDetailsActivity;
 import edu.nus.trailblazelearn.interfaces.LongClickListener;
 import edu.nus.trailblazelearn.model.TrailStation;
 
@@ -128,9 +129,9 @@ public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationLi
             int position = getLayoutPosition();
             TrailStation trailStationObj = new TrailStation();
             trailStationObj = trailStationList.get(position);
-            Intent intent = new Intent(context, CreateTrailStationActivity.class);
-            intent.putExtra("trailCode", trailStationObj);
-            Log.i(TAG, "stationName:" + trailStationObj.getTrailCode());
+            Intent intent = new Intent(context, TrailStationDetailsActivity.class);
+            intent.putExtra("TrailStation", trailStationObj);
+            Log.i(TAG, "trailStationName:" + trailStationObj.getTrailStationName());
             context.startActivity(intent);
             Log.i(TAG, "End of onClick method");
         }
