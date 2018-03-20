@@ -59,10 +59,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        viewHolder.itemTitle.setText((String) documentSnapshot.get("trailName"));
-                        viewHolder.itemDetail.setText((String) documentSnapshot.get("trailDescription"));
-//                                .setText(details.get(i));
-//        viewHolder.itemImage.setImageResource(images[i]);
+                        if (documentSnapshot.exists()) {
+                            viewHolder.itemTitle.setText((String) documentSnapshot.get("trailName"));
+                            viewHolder.itemDetail.setText((String) documentSnapshot.get("trailDescription"));
+
+                        }
                     }
                 }
         );
