@@ -24,24 +24,23 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppBarOverlay">
+        android:theme="@style/AppBarOverlay"
+        android:background="@color/toolBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/tb_trail_list_header"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:popupTheme="@style/PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme">
+            android:theme="@style/ToolbarTheme"
+            android:background="@color/toolBar">
 
         </android.support.v7.widget.Toolbar>
 
+
+    </android.support.design.widget.AppBarLayout>
         <ProgressBar
             android:id="@+id/pb_trail_list"
             style="?android:attr/progressBarStyle"
@@ -50,14 +49,13 @@
             android:layout_weight="1"
             android:layout_gravity="center"/>
 
-    </android.support.design.widget.AppBarLayout>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:background="@color/toolBar"
         app:srcCompat="@android:drawable/ic_input_add"
         android:onClick="startActivityForCreateTrail"/>
 

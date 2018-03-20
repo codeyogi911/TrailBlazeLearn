@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/dialog_upload_document"
         android:layout_centerHorizontal="true"
-        android:textSize="15dp"/>
+        android:layout_margin="20dp"
+        android:textSize="25dp"/>
 
     <include layout="@layout/upload_button"
         android:layout_width="wrap_content"

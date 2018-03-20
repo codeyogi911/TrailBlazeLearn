@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/text_margin"
     tools:context="edu.nus.trailblazelearn.activity.UploadButtonActivity">
 
     <Button
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/upload_image"
         android:layout_marginStart="70dp"
+        android:background="@color/toolBar"
         android:text="Upload" />
 
     <Button
@@ -23,6 +25,7 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@id/upload_image"
         android:layout_marginEnd="70dp"
+        android:background="@color/toolBar"
         android:text="cancel"/>
 
 </RelativeLayout>

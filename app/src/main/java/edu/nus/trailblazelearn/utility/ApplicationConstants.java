@@ -10,6 +10,7 @@ public interface ApplicationConstants {
     String trailActivityListClassName = "LearningTrailListActivity";
     String trailActivityCreateClassName ="CreateLearningTrailActivity";
     String trailStaionListActivity = "TrailStationListActivity";
+    String participantItemListActivity = "ParticipantItemList";
     String trailCodeParam = "trailCode";
     String underScoreConstants = "_";
 

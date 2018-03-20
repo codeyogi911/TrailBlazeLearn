@@ -4,28 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/ToolbarTheme"
     tools:context=".activity.ParticipantItemListActivity">
-    <!--<android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppBarOverlay"
-        android:id="@+id/appbar">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>-->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/participant_list_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_participant_item_list_header"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:minHeight="?attr/actionBarSize">
+
+            </android.support.v7.widget.Toolbar>
+
+
+        </android.support.design.widget.AppBarLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/participant_list_toolbar"
         android:id="@+id/participant_list_items">
 
 
@@ -41,18 +47,17 @@
         android:indeterminate="true"
         android:indeterminateTintMode="src_atop"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_item_ActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:padding="100dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_item_ActionButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/toolBar"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="31dp"
+            android:layout_marginRight="54dp"
+            android:clickable="true"
+            android:src="@drawable/ic_add_black_24dp" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

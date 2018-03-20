@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -24,16 +27,18 @@ import java.util.ArrayList;
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.model.ParticipantItem;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.dbUtil;
 
 public class ParticipantItemListActivity extends AppCompatActivity {
 private ParticipantItemAdapter participantItemAdapter;
 private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
+private static final String TAG = ApplicationConstants.participantItemListActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_item_list);
-
+        Log.d(TAG,"Start of onCreate participant List Activity");
         final ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.VISIBLE);
         FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
@@ -72,6 +77,20 @@ private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
                 startActivity(new Intent(ParticipantItemListActivity.this, ParticipantAddItemActivity.class));
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.participant_default, menu);
+        return true;
+    }
+
+    public void toRoleSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                RoleSelectActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

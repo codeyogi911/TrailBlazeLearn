@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-    <TableLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/participant_contributed_item_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarOverlay"
+        android:background="@color/toolBar">
 
-        <TableRow
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_addparticipant_list_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ToolbarTheme"
+            android:background="@color/toolBar">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+        </android.support.v7.widget.Toolbar>
 
+
+    </android.support.design.widget.AppBarLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/relative_layout_image"
+    android:layout_margin="10dp"
+    android:layout_below="@+id/participant_contributed_item_toolbar">
                 <TextView
                     android:id="@+id/image_lable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Image"
-                    android:textSize="25dp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="25dp"
+                    />
 
                 <TextView
                     android:id="@+id/selected_image"
@@ -31,31 +50,31 @@
                     android:layout_below="@+id/image_lable"
                     android:text="no image selected" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/choose_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="151dp"
-                    android:layout_toEndOf="@+id/selected_image"
-                    android:text="Choose" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/cardview_light_background"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_add_a_photo_black_24dp"
+                    android:textStyle="bold"/>
             </RelativeLayout>
-        </TableRow>
 
-        <TableRow
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+            android:layout_height="wrap_content"
+            android:id="@+id/relative_layout_audio"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/relative_layout_image">
             <TextView
                 android:id="@+id/audio_lable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Audio"
+                android:textStyle="bold"
+                android:textColor="@color/cardview_dark_background"
                 android:textSize="25dp" />
             <TextView
                 android:id="@+id/selected_audio"
@@ -65,17 +84,128 @@
                 android:layout_below="@+id/audio_lable"
                 android:text="no file selected" />
 
-                <Button
-                    android:id="@+id/choose_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:text="Choose" />
-            </RelativeLayout>
-        </TableRow>
+            <ImageButton
+                android:id="@+id/choose_audio"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/cardview_light_background"
+                android:layout_marginRight="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_audiotrack_black_24dp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
 
-        <TableRow
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative_layout_video"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/relative_layout_audio">
+        <TextView
+            android:id="@+id/video_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Video"
+            android:textStyle="bold"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/selected_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/video_label"
+            android:text="no video selected" />
+
+        <ImageButton
+            android:id="@+id/choose_video"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:background="@color/cardview_light_background"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_videocam_black_24dp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative_layout_document"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/relative_layout_video">
+        <TextView
+            android:id="@+id/document_lable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Document"
+            android:textStyle="bold"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/selected_doc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/document_lable"
+            android:text="no doc selected" />
+
+        <ImageButton
+            android:id="@+id/choose_document"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
+            android:background="@color/cardview_light_background"
+            android:src="@drawable/ic_attachment_black_24dp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_layout_document">
+        <EditText
+            android:id="@+id/image_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="30dp"
+            android:ems="@integer/google_play_services_version"
+            android:maxLines="10"
+            android:hint="Enter description about captured image"
+            android:inputType="textMultiLine" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/upload_files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/toolBar"
+            android:text="Create Activity"
+            android:textStyle="bold"/>
+
+        <ProgressBar
+            android:id="@+id/add_item_progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+</RelativeLayout>
+
+
+
+        <!--<TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp">
@@ -172,7 +302,7 @@
         android:layout_marginRight="20dp"
         android:text="Create Activity" />
 </TableRow>
-
+-->
 
 
 
@@ -209,4 +339,3 @@
 
 
 
-</TableLayout>

@@ -25,15 +25,15 @@ public class AddParticipantItemHelper extends AsyncTask<ArrayList<Uri>, Void, Vo
     private ProgressBar progressBar;
     private int uriCount;
     private int count;
-    private String userEmail;
+    private String userName;
     private Uri fileUri;
 
 
-    public AddParticipantItemHelper(Context context, HashMap<String, Uri> uriHashMap, String userEmail, ProgressBar progressBar) {
+    public AddParticipantItemHelper(Context context, HashMap<String, Uri> uriHashMap, String userName, ProgressBar progressBar) {
         super();
         this.context = context;
         this.uriHashMap = uriHashMap;
-        this.userEmail = userEmail;
+        this.userName = userName;
         this.progressBar = progressBar;
     }
 
@@ -44,18 +44,18 @@ public class AddParticipantItemHelper extends AsyncTask<ArrayList<Uri>, Void, Vo
         //Uri uri = uris[0].get(0);
         for(Uri uriLocal:uris[0]){
             if(uriHashMap.get("image") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userEmail,"images/"+uriLocal.getPath(), uriLocal, context, "Image Uploaded Successfully", progressBar, "image");
+                resultMessgae = dbUtil.addFilesToDB(userName,"images/"+uriLocal.getPath(), uriLocal, context, "Image Uploaded Successfully", progressBar, "image");
 
             }
             if(uriHashMap.get("video") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userEmail,"videos/"+uriLocal.getPath(), uriLocal, context, "Video Uploaded Successfully", progressBar, "video");
+                resultMessgae = dbUtil.addFilesToDB(userName,"videos/"+uriLocal.getPath(), uriLocal, context, "Video Uploaded Successfully", progressBar, "video");
             }
 
             if(uriHashMap.get("audio") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userEmail,"audios/"+uriLocal.getPath(), uriLocal, context, "Audio Uploaded Successfully", progressBar, "audio");
+                resultMessgae = dbUtil.addFilesToDB(userName,"audios/"+uriLocal.getPath(), uriLocal, context, "Audio Uploaded Successfully", progressBar, "audio");
             }
             if(uriHashMap.get("document") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userEmail,"documents/"+uriLocal.getPath(), uriLocal, context, "Document Uploaded Successfully", progressBar,"document");
+                resultMessgae = dbUtil.addFilesToDB(userName,"documents/"+uriLocal.getPath(), uriLocal, context, "Document Uploaded Successfully", progressBar,"document");
             }
         }
         return null;

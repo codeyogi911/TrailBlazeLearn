@@ -8,19 +8,40 @@
     android:scrollbars="vertical"
     tools:context="edu.nus.trailblazelearn.activity.ParticipantContributedItemsActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/participant_contributed_list_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ToolbarTheme"
+        android:background="@color/toolBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_participant_contributed_list_header"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/PopupOverlay"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ToolbarTheme"
+            android:background="@color/toolBar">
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/participant_contributed_list_toolbar"
         android:id="@+id/participant_in_item_name"
-        android:textSize="40dp"
-        android:text="Name"/>
+        android:textStyle="bold"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="40dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/participant_in_item_description"
         android:textSize="20dp"
-        android:text="Description"
         android:layout_below="@id/participant_in_item_name"/>
 
     <android.support.design.widget.TabLayout
@@ -28,8 +49,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/tab_layout"
         android:layout_below="@+id/participant_in_item_description"
-        android:background="?attr/actionBarItemBackground"
+        android:background="@color/toolBar"
         android:elevation="6dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/AlertDialog.AppCompat.Light">
 

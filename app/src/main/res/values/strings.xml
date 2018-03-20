@@ -7,8 +7,8 @@
     <string name="title_activity_login">Sign in</string>
     <string name="SignOut_text">Sign Out</string>
 
-    <string name="Trainer_select">Log in as Trainer</string>
-    <string name="Participant_select">Log in as Participant</string>
+    <string name="Trainer_select">Trainer</string>
+    <string name="Participant_select">Participant</string>
     <string name="title_activity_participant_default">Participant Default</string>
     <string name="title_activity_trainer_default">TrainerDefault</string>
     <string name="to_role_selection">Switch Roles</string>
@@ -41,5 +41,13 @@
     <string name="google_maps_key">Key</string>
     <string name="title_activity_maps">Map</string>
     <string name="btnSearchLocation">Search Location</string>
+
+    <!--Station Discussion Activity added by Prannoy-->
+    <string name ="station_discussion_heading">DISCUSSION</string>
+    <string name = "message_box_description">Enter your message here</string>
+    <string name = "Post_Message">Post Message</string>
+
+    <string name="trainer_note">Trainer - You can create Learning trails, trail stations.</string>
+    <string name="participant_note">Participant - You acn participate in trails and record your activities.</string>
 
 </resources>

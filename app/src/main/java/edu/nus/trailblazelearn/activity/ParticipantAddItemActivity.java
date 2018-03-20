@@ -53,13 +53,13 @@ import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.dbUtil;
 
 public class ParticipantAddItemActivity extends AppCompatActivity {
-    Button chooseImage, chooseAudio, chooseVideo, chooseDocument, createActivity;
+    Button createActivity;
     TextView selectedImageName, selectedAudioName, selectedVideoName, selectedFileName;
     AddParticipantItemHelper addParticipantItemHelper;
     EditText imageDescription;
     VideoView videoView;
     ImageView imageView;
-    ImageButton imageButtonPlay, imageButtonPause, imageButtonStop;
+    ImageButton imageButtonPlay, imageButtonPause, imageButtonStop, chooseImage, chooseAudio, chooseVideo, chooseDocument;
     TextView audioName, documentName;
     ProgressBar addItemProgressbar;
     private static final int RESULT_LOAD_IMAGE = 1;
@@ -77,7 +77,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     String[] addImageItems = {"camera", "gallary"};
     String[] addVideoItems = {"Record", "Gallary"};
     private User user;
-    private String userEmail;
+    private String userName;
     private UploadedFiles uploadedFiles;
     ArrayList<String> fileUri = null;
     private ArrayList<String> uploadedVideoList = new ArrayList<>();
@@ -101,7 +101,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_add_item);
         user = User.getInstance();
-        userEmail = (String) user.getData().get("email");
+        userName = (String) user.getData().get("name");
 
         sharedPref = getApplicationContext().getSharedPreferences("CONSTANTS", Context.MODE_PRIVATE);
         sharedPref.edit().putInt("IMAGE_LIMIT", 1).commit();
@@ -288,7 +288,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addParticipantItemHelper = new AddParticipantItemHelper(getApplicationContext(), uriHashMap, userEmail, addItemProgressbar);
+                addParticipantItemHelper = new AddParticipantItemHelper(getApplicationContext(), uriHashMap, userName, addItemProgressbar);
                 addParticipantItemHelper.execute(uriArrayList);
                 alertDialog.dismiss();
                 addItemProgressbar.setVisibility(View.VISIBLE);
@@ -297,28 +297,28 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                     if(uploadedVideoList.size()<= videoLimit)
                         selectedVideoName.setText("Files Uploaded :" + uploadedVideoList.size() + "/" + videoLimit);
                     if(uploadedVideoList.size() == videoLimit)
-                        chooseVideo.setEnabled(false);
+                        chooseVideo.setVisibility(View.INVISIBLE);
                 }
                 if(code == RESULT_LOAD_IMAGE || code == RESULT_LOAD_IMAGE_CAPTURE) {
                     uploadedImageList.add(name);
                     if(uploadedImageList.size()<=imageLimit)
                         selectedImageName.setText("Files Uploaded :" + uploadedImageList.size() + "/" + imageLimit);
                     if(uploadedImageList.size() == imageLimit)
-                        chooseImage.setEnabled(false);
+                        chooseImage.setVisibility(View.INVISIBLE);
                 }
                 if(code == RESULT_LOAD_AUDIO) {
                     uploadedAudioList.add(name);
                     if(uploadedAudioList.size()<=audioLimit)
                     selectedAudioName.setText("Files Uploaded :" + uploadedAudioList.size() + "/" + audioLimit);
                     if(uploadedAudioList.size() == audioLimit)
-                        chooseAudio.setEnabled(false);
+                        chooseAudio.setVisibility(View.INVISIBLE);
                 }
                 if(code == RESULT_LOAD_DOCUMENT) {
                     uploadedDocumentList.add(name);
                     if(uploadedDocumentList.size()<=documentLimit)
                     selectedFileName.setText("Files Uploaded :" + uploadedDocumentList.size() + "/" + documentLimit);
                     if(uploadedDocumentList.size() == documentLimit)
-                        chooseDocument.setEnabled(false);
+                        chooseDocument.setVisibility(View.INVISIBLE);
                 }
                 uriHashMap.clear();
             }
@@ -446,7 +446,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                 if(!TextUtils.isEmpty(imageDescription.getText())) {
                     //Code to create contributor item
                     //fileUri = UploadedFiles.downLoadUri;
-                    participantItem = new ParticipantItem(userEmail, "trailId", 1234, imageDescription.getText().toString());
+                    participantItem = new ParticipantItem(userName, "trailId", 1234, imageDescription.getText().toString());
                     if(dbUtil.imageUriList != null) {
                         participantItem.setImageUri(dbUtil.imageUriList);
                     }

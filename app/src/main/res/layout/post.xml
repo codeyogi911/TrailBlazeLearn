@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp">
+
+    <!-- ImageViewer to hold user's profile picture -->
+    <ImageView
+        android:id="@+id/image_message_profile"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="8dp"
+        android:background="@android:drawable/presence_online"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- TextView to hold user's name -->
+    <TextView
+        android:id="@+id/text_message_username"
+        android:text="John Doe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/cardview_dark_background"
+        app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <!-- TextView to disppostsage body -->
+    <TextView
+        android:id="@+id/text_message_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:textSize="15dp"
+        android:background="@drawable/rounded_corner2"
+        android:maxWidth="240dp"
+        android:padding="8dp"
+        android:text="hi man, how are youuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+        :) :? ?"
+        android:textColor="@color/cardview_dark_background"
+        app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
+        app:layout_constraintTop_toBottomOf="@+id/text_message_username" />
+
+    <!-- TextView to display time -->
+    <TextView
+        android:id="@+id/text_message_time"
+        android:layout_width="56dp"
+        android:layout_height="26dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="bottom"
+        android:text="11:40"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_message_body"
+        app:layout_constraintStart_toEndOf="@+id/text_message_body" />
+</android.support.constraint.ConstraintLayout>

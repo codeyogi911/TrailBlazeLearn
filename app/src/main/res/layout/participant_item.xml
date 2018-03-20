@@ -6,7 +6,7 @@
     android:id="@+id/participant_item"
     android:layout_margin="10dp"
     card_view:cardCornerRadius="4dp"
-    card_view:cardBackgroundColor="@color/cardview_shadow_start_color">
+    card_view:cardBackgroundColor="@color/cardView">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -15,14 +15,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/participant_name"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/cardview_dark_background"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:id="@+id/participant_description"
             android:layout_below="@+id/participant_name"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:maxLines="3"
+            android:textColor="@color/cardview_dark_background"
             android:paddingTop="10dp"
             />
         <LinearLayout
