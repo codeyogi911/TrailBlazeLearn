@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,12 +48,27 @@ public class TrailStationListActivity extends AppCompatActivity {
     private String trailCode;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.participant_default, menu);
+        return true;
+    }
+
+    public void toRoleSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                RoleSelectActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "Start of onCreate Station List Activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_station_list);
         toolBarStationListActivity = findViewById(R.id.StationListHeader);
-        toolBarStationListActivity.setTitle("Trail Stations");
+        setSupportActionBar(toolBarStationListActivity);
+        getSupportActionBar().setTitle("Trail Stations");
         recyclerView = (RecyclerView) findViewById(R.id.StationRecyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
