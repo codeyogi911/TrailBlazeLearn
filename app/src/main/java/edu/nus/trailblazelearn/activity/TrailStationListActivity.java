@@ -77,7 +77,7 @@ public class TrailStationListActivity extends AppCompatActivity {
 
         //Set mFireStore to call Firebase Collection
 
-        firebaseFirestore.collection("Trail Station")
+        firebaseFirestore.collection("TrailStation")
                 .whereEqualTo("trailCode", trailCode)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
