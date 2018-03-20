@@ -1,7 +1,16 @@
 package edu.nus.trailblazelearn.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +20,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +56,8 @@ public class StationDiscussionActivity extends AppCompatActivity {
     /**
      * An image button object
      */
-    private ImageButton postButton;
-
+    private ImageButton postButton, takePhotoButton;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
     private User user;
     private List<Post> postList;
@@ -53,8 +69,24 @@ public class StationDiscussionActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private TrailStation trailStation;
     private String trailCode;
-    private String stationName;
+    private String stationName, resultMessgae, imageDownloaduri;
+    private Uri imageUri;
+    private StorageReference storageReference;
+    private String userNameDb;
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        userNameDb = (String)user.getData().get("name");
+        imageUri = data.getData();
+            if(requestCode == 1) {
+                Bundle bundle = data.getExtras();
+                Bitmap bmp = (Bitmap) bundle.get("data");
+                imageUri = getImageUri(getApplicationContext(), bmp);
+                resultMessgae = storeImageFileInDb(imageUri, userNameDb, imageUri.getLastPathSegment());
+            }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +110,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
 
         inputMessageBox = findViewById(R.id.edittext_chatbox);
         postButton = findViewById(R.id.sendButton);
+        takePhotoButton = findViewById(R.id.takePhotoButton);
 
         postsRecyclerView = (RecyclerView) findViewById(R.id.layout_recyclerview);
         postsRecyclerView.setHasFixedSize(true);
@@ -137,6 +170,22 @@ public class StationDiscussionActivity extends AppCompatActivity {
                     }
 
                 });
+                if (ContextCompat.checkSelfPermission(this,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA},
+                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                } else {
+                    takePhotoButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent startCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(startCamera, 1);
+                        }
+                    });
+                }
             }
             catch (Exception e)
             {
@@ -161,6 +210,38 @@ public class StationDiscussionActivity extends AppCompatActivity {
         return isValid;
     }
 
+    private Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        Log.d("Image uri :", path);
+        Toast.makeText(StationDiscussionActivity.this, path, Toast.LENGTH_LONG).show();
+        return Uri.parse(path);
+    }
 
+    private String storeImageFileInDb(Uri uri, String userName, String child) {
+        storageReference = FirebaseStorage.getInstance().getReference("activity").child(userName).child(child);
+        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                resultMessgae = "success";
+                imageDownloaduri = taskSnapshot.getDownloadUrl().toString();
+                    Post postObj = new Post();
+                    postObj.setImageUri(imageDownloaduri);
+                    postObj.setUserName(userNameDb);
+                    postObj.setStationID(stationName);
+                    postObj.setTrailCode(trailCode);
+                    new PostHelper().addPost(postObj);
+                    Log.d(TAG, "Successfully added post to the db");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                resultMessgae = "failure";
+                Toast.makeText(StationDiscussionActivity.this, "Image upload failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return resultMessgae;
+    }
 
 }

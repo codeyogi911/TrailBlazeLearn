@@ -29,13 +29,22 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nus Test"
+            android:textSize="40dp"
+            android:textColor="@color/cardview_dark_background"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp"
+            android:id="@+id/station_name_in_activity"
+            android:layout_below="@+id/participant_list_toolbar"/>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/participant_list_toolbar"
+        android:layout_below="@+id/station_name_in_activity"
         android:id="@+id/participant_list_items">
-
-
 
     </android.support.v7.widget.RecyclerView>
     <ProgressBar

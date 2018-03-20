@@ -1,15 +1,18 @@
 package edu.nus.trailblazelearn.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.helper.RetriveImageBitmap;
 import edu.nus.trailblazelearn.model.Post;
 import edu.nus.trailblazelearn.utility.DateUtil;
 
@@ -52,7 +55,17 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.View
     public void onBindViewHolder(PostsListAdapter.ViewHolder holder, int position) {
 
         holder.mUserName.setText(listOfPosts.get(position).getUserName());
-        holder.mMessageText.setText(listOfPosts.get(position).getMessage());
+        if(listOfPosts.get(position).getMessage() != null)
+            holder.postImage.setVisibility(View.GONE);
+            holder.mMessageText.setVisibility(View.VISIBLE);
+            holder.mMessageText.setText(listOfPosts.get(position).getMessage());
+        if(listOfPosts.get(position).getImageUri() != null) {
+            holder.postImage.setVisibility(View.VISIBLE);
+            holder.mMessageText.setVisibility(View.GONE);
+            RetriveImageBitmap retriveImageBitmap = new RetriveImageBitmap(postContext, holder.postImage);
+            retriveImageBitmap.execute(listOfPosts.get(position).getImageUri());
+        }
+            //holder.postImage.setImageURI(Uri.parse(listOfPosts.get(position).getImageUri()));
         String createDateObj = DateUtil.constructDateToStringDate(listOfPosts.get(position).getCreatedDate());
         holder.mCreatedDate.setText(createDateObj);
 
@@ -68,7 +81,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.View
         public TextView mUserName;
         public TextView mMessageText;
         public TextView mCreatedDate;
-
+        public ImageView postImage;
 
 
         public ViewHolder(View v) {
@@ -76,6 +89,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.View
             mUserName = v.findViewById(R.id.text_message_username);
             mMessageText = v.findViewById(R.id.text_message_body);
             mCreatedDate = v.findViewById(R.id.text_message_time);
+            postImage = v.findViewById(R.id.post_image);
         }
 
 

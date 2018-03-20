@@ -18,6 +18,7 @@ public class Post {
 
     private String userName;
     private String message;
+    private String imageUri;
     private Date createdDate = Calendar.getInstance().getTime();
 
 
@@ -50,6 +51,14 @@ public class Post {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 
     public Date getCreatedDate() {
