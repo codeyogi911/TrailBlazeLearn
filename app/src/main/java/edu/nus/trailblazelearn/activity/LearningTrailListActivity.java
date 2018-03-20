@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,14 +53,28 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
     private String userEmail;
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.participant_default, menu);
+        return true;
+    }
 
+    public void toRoleSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                RoleSelectActivity.class);
+        startActivity(intent);
+        finish();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "Start of onCreate API call");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_trail_list);
         toolBarListLearningActivity = findViewById(R.id.tb_trail_list_header);
-        toolBarListLearningActivity.setTitle(getString(R.string.page_heading_learning_list));
+        setSupportActionBar(toolBarListLearningActivity);
+
+        getSupportActionBar().setTitle(getString(R.string.page_heading_learning_list));
         mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
         mProgressBar = findViewById(R.id.pb_trail_list);
         mFireStore = FirebaseFirestore.getInstance();
