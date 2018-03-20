@@ -13,12 +13,17 @@ public interface ApplicationConstants {
     String participantItemListActivity = "ParticipantItemList";
     String trailCodeParam = "trailCode";
     String underScoreConstants = "_";
+    String trailStation = "TrailStation";
+
 
     /***DB Collection related constants**/
     String learningTrailCollection ="LearningTrail";
     String userId="userId";
     String trailCode = "trailCode";
     String email = "email";
+    String stationID = "stationID";
+    String Post = "Post";
+    String createdDate = "createdDate";
 
     /**Toast messages**/
     String toastMessageForDbFailure = "An error occurred,please try later!";
