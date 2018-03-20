@@ -48,6 +48,6 @@
     <string name = "Post_Message">Post Message</string>
 
     <string name="trainer_note">Trainer - You can create Learning trails, trail stations.</string>
-    <string name="participant_note">Participant - You acn participate in trails and record your activities.</string>
+    <string name="participant_note">Participant - You ccn enroll for trails and record your activities.</string>
 
 </resources>
