@@ -25,7 +25,9 @@ import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.PostsListAdapter;
 import edu.nus.trailblazelearn.helper.PostHelper;
 import edu.nus.trailblazelearn.model.Post;
+import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.model.User;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
 public class StationDiscussionActivity extends AppCompatActivity {
 
@@ -49,35 +51,35 @@ public class StationDiscussionActivity extends AppCompatActivity {
     private RecyclerView postsRecyclerView;
 
     private FirebaseFirestore db;
-
-
+    private TrailStation trailStation;
+    private String trailCode;
+    private String stationName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-        Log.d(TAG, "Station Discussion Activity Started: ");
+        Log.d(TAG, "onCreate Started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_list);
         Toolbar messageListToolbar = findViewById(R.id.message_list_toolbar);
         setSupportActionBar(messageListToolbar);
 
-        user = User.getInstance();
-
-        //final String userName = mAuth.getDisplayName());
-        //final String userName = "Hard coded username in StationDiscussionACtivity.java";
+        user = User.getInstance(getApplicationContext());
         final String userName = (String) user.getData().get("name");
-        //System.out.println("Username is " + userName);
+
 
         db = FirebaseFirestore.getInstance();
+        trailStation = (TrailStation) getIntent().getSerializableExtra(ApplicationConstants.trailStation);
 
+        if (trailStation != null) {
+            trailCode = trailStation.getTrailCode();
+            stationName = trailStation.getTrailStationName();
+        }
 
         inputMessageBox = findViewById(R.id.edittext_chatbox);
         postButton = findViewById(R.id.sendButton);
 
-         postsRecyclerView = (RecyclerView) findViewById(R.id.layout_recyclerview);
-
+        postsRecyclerView = (RecyclerView) findViewById(R.id.layout_recyclerview);
         postsRecyclerView.setHasFixedSize(true);
         postList = new ArrayList<Post>();
 
@@ -94,24 +96,18 @@ public class StationDiscussionActivity extends AppCompatActivity {
         //Register context menu with list item
         registerForContextMenu(postsRecyclerView);
 
-        db.collection("Posts")
-                .whereEqualTo("stationID","1234" ).orderBy("createdDate")
+        db.collection(ApplicationConstants.Post)
+                .whereEqualTo(ApplicationConstants.stationID, stationName)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
                                         @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
-                            Log.w(TAG, "Listen failed.", e);
+                            Log.e(TAG, "Listen failed.", e);
                             return;
                         }
-
-
-                        Log.w(TAG,"Query snapshot :"+value.getQuery());
-
                         for (DocumentChange doc : value.getDocumentChanges()) {
-
                             Post postObj= doc.getDocument().toObject(Post.class);
-
                             postList.add(postObj);
                             mAdapter.notifyDataSetChanged();
                         }
@@ -128,16 +124,16 @@ public class StationDiscussionActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-                        Post postObj = new Post();
-                        postObj.setMessage(inputMessageBox.getText().toString());
-                        //final String userName = (String)user.getData().get("name");
-                        postObj.setUserName(userName);
-                        new PostHelper().addPost(postObj);
-                        Log.i(TAG, "Successfully added post to the db" );
-                        inputMessageBox.getText().clear();
-
-
-
+                        if (isValid()) {
+                            Post postObj = new Post();
+                            postObj.setMessage(inputMessageBox.getText().toString());
+                            postObj.setUserName(userName);
+                            postObj.setStationID(stationName);
+                            postObj.setTrailCode(trailCode);
+                            new PostHelper().addPost(postObj);
+                            Log.d(TAG, "Successfully added post to the db");
+                            inputMessageBox.getText().clear();
+                        }
                     }
 
                 });
@@ -159,7 +155,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
     private boolean isValid() {
         boolean isValid = true;
         if (TextUtils.isEmpty(inputMessageBox.getText().toString().trim())) {
-            inputMessageBox.setError("ATLEAST ENTER A MESSAGE BRO!");
+            inputMessageBox.setError(getString(R.string.valid_message_discussion));
             isValid = false;
         }
         return isValid;

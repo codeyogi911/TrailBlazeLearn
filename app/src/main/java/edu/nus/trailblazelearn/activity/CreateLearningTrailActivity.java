@@ -57,7 +57,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         edTrailStartDate = findViewById(R.id.et_trail_startdate);
         edTrailEndDate = findViewById(R.id.et_trail_enddate);
 
-        user = User.getInstance();
+        user = User.getInstance(this);
         userEmail = (String) user.getData().get(ApplicationConstants.email);
 
         try {

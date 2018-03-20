@@ -22,8 +22,8 @@
     <string name="trail_save_successful">Trail details saved successfully</string>
     <string name="trail_name">Trail Name</string>
     <string name="trail_description">Learning Trail Description</string>
-    <string name="trail_startdate">Select Start Date</string>
-    <string name="trail_enddate">Select End Date</string>
+    <string name="trail_startdate">Select Trail Start Date</string>
+    <string name="trail_enddate">Select Trail End Date</string>
     <string name="save">Save</string>
     <string name="dialog_enter_trail_code">Enter Trail Code</string>
     <string name="add">ADD</string>
@@ -49,5 +49,6 @@
 
     <string name="trainer_note">Trainer - You can create Learning trails, trail stations.</string>
     <string name="participant_note">Participant - You ccn enroll for trails and record your activities.</string>
+    <string name="valid_message_discussion">Please enter message</string>
 
 </resources>

@@ -64,7 +64,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         mProgressBar = findViewById(R.id.pb_trail_list);
         mFireStore = FirebaseFirestore.getInstance();
 
-        user = User.getInstance();
+        user = User.getInstance(this);
         userEmail = (String) user.getData().get(ApplicationConstants.email);
 
 

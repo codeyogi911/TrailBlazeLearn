@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="8dp">
@@ -21,16 +19,15 @@
     <!-- TextView to hold user's name -->
     <TextView
         android:id="@+id/text_message_username"
-        android:text="John Doe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:textColor="@color/cardview_dark_background"
         app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="4dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- TextView to disppostsage body -->
     <TextView
@@ -39,13 +36,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
-        android:textSize="15dp"
         android:background="@drawable/rounded_corner2"
         android:maxWidth="240dp"
         android:padding="8dp"
-        android:text="hi man, how are youuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
-        :) :? ?"
+        android:text="hi :) :? ?"
         android:textColor="@color/cardview_dark_background"
+        android:textSize="15dp"
         app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
         app:layout_constraintTop_toBottomOf="@+id/text_message_username" />
 
