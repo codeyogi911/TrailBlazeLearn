@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -52,6 +53,9 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail);
         toolBarLearningActivity = findViewById(R.id.tb_trail_header);
+        setSupportActionBar(toolBarLearningActivity);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         edTrailName = findViewById(R.id.et_trail_name);
         edTrailDescription = findViewById(R.id.et_trail_description);
         edTrailStartDate = findViewById(R.id.et_trail_startdate);
@@ -70,7 +74,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
 
             if (editMode) {
                 Log.d(TAG, "Edit Trail Obj data for Trail Code::" + editTrailObj.getTrailCode());
-                toolBarLearningActivity.setTitle(getString(R.string.page_edit_heading_learning));
+                getSupportActionBar().setTitle(getString(R.string.page_edit_heading_learning));
                 edTrailName.setText(editTrailObj.getTrailName());
                 edTrailName.setEnabled(false);
                 edTrailDescription.setText(editTrailObj.getTrailDescription());
@@ -85,7 +89,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
 
 
             } else {
-                toolBarLearningActivity.setTitle(getString(R.string.page_heading_learning));
+                getSupportActionBar().setTitle(getString(R.string.page_heading_learning));
                 Log.d(TAG, "edTrailStartDate..." + edTrailStartDate.getText().toString());
                 if (edTrailStartDate.getText().toString().equals("") || edTrailStartDate.getText().toString() == null) {
                     edTrailEndDate.setEnabled(false);
@@ -220,6 +224,11 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
 
         Log.d(TAG, "End of onCreate API");
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
     }
 
     /**

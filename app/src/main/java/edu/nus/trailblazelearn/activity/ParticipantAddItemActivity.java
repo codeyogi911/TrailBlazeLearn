@@ -325,7 +325,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                     uploadedVideoList.add(name);
                     if(uploadedVideoList.size() > 0)
                         selectedVideoName.setText("Files Uploaded :" + uploadedVideoList.size());
-                    
+
                 }
                 if(code == RESULT_LOAD_IMAGE || code == RESULT_LOAD_IMAGE_CAPTURE) {
                     uploadedImageList.add(name);

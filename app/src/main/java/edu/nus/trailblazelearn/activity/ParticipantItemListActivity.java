@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -43,6 +44,7 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
         Toolbar toolbar = findViewById(R.id.tb_participant_item_list_header);
+        TextView stationName = findViewById(R.id.station_name_in_activity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -53,6 +55,8 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         participantItemAdapter = new ParticipantItemAdapter(getApplicationContext(), participantItemArrayList);
         recyclerView.setAdapter(participantItemAdapter);
         trailStation = (TrailStation) getIntent().getSerializableExtra("TrailStation");
+        getSupportActionBar().setTitle("Activities - " + trailStation.getStationId());
+        stationName.setText(trailStation.getTrailStationName());
 
         FirebaseFirestore.getInstance().collection("participantActivities")
                 .whereEqualTo("trailStationId",trailStation.getStationId())
