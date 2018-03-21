@@ -323,31 +323,27 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                 addItemProgressbar.setVisibility(View.VISIBLE);
                 if(code == RESULT_LOAD_VIDEO || code == RESULT_LOAD_VIDEO_CAPTURE) {
                     uploadedVideoList.add(name);
-                    if(uploadedVideoList.size()<= videoLimit)
-                        selectedVideoName.setText("Files Uploaded :" + uploadedVideoList.size() + "/" + videoLimit);
-                    if(uploadedVideoList.size() == videoLimit)
-                        chooseVideo.setVisibility(View.INVISIBLE);
+                    if(uploadedVideoList.size() > 0)
+                        selectedVideoName.setText("Files Uploaded :" + uploadedVideoList.size());
+                    
                 }
                 if(code == RESULT_LOAD_IMAGE || code == RESULT_LOAD_IMAGE_CAPTURE) {
                     uploadedImageList.add(name);
-                    if(uploadedImageList.size()<=imageLimit)
-                        selectedImageName.setText("Files Uploaded :" + uploadedImageList.size() + "/" + imageLimit);
-                    if(uploadedImageList.size() == imageLimit)
-                        chooseImage.setVisibility(View.INVISIBLE);
+                    if(uploadedImageList.size() > 0)
+                        selectedImageName.setText("Files Uploaded :" + uploadedImageList.size());
+
                 }
                 if(code == RESULT_LOAD_AUDIO) {
                     uploadedAudioList.add(name);
-                    if(uploadedAudioList.size()<=audioLimit)
-                    selectedAudioName.setText("Files Uploaded :" + uploadedAudioList.size() + "/" + audioLimit);
-                    if(uploadedAudioList.size() == audioLimit)
-                        chooseAudio.setVisibility(View.INVISIBLE);
+                    if(uploadedAudioList.size() > 0)
+                    selectedAudioName.setText("Files Uploaded :" + uploadedAudioList.size());
+
                 }
                 if(code == RESULT_LOAD_DOCUMENT) {
                     uploadedDocumentList.add(name);
-                    if(uploadedDocumentList.size()<=documentLimit)
-                    selectedFileName.setText("Files Uploaded :" + uploadedDocumentList.size() + "/" + documentLimit);
-                    if(uploadedDocumentList.size() == documentLimit)
-                        chooseDocument.setVisibility(View.INVISIBLE);
+                    if(uploadedDocumentList.size() > 0)
+                    selectedFileName.setText("Files Uploaded :" + uploadedDocumentList.size());
+
                 }
                 uriHashMap.clear();
             }
