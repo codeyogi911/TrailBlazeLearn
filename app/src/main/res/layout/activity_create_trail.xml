@@ -56,16 +56,16 @@
 
     <EditText
         android:id="@+id/et_trail_startdate"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="60dp"
         android:drawableLeft="@drawable/ic_date_range_black_24dp"
-        android:shadowColor="@color/cardView"
         android:focusableInTouchMode="false"
         android:hint="@string/trail_startdate"
         android:inputType="date"
+        android:shadowColor="@color/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +74,7 @@
 
     <EditText
         android:id="@+id/et_trail_enddate"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
