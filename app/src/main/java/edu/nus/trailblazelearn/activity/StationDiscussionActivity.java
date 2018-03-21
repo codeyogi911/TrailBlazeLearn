@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -95,6 +96,8 @@ public class StationDiscussionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message_list);
         Toolbar messageListToolbar = findViewById(R.id.message_list_toolbar);
         setSupportActionBar(messageListToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user = User.getInstance(getApplicationContext());
         final String userName = (String) user.getData().get("name");
@@ -195,6 +198,11 @@ public class StationDiscussionActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
     }
 
     /**
