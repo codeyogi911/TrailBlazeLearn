@@ -1,6 +1,7 @@
 package edu.nus.trailblazelearn.model;
 
 import java.io.Serializable;
+import edu.nus.trailblazelearn.model.User;
 
 /**
  * Created by Dharini.
@@ -13,7 +14,18 @@ public class TrailStation implements Serializable {
     private String trailCode;
     private String stationInstructions;
     private String userId;
+    private Integer stationId;
     private int sequence;
+    private User user;
+
+    public void setStationId(Integer stationId) {
+        this.stationId = stationId;
+    }
+
+    public Integer getStationId() {
+
+        return stationId;
+    }
 
     public TrailStation() {
         this.trailStationName = trailStationName;
@@ -21,6 +33,7 @@ public class TrailStation implements Serializable {
         this.stationInstructions = stationInstructions;
         this.userId = userId;
         this.sequence = sequence;
+        this.stationId = stationId;
     }
 
     public String getUserId() {

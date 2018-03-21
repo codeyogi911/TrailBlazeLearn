@@ -7,6 +7,16 @@
     tools:context="edu.nus.trailblazelearn.activity.CreateTrailStationActivity">
 
 
+    <TextView
+        android:id="@+id/getPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="88dp"
+        android:gravity="center_horizontal"
+        android:text="Get Place"
+        app:layout_constraintBottom_toTopOf="@id/station_instructions"
+        app:layout_constraintLeft_toRightOf="@id/btn_search" />
+
     <EditText
         android:id="@+id/station_name"
         android:layout_width="match_parent"
@@ -66,16 +76,10 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_trail_header"
-        android:layout_width="368dp"
+        android:id="@+id/trail_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toTopOf="@+id/StationName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

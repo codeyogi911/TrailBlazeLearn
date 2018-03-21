@@ -180,14 +180,17 @@ public class TrailStationListActivity extends AppCompatActivity {
                 trailStationAdapter.notifyDataSetChanged();
                 return true;
             case R.id.delete_menu_item:
-                Log.d(TAG, "Station name.." + trailStationList.get(position).getTrailStationName());
-                firebaseFirestore.collection("TrailStation").document("/" + trailStationList.get(position).getTrailStationName())
+                Log.d(TAG, "Station name.." + trailStationList.get(position).getStationId());
+                String stationId = trailStationList.get(position).getStationId().toString();
+                final String stationDeleted = trailStationList.get(position).getTrailStationName().toString();
+                firebaseFirestore.collection("TrailStation").document(stationId)
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 trailStationAdapter.removeTrailStation(trailStationList.get(position));
                                 Log.d(TAG, "Station Deleted" + trailStationList.size());
+                                Toast.makeText(TrailStationListActivity.this,stationDeleted + " Station deleted Successfully", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

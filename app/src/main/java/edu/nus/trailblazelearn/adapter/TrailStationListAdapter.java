@@ -2,6 +2,7 @@ package edu.nus.trailblazelearn.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -27,6 +33,7 @@ public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationLi
     public int itemPosition;
     private List<TrailStation> trailStationList;
     private Context context;
+    public FirebaseFirestore firebaseFirestore;
 
     public TrailStationListAdapter(List<TrailStation> trailStationList, Context context) {
         this.trailStationList = trailStationList;
@@ -58,7 +65,7 @@ public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationLi
             public void onItemLongClick(int position) {
                 itemPosition = position;
                 final TrailStation trailStationObj = trailStationList.get(itemPosition);
-                Toast.makeText(context, trailStationObj.getTrailCode(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, trailStationObj.getTrailCode(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -76,6 +83,7 @@ public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationLi
         trailStationList.remove(currPosition);
         notifyItemRemoved(currPosition);
     }
+
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {

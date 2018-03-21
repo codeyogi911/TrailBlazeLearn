@@ -18,6 +18,8 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
     Button btnActivities, btnPost;
     TextView stationName, stationInstructions;
     TrailStation trailStationbj;
+    StringBuilder stringBuilderName= new StringBuilder("Station Name:");
+    StringBuilder stringBuilderInstructions = new StringBuilder("Instructions:");
     Context context;
     Toolbar toolbar;
 
@@ -30,9 +32,11 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         trailStationbj = (TrailStation) intent.getSerializableExtra("TrailStation");
         stationName = (TextView) findViewById(R.id.StationName);
         stationInstructions = (TextView) findViewById(R.id.StationInstructions);
-        stationName.setText(trailStationbj.getTrailStationName().toString());
-        stationInstructions.setText(trailStationbj.getStationInstructions().toString());
-        toolbar.setTitle("Trail Station");
+        stringBuilderName.append(trailStationbj.getTrailStationName().toString());
+        stringBuilderInstructions.append(trailStationbj.getStationInstructions().toString());
+        stationName.setText(stringBuilderName);
+        stationInstructions.setText(stringBuilderInstructions);
+        toolbar.setTitle("Trail Station Details -" +stationName);
     }
 
     public void participantListRedirection(View v) {
