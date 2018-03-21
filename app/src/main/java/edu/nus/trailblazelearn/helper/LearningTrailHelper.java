@@ -26,7 +26,7 @@ public class LearningTrailHelper {
     /**
      * API to invoke DB passing the
      * object which needs to be persisted.
-     * @param trailObj
+     * @param trailObj of type LearningTrail
      */
     public void createTrail(LearningTrail trailObj) throws TrailHelperException {
         try {
@@ -41,7 +41,7 @@ public class LearningTrailHelper {
     /**
      * API to invoke DB passing the
      * object which needs to be persisted.
-     * @param trailObj
+     * @param trailObj of type LearningTrail
      */
     public void updateTrail(LearningTrail trailObj) throws TrailHelperException {
         try {

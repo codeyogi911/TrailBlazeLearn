@@ -42,18 +42,17 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         final ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.VISIBLE);
         FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.tb_participant_item_list_header);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         RecyclerView recyclerView = findViewById(R.id.participant_list_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //ArrayList<ParticipantItem> participantItemArrayList = dbUtil.getParticipantItems("Ragu", progressBar, );
         participantItemAdapter = new ParticipantItemAdapter(getApplicationContext(), participantItemArrayList);
         recyclerView.setAdapter(participantItemAdapter);
-        Intent intent = new Intent();
-        trailStation = (TrailStation) intent.getSerializableExtra("TrailStation");
+        trailStation = (TrailStation) getIntent().getSerializableExtra("TrailStation");
 
         FirebaseFirestore.getInstance().collection("participantActivities")
                 .whereEqualTo("trailStationId",trailStation.getStationId())

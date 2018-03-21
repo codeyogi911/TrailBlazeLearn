@@ -24,6 +24,7 @@ public interface ApplicationConstants {
     String stationID = "stationID";
     String Post = "Post";
     String createdDate = "createdDate";
+    String users = "users";
 
     /**Toast messages**/
     String toastMessageForDbFailure = "An error occurred,please try later!";
