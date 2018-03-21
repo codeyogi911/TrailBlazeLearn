@@ -77,7 +77,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerAdapter();
+        adapter = new RecyclerAdapter(this);
         recyclerView.setAdapter(adapter);
 
     }
