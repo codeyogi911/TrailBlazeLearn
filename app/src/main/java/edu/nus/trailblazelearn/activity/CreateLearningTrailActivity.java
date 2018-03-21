@@ -232,7 +232,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         try {
             LearningTrail updatedTrailObj = pouplateTrail();
             if (isValidForEditTrail(updatedTrailObj)) {
-                /**Construct Helper to call DB and persist data**/
+                //Construct Helper to call DB and persist data
                 LearningTrailHelper trailHelper = new LearningTrailHelper();
                 trailHelper.createTrail(updatedTrailObj);
                 updateOperationSuccess = true;
@@ -265,7 +265,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
 
                 LearningTrail pouplatedTrailObj = pouplateTrail();
 
-                /**Construct Helper to call DB and persist data**/
+                //Construct Helper to call DB and persist data
                 LearningTrailHelper trailHelper = new LearningTrailHelper();
                 trailHelper.createTrail(pouplatedTrailObj);
                 addOperationSuccess = true;
@@ -287,7 +287,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
 
     /**
      * API to validate each field on trail learn page
-     * @return
+     * @return boolean
      */
     private boolean isValid() {
         boolean isValid = true;
@@ -310,10 +310,10 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
             edTrailEndDate.setError(getString(R.string.trail_endDate_validation_msg));
             isValid = false;
         }
-        /*if (DateUtil.compareStartDateWithEndDate(edTrailStartDate.getText().toString().trim(), edTrailEndDate.getText().toString().trim())) {
+        if (DateUtil.compareStartDateWithEndDate(edTrailStartDate.getText().toString().trim(), edTrailEndDate.getText().toString().trim())) {
             edTrailEndDate.setError(getString(R.string.trail_endDate_validation_less_startDate_msg));
             isValid = false;
-        }*/
+        }
 
         return isValid;
     }
@@ -322,7 +322,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
      * API to validate the fields
      * edited during edit mode.
      *
-     * @return
+     * @return boolean
      */
 
     private boolean isValidForEditTrail(LearningTrail editObj) {
@@ -346,7 +346,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
     /**
      * API pouplating Learning Trail
      * from the UI fields
-     * @return
+     * @return boolean
      */
     private LearningTrail pouplateTrail(){
         Log.d(TAG, "Start of pouplateTrail API");
@@ -374,8 +374,8 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
     /**
      * API to form trail code
      * @param startDate
-     * @param trailName
-     * @return
+     * @param trailName Name of trail
+     * @return String
      */
     private String constructTrailCode(String startDate, String trailName) throws TrailActivityException {
         Log.d(TAG, "Start of constructTrailCode API");

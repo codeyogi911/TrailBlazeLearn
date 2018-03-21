@@ -9,21 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.nus.trailblazelearn.R;
-import edu.nus.trailblazelearn.activity.ParticipantAddItemActivity;
 import edu.nus.trailblazelearn.activity.ParticipantContributedItemsActivity;
-import edu.nus.trailblazelearn.activity.ParticipantItemListActivity;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.User;
-import edu.nus.trailblazelearn.utility.dbUtil;
 
 /**
  * Created by dpak1 on 3/10/2018.
@@ -32,7 +27,7 @@ import edu.nus.trailblazelearn.utility.dbUtil;
 public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItemAdapter.ViewHolder> {
     private static Context context;
     private ViewHolder viewHolder;
-    private User user = User.getInstance();
+    private User user = User.getInstance(this);
     private String userEmail = (String) user.getData().get("email");
     private ProgressBar progressBar;
     private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
@@ -53,25 +48,24 @@ public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItem
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.participantName.setText(participantItemArrayList.get(position).getUserId());
-        if(participantItemArrayList.get(position).getDescription().length() > 100) {
-            holder.participantDescription.setText("   "+participantItemArrayList.get(position).getDescription().substring(0, 100) + " ...");
+        if (participantItemArrayList.get(position).getDescription().length() > 100) {
+            holder.participantDescription.setText("   " + participantItemArrayList.get(position).getDescription().substring(0, 100) + " ...");
+        } else {
+            holder.participantDescription.setText("   " + participantItemArrayList.get(position).getDescription());
         }
-        else {
-            holder.participantDescription.setText("   "+participantItemArrayList.get(position).getDescription());
-        }
-        if(participantItemArrayList.get(position).getImageUri() != null) {
+        if (participantItemArrayList.get(position).getImageUri() != null) {
             if (participantItemArrayList.get(position).getImageUri().size() == 0)
                 holder.videoIcon.setVisibility(View.INVISIBLE);
         }
-        if(participantItemArrayList.get(position).getVideoUri() != null) {
+        if (participantItemArrayList.get(position).getVideoUri() != null) {
             if (participantItemArrayList.get(position).getVideoUri().size() == 0)
                 holder.videoIcon.setVisibility(View.INVISIBLE);
         }
-        if(participantItemArrayList.get(position).getAudioUri() != null) {
+        if (participantItemArrayList.get(position).getAudioUri() != null) {
             if (participantItemArrayList.get(position).getAudioUri().size() == 0)
                 holder.audioIcon.setVisibility(View.INVISIBLE);
         }
-        if(participantItemArrayList.get(position).getFileUri() != null) {
+        if (participantItemArrayList.get(position).getFileUri() != null) {
             if (participantItemArrayList.get(position).getFileUri().size() == 0)
                 holder.fileIcon.setVisibility(View.INVISIBLE);
         }
@@ -82,9 +76,9 @@ public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItem
             public void onClick(View v) {
                 int itemPosition = holder.getAdapterPosition();
                 Intent intent = new Intent(context, ParticipantContributedItemsActivity.class);
-                Log.d("ADAPTER_LOG",participantItemArrayList.get(itemPosition).getImageUri().get(0));
+                Log.d("ADAPTER_LOG", participantItemArrayList.get(itemPosition).getImageUri().get(0));
 
-                intent.putExtra("participantItems", (ParticipantItem)participantItemArrayList.get(itemPosition));
+                intent.putExtra("participantItems", (ParticipantItem) participantItemArrayList.get(itemPosition));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

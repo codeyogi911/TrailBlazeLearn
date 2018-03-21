@@ -21,7 +21,7 @@ import edu.nus.trailblazelearn.activity.ParticipantDefault;
 import edu.nus.trailblazelearn.activity.RoleSelectActivity;
 import edu.nus.trailblazelearn.activity.TrainerDefault;
 import edu.nus.trailblazelearn.exception.NetworkError;
-import edu.nus.trailblazelearn.utility.dbUtil;
+import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class User {
     private static final String TAG = "User.CLASS";
@@ -29,7 +29,7 @@ public class User {
     private static AppCompatActivity context;
     private Map<String, Object> data = new HashMap<>();
     private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
-    private dbUtil dbUtil = new dbUtil();
+    private DbUtil dbUtil = new DbUtil();
 
     private User() {
         initialize();

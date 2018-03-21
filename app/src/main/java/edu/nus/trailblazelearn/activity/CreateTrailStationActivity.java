@@ -21,13 +21,9 @@ import java.util.Random;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
-import edu.nus.trailblazelearn.exception.TrailHelperException;
-import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
-import edu.nus.trailblazelearn.utility.dbUtil;
-
-import static edu.nus.trailblazelearn.utility.DateUtil.constructDateToStringDate;
+import edu.nus.trailblazelearn.utility.DbUtil;
 
 
 public class CreateTrailStationActivity extends AppCompatActivity {
@@ -35,13 +31,13 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     private static final String TAG = "CreateTrailStation";
     public static FirebaseFirestore firebaseStorage;
     private static StorageReference storageReference;
+    Toolbar toolbar;
     private EditText edstationName, edinstructions;
     private TextView txtDetails;
     private Button btnSave, btnSearch;
     private String trailCode;
     private Integer stationId;
     private boolean editStation;
-    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +137,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
         Log.d("stationId", stationId.toString());
         if (!TextUtils.isEmpty(stationId.toString())) {
             try {
-                dbUtil.addRecordForCollection("TrailStation", trailStation, stationId.toString());
+                DbUtil.addRecordForCollection("TrailStation", trailStation, stationId.toString());
                 if (!editStation)
                     Toast.makeText(CreateTrailStationActivity.this, "Station Created Successfully", Toast.LENGTH_SHORT).show();
             }

@@ -31,7 +31,7 @@ import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 
-public final class dbUtil {
+public final class DbUtil {
     private static final String TAG = "dbUtil";
     public static FirebaseFirestore db;
     public static Uri fileUri;

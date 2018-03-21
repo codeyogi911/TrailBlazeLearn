@@ -28,11 +28,11 @@ import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.RecyclerAdapter;
 import edu.nus.trailblazelearn.fragment.SelectTrailDialogFragment;
 import edu.nus.trailblazelearn.model.User;
-import edu.nus.trailblazelearn.utility.dbUtil;
+import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class ParticipantDefault extends AppCompatActivity implements SelectTrailDialogFragment.NoticeDialogListener {
     private static final String TAG = "PDActivity";
-    dbUtil dbUtil = new dbUtil();
+    DbUtil dbUtil = new DbUtil();
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;

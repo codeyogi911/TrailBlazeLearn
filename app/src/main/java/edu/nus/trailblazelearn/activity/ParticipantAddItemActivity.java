@@ -1,6 +1,5 @@
 package edu.nus.trailblazelearn.activity;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,19 +7,17 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.StrictMode;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -34,25 +31,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.helper.AddParticipantItemHelper;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.UploadedFiles;
 import edu.nus.trailblazelearn.model.User;
-import edu.nus.trailblazelearn.utility.dbUtil;
+import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class ParticipantAddItemActivity extends AppCompatActivity {
+    private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int RESULT_LOAD_AUDIO = 2;
+    private static final int RESULT_LOAD_DOCUMENT = 4;
+    private static final int RESULT_LOAD_VIDEO = 3;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private static final int RESULT_LOAD_IMAGE_CAPTURE = 5;
+    private static final int RESULT_LOAD_VIDEO_CAPTURE = 6;
     Button createActivity;
     TextView selectedImageName, selectedAudioName, selectedVideoName, selectedFileName;
     AddParticipantItemHelper addParticipantItemHelper;
@@ -62,39 +63,54 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     ImageButton imageButtonPlay, imageButtonPause, imageButtonStop, chooseImage, chooseAudio, chooseVideo, chooseDocument;
     TextView audioName, documentName;
     ProgressBar addItemProgressbar;
-    private static final int RESULT_LOAD_IMAGE = 1;
-    private static final int RESULT_LOAD_AUDIO = 2;
-    private static final int RESULT_LOAD_DOCUMENT = 4;
-    private static final int RESULT_LOAD_VIDEO = 3;
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private static final int RESULT_LOAD_IMAGE_CAPTURE = 5;
-    private static final int RESULT_LOAD_VIDEO_CAPTURE = 6;
-    private HashMap<String, Uri> uriHashMap = new HashMap<>();
-    private ArrayList<Uri> uriArrayList = new ArrayList<>();
     Uri selectedFile;
     String imageURL = null;
     String[] documentTypes = {"text/*", "application/pdf", "application/msword"};
     String[] addImageItems = {"camera", "gallary"};
     String[] addVideoItems = {"Record", "Gallary"};
+    ArrayList<String> fileUri = null;
+    SharedPreferences sharedPref;
+    Date today = new Date();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_DD");
+    private HashMap<String, Uri> uriHashMap = new HashMap<>();
+    private ArrayList<Uri> uriArrayList = new ArrayList<>();
     private User user;
     private String userName;
     private UploadedFiles uploadedFiles;
-    ArrayList<String> fileUri = null;
     private ArrayList<String> uploadedVideoList = new ArrayList<>();
     private ArrayList<String> uploadedImageList = new ArrayList<>();
     private ArrayList<String> uploadedAudioList = new ArrayList<>();
     private ArrayList<String> uploadedDocumentList = new ArrayList<>();
     private ParticipantItem participantItem;
     private int imageLimit;
+
+    //String[] imageTypes = {"image/png"};
     private int videoLimit;
     private int audioLimit;
     private int documentLimit;
 
-    //String[] imageTypes = {"image/png"};
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
 
-    SharedPreferences sharedPref;
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
 
-
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,8 +213,6 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         }
     }
 
-        Date today = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_DD");
     private void dialogUpload(final Uri uri, final int code, final String name) {
         View dialogView = null;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ParticipantAddItemActivity.this);
@@ -344,31 +358,6 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         return mediaPlayer;
     }
 
-
-    public static String getDataColumn(Context context, Uri uri, String selection,
-                                       String[] selectionArgs) {
-
-        Cursor cursor = null;
-        final String column = "_data";
-        final String[] projection = {
-                column
-        };
-
-        try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                    null);
-            if (cursor != null && cursor.moveToFirst()) {
-                final int index = cursor.getColumnIndexOrThrow(column);
-                return cursor.getString(index);
-            }
-        } finally {
-            if (cursor != null)
-                cursor.close();
-        }
-        return null;
-    }
-
-
     private void onclickListeners() {
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -447,20 +436,20 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                     //Code to create contributor item
                     //fileUri = UploadedFiles.downLoadUri;
                     participantItem = new ParticipantItem(userName, "trailId", 1234, imageDescription.getText().toString());
-                    if(dbUtil.imageUriList != null) {
-                        participantItem.setImageUri(dbUtil.imageUriList);
+                    if (DbUtil.imageUriList != null) {
+                        participantItem.setImageUri(DbUtil.imageUriList);
                     }
-                    if(dbUtil.videoUriList != null) {
-                        participantItem.setVideoUri(dbUtil.videoUriList);
+                    if (DbUtil.videoUriList != null) {
+                        participantItem.setVideoUri(DbUtil.videoUriList);
                     }
-                    if(dbUtil.audioUriList != null) {
-                        participantItem.setAudioUri(dbUtil.audioUriList);
+                    if (DbUtil.audioUriList != null) {
+                        participantItem.setAudioUri(DbUtil.audioUriList);
                     }
-                    if(dbUtil.documentUriList != null) {
-                        participantItem.setFileUri(dbUtil.documentUriList);
+                    if (DbUtil.documentUriList != null) {
+                        participantItem.setFileUri(DbUtil.documentUriList);
                     }
 
-                    dbUtil.addObjectToDB("participantActivities", participantItem);
+                    DbUtil.addObjectToDB("participantActivities", participantItem);
                     finish();
                 }
                 else {

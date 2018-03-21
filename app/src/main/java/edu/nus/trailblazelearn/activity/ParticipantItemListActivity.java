@@ -1,9 +1,9 @@
 package edu.nus.trailblazelearn.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,12 +26,12 @@ import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
-import edu.nus.trailblazelearn.utility.dbUtil;
 
 public class ParticipantItemListActivity extends AppCompatActivity {
+    private static final String TAG = ApplicationConstants.participantItemListActivity;
 private ParticipantItemAdapter participantItemAdapter;
 private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
-private static final String TAG = ApplicationConstants.participantItemListActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
