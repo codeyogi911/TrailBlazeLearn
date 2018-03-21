@@ -41,7 +41,7 @@ public class TrainerDefault extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        trainer = User.getInstance();
+        trainer = User.getInstance(this);
         trainer.grantTrainer();
 //        localDB localDB = new localDB();
 //        Map<String,Object> map = localDB.getFromLocal("user.map");

@@ -58,7 +58,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         setContentView(R.layout.activity_participant_default);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        participant = User.getInstance();
+        participant = User.getInstance(this);
         participant.grantParticipant();
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

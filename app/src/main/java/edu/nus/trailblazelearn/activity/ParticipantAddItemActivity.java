@@ -121,7 +121,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_add_item);
-        user = User.getInstance();
+        user = User.getInstance(this);
         userName = (String) user.getData().get("name");
 
         sharedPref = getApplicationContext().getSharedPreferences("CONSTANTS", Context.MODE_PRIVATE);

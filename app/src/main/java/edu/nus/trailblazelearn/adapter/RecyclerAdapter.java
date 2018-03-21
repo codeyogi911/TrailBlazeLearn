@@ -41,7 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public RecyclerAdapter(Object object) {
         appCompatActivity = (AppCompatActivity) object;
-        final List<String> t = (List<String>) User.getInstance().getData().get("enrolledTrails");
+        final List<String> t = (List<String>) User.getInstance(this).getData().get("enrolledTrails");
         List<String> df = new ArrayList<>();
         df.add("Default");
         enrolledTrails = t == null ? df : t;

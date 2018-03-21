@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TrailBlazeLearn</string>
     <!--Facebook Login Data-->
-    <string name="facebook_app_id">2138573943050953</string>
+    <string name="facebook_application_id">2138573943050953</string>
     <string name="fb_login_protocol_scheme">fb2138573943050953</string>
 
     <string name="title_activity_login">Sign in</string>
@@ -50,5 +50,7 @@
     <string name="trainer_note">Trainer - You can create Learning trails, trail stations.</string>
     <string name="participant_note">Participant - You ccn enroll for trails and record your activities.</string>
     <string name="valid_message_discussion">Please enter message</string>
+    <string name="exit">Exit</string>
+    <string name="network_error_txt">Sorry communication with server was lost!</string>
 
 </resources>

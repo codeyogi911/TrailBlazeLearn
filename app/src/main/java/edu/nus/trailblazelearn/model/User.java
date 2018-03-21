@@ -43,9 +43,9 @@ public class User {
         return user;
     }
 
-    public static User getInstance() {
-        return getInstance(null);
-    }
+//    public static User getInstance() {
+//        return getInstance(null);
+//    }
 
     public static void signOut() {
         user = null;
