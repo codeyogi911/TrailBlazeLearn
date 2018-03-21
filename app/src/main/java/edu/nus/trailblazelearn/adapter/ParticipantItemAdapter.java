@@ -27,13 +27,13 @@ import edu.nus.trailblazelearn.model.User;
 public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItemAdapter.ViewHolder> {
     private static Context context;
     private ViewHolder viewHolder;
-    private User user = User.getInstance(this);
+    private User user = User.getInstance();
     private String userEmail = (String) user.getData().get("email");
     private ProgressBar progressBar;
     private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
 
     public ParticipantItemAdapter(Context context, ArrayList<ParticipantItem> participantItemArrayList) {
-        this.context = context;
+        ParticipantItemAdapter.context = context;
         this.participantItemArrayList = participantItemArrayList;
     }
 
@@ -78,7 +78,7 @@ public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItem
                 Intent intent = new Intent(context, ParticipantContributedItemsActivity.class);
                 Log.d("ADAPTER_LOG", participantItemArrayList.get(itemPosition).getImageUri().get(0));
 
-                intent.putExtra("participantItems", (ParticipantItem) participantItemArrayList.get(itemPosition));
+                intent.putExtra("participantItems", participantItemArrayList.get(itemPosition));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

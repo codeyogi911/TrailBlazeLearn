@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,7 +47,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     }
 
     public void toRoleSelect(MenuItem menuItem) {
-        participant.revokeParticipant();
+//        participant.revokeParticipant();
         Intent intent = new Intent(getApplicationContext(), RoleSelectActivity.class);
         startActivity(intent);
         finish();
@@ -72,13 +73,20 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
             }
         });
 
-        recyclerView =
-                findViewById(R.id.recycler_view);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        if (participant.getData().get("enrolledTrails") != null) {
+            recyclerView =
+                    findViewById(R.id.recycler_view);
+            layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerAdapter(this);
-        recyclerView.setAdapter(adapter);
+            adapter = new RecyclerAdapter(this);
+            recyclerView.setAdapter(adapter);
+            TextView appCompatTextView = findViewById(R.id.trailnotfound_txt);
+            appCompatTextView.setVisibility(View.GONE);
+//            appCompatTextView.re
+            findViewById(R.id.recycler_view_fragment).setVisibility(View.VISIBLE);
+        }
+
 
     }
 

@@ -36,16 +36,17 @@ public class User {
     }
 
     public static User getInstance(Object context1) {
-        if (user == null) {
+        if (context1 != null)
             context = (AppCompatActivity) context1;
+        if (user == null) {
             user = new User();
         }
         return user;
     }
 
-//    public static User getInstance() {
-//        return getInstance(null);
-//    }
+    public static User getInstance() {
+        return getInstance(null);
+    }
 
     public static void signOut() {
         user = null;
@@ -111,21 +112,13 @@ public class User {
 
     public void grantTrainer() {
         data.put("isTrainer", true);
+        data.put("isParticipant", false);
         save();
     }
 
     public void grantParticipant() {
         data.put("isParticipant", true);
-        save();
-    }
-
-    public void revokeTrainer() {
-        data.remove("isTrainer");
-        save();
-    }
-
-    public void revokeParticipant() {
-        data.remove("isParticipant");
+        data.put("isTrainer", false);
         save();
     }
 
@@ -167,16 +160,16 @@ public class User {
 
     public void unenrollforTrail(String trailID) {
 //        if (isParticipant()) {
-            List<String> list = (List<String>) data.get("enrolledTrails");
-            if (list != null) {
-                list.remove(list.indexOf(trailID));
-            }
+        List<String> list = (List<String>) data.get("enrolledTrails");
+        if (list != null) {
+            list.remove(list.indexOf(trailID));
+        }
 //            else {
 //                list = new ArrayList<>();
 //                list.add(trailID);
 //                data.put("enrolledTrails", list);
 //            }
-            save();
+        save();
 //        }
     }
 

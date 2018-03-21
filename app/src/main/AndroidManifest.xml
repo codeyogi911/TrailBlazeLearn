@@ -34,10 +34,6 @@
             android:name=".activity.ParticipantDefault"
             android:label="@string/title_activity_participant_default"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".activity.TrainerDefault"
-            android:label="@string/title_activity_trainer_default"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activity.ParticipantAddItemActivity" />
         <activity android:name=".activity.ParticipantItemListActivity" />
         <activity android:name=".activity.ParticipantItemActivity" />

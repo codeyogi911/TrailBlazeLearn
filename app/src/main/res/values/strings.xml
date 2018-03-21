@@ -52,5 +52,6 @@
     <string name="valid_message_discussion">Please enter message</string>
     <string name="exit">Exit</string>
     <string name="network_error_txt">Sorry communication with server was lost!</string>
+    <string name="trail_not_found_txt">No learning trail found! \nTry enrolling for a new one</string>
 
 </resources>
