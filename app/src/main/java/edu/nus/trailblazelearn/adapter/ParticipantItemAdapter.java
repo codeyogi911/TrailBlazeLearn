@@ -55,7 +55,7 @@ public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItem
         }
         if (participantItemArrayList.get(position).getImageUri() != null) {
             if (participantItemArrayList.get(position).getImageUri().size() == 0)
-                holder.videoIcon.setVisibility(View.INVISIBLE);
+                holder.imageIcon.setVisibility(View.INVISIBLE);
         }
         if (participantItemArrayList.get(position).getVideoUri() != null) {
             if (participantItemArrayList.get(position).getVideoUri().size() == 0)

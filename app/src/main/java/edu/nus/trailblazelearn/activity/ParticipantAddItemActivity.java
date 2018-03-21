@@ -138,8 +138,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         /*Toolbar addActivityToonbar = findViewById(R.id.add_activity);
         addActivityToonbar.setTitle("ADD ACTIVITY");*/
         trailStation = new TrailStation();
-        Intent intent = new Intent();
-        trailStation = (TrailStation) intent.getSerializableExtra("TrailStation");
+        trailStation = (TrailStation) getIntent().getSerializableExtra("TrailStation");
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
