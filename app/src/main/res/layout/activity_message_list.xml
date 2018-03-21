@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,18 +12,18 @@
     <View
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:background="@color/toolBar"
         android:layout_marginBottom="0dp"
+        android:background="@color/toolBar"
         app:layout_constraintBottom_toTopOf="@+id/layout_chatbox"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <!-- Layout of inputbox -->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/layout_recyclerview"
         android:layout_width="369dp"
-        android:layout_height="457dp"
+        android:layout_height="456dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="48dp"
         android:scrollIndicators="top"
@@ -37,11 +36,11 @@
         android:id="@+id/layout_chatbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:minHeight="50dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <EditText
             android:id="@+id/edittext_chatbox"
@@ -68,28 +67,22 @@
         <ImageButton
             android:id="@+id/takePhotoButton"
             android:layout_width="3dp"
-            android:layout_height="45dp"
+            android:layout_height="47dp"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/ic_camera_alt_black_24dp"/>
+            android:src="@drawable/ic_camera_alt_black_24dp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="391dp"
-        android:layout_height="45dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="-3dp"
-        tools:layout_editor_absoluteY="-1dp">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/message_list_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
-    </LinearLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/message_list_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
