@@ -41,6 +41,9 @@ private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
         progressBar.setVisibility(View.VISIBLE);
         FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         RecyclerView recyclerView = findViewById(R.id.participant_list_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

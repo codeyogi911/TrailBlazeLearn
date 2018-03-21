@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,8 +23,8 @@ import edu.nus.trailblazelearn.model.User;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private List<String> enrolledTrails = new ArrayList<>();
-    private List<String> titles = new ArrayList<>();
-    private List<String> details = new ArrayList<>();
+//    private List<String> titles = new ArrayList<>();
+//    private List<String> details = new ArrayList<>();
 
 //    private int[] images = { R.drawable.android_image_1,
 //            R.drawable.android_image_2,
@@ -78,13 +77,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
 
         public int currentItem;
-        public ImageView itemImage;
+        //        public ImageView itemImage;
         public TextView itemTitle;
         public TextView itemDetail;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemImage = itemView.findViewById(R.id.item_image);
+//            itemImage = itemView.findViewById(R.id.item_image);
             itemTitle = itemView.findViewById(R.id.item_title);
             itemDetail =
                     itemView.findViewById(R.id.item_detail);

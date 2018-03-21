@@ -211,13 +211,13 @@ public final class DbUtil {
     }
 
     //      Query DB using key and value
-    public Task<QuerySnapshot> readWithKey(String collectionName, String key, String value) {
+    public static Task<QuerySnapshot> readWithKey(String collectionName, String key, String value) {
         return db.collection(collectionName).whereEqualTo(key, value)
                 .get();
     }
 
     //      Query DB using docID
-    public Task<DocumentSnapshot> readWithDocID(String collectionName, String docID) {
+    public static Task<DocumentSnapshot> readWithDocID(String collectionName, String docID) {
         return db.collection(collectionName).document(docID).get();
     }
 }

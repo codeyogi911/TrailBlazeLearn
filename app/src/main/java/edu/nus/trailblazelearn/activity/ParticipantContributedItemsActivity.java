@@ -1,31 +1,14 @@
 package edu.nus.trailblazelearn.activity;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
+
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.PagerAdapter;
@@ -43,6 +26,11 @@ private RetriveImageBitmap retriveImageBitmap;
         RelativeLayout relativeLayout = findViewById(R.id.participant_item_relative_layout);
         TextView participantName = findViewById(R.id.participant_in_item_name);
         TextView participantDescription = findViewById(R.id.participant_in_item_description);
+        Toolbar toolbar = findViewById(R.id.tb_participant_contributed_list_header);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         final ViewPager viewPager = findViewById(R.id.pager);
         participantItem = (ParticipantItem) getIntent().getSerializableExtra("participantItems");
         participantName.setText(participantItem.getUserId());
@@ -72,6 +60,12 @@ private RetriveImageBitmap retriveImageBitmap;
                                                }
                                            });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
 
     }
 }

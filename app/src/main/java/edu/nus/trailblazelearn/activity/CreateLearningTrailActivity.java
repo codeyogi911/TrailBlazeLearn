@@ -69,22 +69,20 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
 
 
             if (editMode) {
-                if (null != editTrailObj) {
-                    Log.d(TAG, "Edit Trail Obj data for Trail Code::" + editTrailObj.getTrailCode());
-                    toolBarLearningActivity.setTitle(getString(R.string.page_edit_heading_learning));
-                    edTrailName.setText(editTrailObj.getTrailName());
-                    edTrailName.setEnabled(false);
-                    edTrailDescription.setText(editTrailObj.getTrailDescription());
-                    trailCodeStr = editTrailObj.getTrailCode();
-                    if (null != editTrailObj.getStartDate()) {
-                        edTrailStartDate.setText(constructDateToStringDate(editTrailObj.getStartDate()));
-                        edTrailStartDate.setEnabled(false);
-                    }
-                    if (null != editTrailObj.getEndDate()) {
-                        edTrailEndDate.setText(constructDateToStringDate(editTrailObj.getEndDate()));
-                    }
-
+                Log.d(TAG, "Edit Trail Obj data for Trail Code::" + editTrailObj.getTrailCode());
+                toolBarLearningActivity.setTitle(getString(R.string.page_edit_heading_learning));
+                edTrailName.setText(editTrailObj.getTrailName());
+                edTrailName.setEnabled(false);
+                edTrailDescription.setText(editTrailObj.getTrailDescription());
+                trailCodeStr = editTrailObj.getTrailCode();
+                if (null != editTrailObj.getStartDate()) {
+                    edTrailStartDate.setText(constructDateToStringDate(editTrailObj.getStartDate()));
+                    edTrailStartDate.setEnabled(false);
                 }
+                if (null != editTrailObj.getEndDate()) {
+                    edTrailEndDate.setText(constructDateToStringDate(editTrailObj.getEndDate()));
+                }
+
 
             } else {
                 toolBarLearningActivity.setTitle(getString(R.string.page_heading_learning));
@@ -95,7 +93,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
 
             }
 
-            //Invoke Date Picker for selecting start date of Trail
+            /**Invoke Date Picker for selecting start date of Trail**/
             edTrailEndDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -137,7 +135,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
                 }
             });
 
-            //Invoke Date Picker for selecting start date of Trail
+            /**Invoke Date Picker for selecting start date of Trail**/
             edTrailStartDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

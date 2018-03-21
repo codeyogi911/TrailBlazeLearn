@@ -69,6 +69,9 @@ public class TrailStationListActivity extends AppCompatActivity {
         toolBarStationListActivity = findViewById(R.id.StationListHeader);
         setSupportActionBar(toolBarStationListActivity);
         getSupportActionBar().setTitle("Trail Stations");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         recyclerView = (RecyclerView) findViewById(R.id.StationRecyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -127,6 +130,10 @@ public class TrailStationListActivity extends AppCompatActivity {
 
     }
 
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
+    }
     /**
      * Create Station
      */
