@@ -41,7 +41,7 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         stringBuilderInstructions.append(trailStationbj.getStationInstructions().toString());
         stationName.setText(stringBuilderName);
         stationInstructions.setText(stringBuilderInstructions);
-        getSupportActionBar().setTitle("Trail Station Details -" +stationName);
+        getSupportActionBar().setTitle("Station - " + trailStationbj.getStationId());
     }
 
     public void participantListRedirection(View v) {

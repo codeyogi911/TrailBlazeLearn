@@ -102,4 +102,9 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         finish();
     }
 
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
+    }
+
 }
