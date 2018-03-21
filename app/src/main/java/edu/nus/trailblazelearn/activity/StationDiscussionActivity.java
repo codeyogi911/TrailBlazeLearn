@@ -80,8 +80,8 @@ public class StationDiscussionActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         userNameDb = (String)user.getData().get("name");
-        imageUri = data.getData();
             if(requestCode == 1) {
+                imageUri = data.getData();
                 Bundle bundle = data.getExtras();
                 Bitmap bmp = (Bitmap) bundle.get("data");
                 imageUri = getImageUri(getApplicationContext(), bmp);
