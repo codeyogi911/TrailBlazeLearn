@@ -17,9 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.nus.trailblazelearn.activity.LearningTrailListActivity;
 import edu.nus.trailblazelearn.activity.ParticipantDefault;
 import edu.nus.trailblazelearn.activity.RoleSelectActivity;
-import edu.nus.trailblazelearn.activity.TrainerDefault;
 import edu.nus.trailblazelearn.exception.NetworkError;
 import edu.nus.trailblazelearn.utility.DbUtil;
 
@@ -29,7 +29,7 @@ public class User {
     private static AppCompatActivity context;
     private Map<String, Object> data = new HashMap<>();
     private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
-    private DbUtil dbUtil = new DbUtil();
+    // private DbUtil dbUtil = new DbUtil();
 
     private User() {
         initialize();
@@ -52,7 +52,7 @@ public class User {
     }
 
     private void initialize() {
-        dbUtil.readWithDocID("users", mAuth.getUid())
+        DbUtil.readWithDocID("users", mAuth.getUid())
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -91,7 +91,7 @@ public class User {
     }
 
     private void loginTrainer() {
-        Intent intent = new Intent(context.getApplicationContext(), TrainerDefault.class);
+        Intent intent = new Intent(context.getApplicationContext(), LearningTrailListActivity.class);
         context.startActivity(intent);
         context.finish();
     }
@@ -154,6 +154,21 @@ public class User {
                 list.add(trailID);
                 data.put("enrolledTrails", list);
             }
+            save();
+        }
+    }
+
+    public void unenrollforTrail(String trailID) {
+        if (isParticipant()) {
+            List<String> list = (List<String>) data.get("enrolledTrails");
+            if (list != null) {
+                list.remove(list.indexOf(trailID));
+            }
+//            else {
+//                list = new ArrayList<>();
+//                list.add(trailID);
+//                data.put("enrolledTrails", list);
+//            }
             save();
         }
     }

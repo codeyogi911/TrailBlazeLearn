@@ -69,7 +69,6 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
                 DialogFragment dialogFragment = new SelectTrailDialogFragment();
 //                dialogFragment.
                 dialogFragment.show(getFragmentManager(), "entertrailcode");
-
             }
         });
 
@@ -86,7 +85,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, EditText editText) {
 
-        dbUtil.readWithKey("LearningTrail", "trailCode", editText.getText().toString())
+        DbUtil.readWithKey("LearningTrail", "trailCode", editText.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
