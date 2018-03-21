@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.nus.trailblazelearn.model.User;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.dbUtil;
 
 /**
@@ -44,18 +45,18 @@ public class AddParticipantItemHelper extends AsyncTask<ArrayList<Uri>, Void, Vo
         //Uri uri = uris[0].get(0);
         for(Uri uriLocal:uris[0]){
             if(uriHashMap.get("image") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userName,"images/"+uriLocal.getLastPathSegment(), uriLocal, context, "Image Uploaded Successfully", progressBar, "image");
+                resultMessgae = dbUtil.addFilesToDB(userName,"images/"+uriLocal.getLastPathSegment(), uriLocal, context, ApplicationConstants.imageUploadResult, progressBar, "image");
 
             }
             if(uriHashMap.get("video") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userName,"videos/"+uriLocal.getLastPathSegment(), uriLocal, context, "Video Uploaded Successfully", progressBar, "video");
+                resultMessgae = dbUtil.addFilesToDB(userName,"videos/"+uriLocal.getLastPathSegment(), uriLocal, context, ApplicationConstants.videoUploadResult, progressBar, "video");
             }
 
             if(uriHashMap.get("audio") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userName,"audios/"+uriLocal.getLastPathSegment(), uriLocal, context, "Audio Uploaded Successfully", progressBar, "audio");
+                resultMessgae = dbUtil.addFilesToDB(userName,"audios/"+uriLocal.getLastPathSegment(), uriLocal, context, ApplicationConstants.audioUploadResult, progressBar, "audio");
             }
             if(uriHashMap.get("document") == uriLocal) {
-                resultMessgae = dbUtil.addFilesToDB(userName,"documents/"+uriLocal.getLastPathSegment(), uriLocal, context, "Document Uploaded Successfully", progressBar,"document");
+                resultMessgae = dbUtil.addFilesToDB(userName,"documents/"+uriLocal.getLastPathSegment(), uriLocal, context, ApplicationConstants.documentUploadResult, progressBar,"document");
             }
         }
         return null;

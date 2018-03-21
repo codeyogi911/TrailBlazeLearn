@@ -34,5 +34,10 @@ public interface ApplicationConstants {
     /**Error messages*/
     String errorDbSelectionForCollectionFailed = "Listen failed while selecting from collection Learning Trail.";
 
+    /*result message on upload of files*/
+    String imageUploadResult = "Image Uploaded Successfully";
+    String videoUploadResult = "Video Uploaded Successfully";
+    String audioUploadResult = "Audio Uploaded Successfully";
+    String documentUploadResult = "Document Uploaded Successfully";
 
 }
