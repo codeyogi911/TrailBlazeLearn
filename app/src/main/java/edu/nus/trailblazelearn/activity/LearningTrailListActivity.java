@@ -75,6 +75,8 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         setSupportActionBar(toolBarListLearningActivity);
 
         getSupportActionBar().setTitle(getString(R.string.page_heading_learning_list));
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
         mProgressBar = findViewById(R.id.pb_trail_list);
         mFireStore = FirebaseFirestore.getInstance();
@@ -211,6 +213,12 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                 Log.d(TAG, "End of onContextItemSelected API call");
                 return super.onContextItemSelected(item);
         }
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
 
     }
 }

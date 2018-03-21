@@ -44,13 +44,11 @@ public class RoleSelectActivity extends AppCompatActivity {
         edu.nus.trailblazelearn.model.User.getInstance().grantTrainer();
         Intent intent = new Intent(this, LearningTrailListActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void loginParticipant(View view) {
         Intent intent = new Intent(this, ParticipantDefault.class);
         startActivity(intent);
-        finish();
     }
 
     public void signOut(MenuItem menuItem) {

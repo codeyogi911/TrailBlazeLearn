@@ -18,8 +18,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +58,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_VIDEO_CAPTURE = 6;
     Button createActivity;
     TextView selectedImageName, selectedAudioName, selectedVideoName, selectedFileName;
+    Toolbar toolbar;
     AddParticipantItemHelper addParticipantItemHelper;
     EditText imageDescription;
     VideoView videoView;
@@ -148,6 +151,10 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         imageDescription = findViewById(R.id.image_description);
         addItemProgressbar = findViewById(R.id.add_item_progress);
         addItemProgressbar.setVisibility(View.INVISIBLE);
+        toolbar = findViewById(R.id.tb_addparticipant_list_header);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -159,6 +166,11 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         } else {
             onclickListeners();
         }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
     }
 
     @Override

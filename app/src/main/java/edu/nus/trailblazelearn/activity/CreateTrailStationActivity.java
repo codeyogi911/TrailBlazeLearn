@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,7 +45,9 @@ public class CreateTrailStationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail_station);
         toolbar = (Toolbar) findViewById(R.id.trail_header);
-
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Get the trailCode from Intent passed
         trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
 
@@ -104,13 +107,13 @@ public class CreateTrailStationActivity extends AppCompatActivity {
 
                 if (!editStation) {
                     try {
-                        toolbar.setTitle("Create Trail Station for" +trailStationObj.getTrailCode());
+                        getSupportActionBar().setTitle("Create Trail Station for" +trailStationObj.getTrailCode());
                         createStation(trailStationObj);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
-                    toolbar.setTitle("Update Trail Station for " +trailStationObj.getTrailCode());
+                    getSupportActionBar().setTitle("Update Trail Station for " +trailStationObj.getTrailCode());
                     try {
                         updateTrailStation();
                     } catch (Exception e) {
@@ -175,6 +178,11 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             trailStationObj.setTrailCode(trailCode);
         }
         return trailStationObj;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
     }
 
 }
