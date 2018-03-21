@@ -25,12 +25,14 @@ import java.util.ArrayList;
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.model.ParticipantItem;
+import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
 public class ParticipantItemListActivity extends AppCompatActivity {
     private static final String TAG = ApplicationConstants.participantItemListActivity;
-private ParticipantItemAdapter participantItemAdapter;
-private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
+    private ParticipantItemAdapter participantItemAdapter;
+    private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
+    private TrailStation trailStation = new TrailStation();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +52,11 @@ private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
         //ArrayList<ParticipantItem> participantItemArrayList = dbUtil.getParticipantItems("Ragu", progressBar, );
         participantItemAdapter = new ParticipantItemAdapter(getApplicationContext(), participantItemArrayList);
         recyclerView.setAdapter(participantItemAdapter);
-        //dbUtil.getParticipantItems("Ragu", progressBar);
+        Intent intent = new Intent();
+        trailStation = (TrailStation) intent.getSerializableExtra("TrailStation");
 
         FirebaseFirestore.getInstance().collection("participantActivities")
-                .whereEqualTo("trailStationId",1234)
+                .whereEqualTo("trailStationId",trailStation.getStationId())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
 
             @Override
@@ -75,7 +78,9 @@ private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ParticipantItemListActivity.this, ParticipantAddItemActivity.class));
+                Intent intent = new Intent(ParticipantItemListActivity.this, ParticipantAddItemActivity.class);
+                intent.putExtra("TrailStation", trailStation);
+                startActivity(intent);
             }
         });
     }

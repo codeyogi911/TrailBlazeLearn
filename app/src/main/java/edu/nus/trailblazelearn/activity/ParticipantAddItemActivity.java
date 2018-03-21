@@ -44,6 +44,7 @@ import java.util.HashMap;
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.helper.AddParticipantItemHelper;
 import edu.nus.trailblazelearn.model.ParticipantItem;
+import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.model.UploadedFiles;
 import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.DbUtil;
@@ -60,6 +61,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     TextView selectedImageName, selectedAudioName, selectedVideoName, selectedFileName;
     Toolbar toolbar;
     AddParticipantItemHelper addParticipantItemHelper;
+    TrailStation trailStation;
     EditText imageDescription;
     VideoView videoView;
     ImageView imageView;
@@ -135,7 +137,9 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
 
         /*Toolbar addActivityToonbar = findViewById(R.id.add_activity);
         addActivityToonbar.setTitle("ADD ACTIVITY");*/
-
+        trailStation = new TrailStation();
+        Intent intent = new Intent();
+        trailStation = (TrailStation) intent.getSerializableExtra("TrailStation");
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
@@ -447,7 +451,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                 if(!TextUtils.isEmpty(imageDescription.getText())) {
                     //Code to create contributor item
                     //fileUri = UploadedFiles.downLoadUri;
-                    participantItem = new ParticipantItem(userName, "trailId", 1234, imageDescription.getText().toString());
+                    participantItem = new ParticipantItem(userName, trailStation.getTrailCode(), trailStation.getStationId(), imageDescription.getText().toString());
                     if (DbUtil.imageUriList != null) {
                         participantItem.setImageUri(DbUtil.imageUriList);
                     }
