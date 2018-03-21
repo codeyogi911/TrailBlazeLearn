@@ -192,6 +192,14 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                 mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.delete_menu_item :
+                String trailCodeForDeletion = learningTrailLst.get(position).getTrailCode();
+                //Invoke api to delete enrolled trail for trailCode
+                try {
+                    user.unenrollforTrail(trailCodeForDeletion);
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception occurred while deleting enrolled trail");
+                    Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
+                }
                 Log.d(TAG, "Trail code to be deleted.." + learningTrailLst.get(position).getTrailCode());
                 mFireStore.collection(ApplicationConstants.learningTrailCollection).document("/" + learningTrailLst.get(position).getTrailCode())
                         .delete()
@@ -206,6 +214,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.e(TAG, "Error deleting learning trail", e);
+                                Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
                             }
                         });
                 return true;
