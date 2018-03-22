@@ -392,15 +392,6 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         trailCodeStr.append(startDate);
         trailCodeStr.append(ApplicationConstants.underScoreConstants);
         trailCodeStr.append(trailName);
-
-        //Check the trailCode exist in DB if so return message to Trainer
-       /* LearningTrailHelper trailHelper = new LearningTrailHelper();
-        if(trailHelper.IsTrailCodeDuplicate(trailCodeStr.toString())){
-            Toast.makeText(CreateLearningTrailActivity.this, ApplicationConstants.toastMessageForDuplicateEntryForLearningTrailCode,
-                    Toast.LENGTH_LONG).show();
-            throw new TrailActivityException("Duplicate entry attempted for trail code");
-        }*/
-
         Log.d(TAG, "End of constructTrailCode API");
         return trailCodeStr.toString();
     }

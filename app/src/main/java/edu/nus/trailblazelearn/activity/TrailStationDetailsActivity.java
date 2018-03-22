@@ -3,6 +3,7 @@ package edu.nus.trailblazelearn.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +24,7 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
     StringBuilder stringBuilderInstructions = new StringBuilder("Instructions:");
     Context context;
     Toolbar toolbar;
+    FloatingActionButton joinDiscussion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_trail_station_details);
         Intent intent = getIntent();
         toolbar = findViewById(R.id.tb_trail_details);
+        joinDiscussion = findViewById(R.id.btn_forum);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -39,20 +42,30 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         stationInstructions = (TextView) findViewById(R.id.StationInstructions);
         stringBuilderName.append(trailStationbj.getTrailStationName().toString());
         stringBuilderInstructions.append(trailStationbj.getStationInstructions().toString());
-        stationName.setText(stringBuilderName);
-        stationInstructions.setText(stringBuilderInstructions);
-        getSupportActionBar().setTitle("Trail Station Details -" +stationName);
+        stationName.setText(trailStationbj.getTrailStationName());
+        stationInstructions.setText(trailStationbj.getStationInstructions());
+        getSupportActionBar().setTitle("Station - " + trailStationbj.getStationId());
+
+        joinDiscussion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TrailStationDetailsActivity.this, StationDiscussionActivity.class);
+                intent.putExtra("TrailStation", trailStationbj);
+                Log.i(TAG, "call to Post");
+                startActivity(intent);
+            }
+        });
     }
 
     public void participantListRedirection(View v) {
-        Intent intent = new Intent(getApplicationContext(), ParticipantItemListActivity.class);
+        Intent intent = new Intent(TrailStationDetailsActivity.this, ParticipantItemListActivity.class);
                 intent.putExtra("TrailStation", trailStationbj);
                 Log.i(TAG, "call to Activites");
         startActivity(intent);
     }
 
     public void joinDiscussion(View v) {
-        Intent intent = new Intent(getApplicationContext(), StationDiscussionActivity.class);
+        Intent intent = new Intent(TrailStationDetailsActivity.this, StationDiscussionActivity.class);
                 intent.putExtra("TrailStation", trailStationbj);
                 Log.i(TAG, "call to Post");
         startActivity(intent);

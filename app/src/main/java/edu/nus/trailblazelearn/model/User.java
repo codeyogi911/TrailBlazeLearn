@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,15 +30,15 @@ public class User {
     private static AppCompatActivity context;
     private Map<String, Object> data = new HashMap<>();
     private FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
-    // private DbUtil dbUtil = new DbUtil();
 
     private User() {
         initialize();
     }
 
     public static User getInstance(Object context1) {
-        if (user == null) {
+        if (context1 != null)
             context = (AppCompatActivity) context1;
+        if (user == null) {
             user = new User();
         }
         return user;
@@ -73,7 +74,8 @@ public class User {
                         } else {
 //                    Add exception handling
                             Log.d(TAG, "get failed with ", task.getException());
-                            NetworkError.catchException(task.getException());
+                            context.startActivity(new Intent(context.getApplicationContext(), NetworkError.class));
+//                            NetworkError.catchException(task.getException());
 //                            Intent intent = new Intent(this,NetworkError.class);
                         }
                     }
@@ -110,27 +112,25 @@ public class User {
 
     public void grantTrainer() {
         data.put("isTrainer", true);
+        data.put("isParticipant", false);
         save();
     }
 
     public void grantParticipant() {
         data.put("isParticipant", true);
-        save();
-    }
-
-    public void revokeTrainer() {
-        data.remove("isTrainer");
-        save();
-    }
-
-    public void revokeParticipant() {
-        data.remove("isParticipant");
+        data.put("isTrainer", false);
         save();
     }
 
     //  Saves to Firebase
     public void save() {
-        FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data);
+        FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                context.startActivity(new Intent(context.getApplicationContext(), NetworkError.class));
+
+            }
+        });
     }
 
     //  data getter
@@ -159,18 +159,18 @@ public class User {
     }
 
     public void unenrollforTrail(String trailID) {
-        if (isParticipant()) {
-            List<String> list = (List<String>) data.get("enrolledTrails");
-            if (list != null) {
-                list.remove(list.indexOf(trailID));
-            }
+//        if (isParticipant()) {
+        List<String> list = (List<String>) data.get("enrolledTrails");
+        if (list != null) {
+            list.remove(list.indexOf(trailID));
+        }
 //            else {
 //                list = new ArrayList<>();
 //                list.add(trailID);
 //                data.put("enrolledTrails", list);
 //            }
-            save();
-        }
+        save();
+//        }
     }
 
     //  Returns true if user is trainer

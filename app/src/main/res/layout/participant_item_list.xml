@@ -8,7 +8,7 @@
     tools:context=".activity.ParticipantItemListActivity">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
         <android.support.design.widget.AppBarLayout
@@ -61,10 +61,9 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@color/toolBar"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="31dp"
-            android:layout_marginRight="54dp"
+            android:layout_margin="25dp"
             android:clickable="true"
             android:src="@drawable/ic_add_black_24dp" />
     </RelativeLayout>
