@@ -116,15 +116,11 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult().getDocuments();
                             DocumentSnapshot documentSnapshot = task.getResult();
                             if (documentSnapshot.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + task.getResult());
                                 participant.enrollforTrail(documentSnapshot.getId());
                                 populateCardList();
-//                                finish();
-//                                startActivity(getIntent());
-
                             } else {
                                 Log.d(TAG, "No such trail, try creating new trail");
                                 Snackbar.make(findViewById(R.id.participantdefault), "Trail not found!", Snackbar.LENGTH_LONG)

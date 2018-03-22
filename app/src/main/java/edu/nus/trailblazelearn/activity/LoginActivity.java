@@ -9,7 +9,6 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
-import java.util.List;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.model.User;
@@ -17,21 +16,18 @@ import edu.nus.trailblazelearn.model.User;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
-    //    private static final String TAG = "LoginActivity.Class";
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(), new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build()
-    );
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (mAuth.getCurrentUser() == null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
+                            .setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build(),
+                                    new AuthUI.IdpConfig.FacebookBuilder().build()))
                             .setTheme(R.style.Theme_AppCompat_Light_NoActionBar)
+                            .setIsSmartLockEnabled(false)
                             .build(),
                     RC_SIGN_IN);
 //            finish();
@@ -47,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
