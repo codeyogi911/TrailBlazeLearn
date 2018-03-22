@@ -1,5 +1,7 @@
 package edu.nus.trailblazelearn.model;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 import edu.nus.trailblazelearn.model.User;
 
@@ -17,6 +19,15 @@ public class TrailStation implements Serializable {
     private Integer stationId;
     private int sequence;
     private User user;
+    private LatLng latLng;
+    private String address;
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    private String locationName;
+
 
     public void setStationId(Integer stationId) {
         this.stationId = stationId;
@@ -27,13 +38,36 @@ public class TrailStation implements Serializable {
         return stationId;
     }
 
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
     public TrailStation() {
         this.trailStationName = trailStationName;
         this.trailCode = trailCode;
         this.stationInstructions = stationInstructions;
         this.userId = userId;
         this.sequence = sequence;
+
         this.stationId = stationId;
+        this.address=address;
+        this.latLng= latLng;
     }
 
     public String getUserId() {

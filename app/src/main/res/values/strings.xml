@@ -38,7 +38,6 @@
     <!---Messages added For Dharini-->
     <string name="station_name">Enter the Station Name </string>
     <string name="station_instructions">Enter the Instructions</string>
-    <string name="google_maps_key">Key</string>
     <string name="title_activity_maps">Map</string>
     <string name="btnSearchLocation">Search Location</string>
 
@@ -50,5 +49,7 @@
     <string name="trainer_note">Trainer - You can create Learning trails, trail stations.</string>
     <string name="participant_note">Participant - You ccn enroll for trails and record your activities.</string>
     <string name="valid_message_discussion">Please enter message</string>
+    <string name="google_maps_key">AIzaSyDf-ZqKE-7DagTBeGMYJFLS6PDWBy_iHlQ
+</string>
 
 </resources>
