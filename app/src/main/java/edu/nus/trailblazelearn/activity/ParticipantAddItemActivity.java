@@ -71,7 +71,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     ProgressBar addItemProgressbar;
     Uri selectedFile;
     String imageURL = null;
-    String[] documentTypes = {"text/*", "application/pdf", "application/msword"};
+    String[] documentTypes = {"text/*", "application/pdf", "application/msword", "application/ppt", "application/docx"};
     String[] addImageItems = {"camera", "gallary"};
     String[] addVideoItems = {"Record", "Gallary"};
     ArrayList<String> fileUri = null;
@@ -471,6 +471,10 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                     }
 
                     DbUtil.addObjectToDB("participantActivities", participantItem);
+                    DbUtil.imageUriList.clear();
+                    DbUtil.videoUriList.clear();
+                    DbUtil.documentUriList.clear();
+                    DbUtil.audioUriList.clear();
                     finish();
                 }
                 else {

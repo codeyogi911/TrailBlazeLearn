@@ -4,11 +4,13 @@ package edu.nus.trailblazelearn.activity;
  * Created by RMukherjee on 07-03-2018.
  */
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -93,8 +95,6 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         setSupportActionBar(toolBarListLearningActivity);
 
         getSupportActionBar().setTitle(getString(R.string.page_heading_learning_list));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
         createTrail = findViewById(R.id.fab_create_trail);
         mProgressBar = findViewById(R.id.pb_trail_list);
@@ -250,9 +250,24 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
 
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        finish();
-        return true;
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        LearningTrailListActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
 
     }
 }

@@ -141,7 +141,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
         }
         else
         {
-            onClickListeners(userName);
+            onClickListeners();
         }
 
         db.collection(ApplicationConstants.Post)
@@ -164,11 +164,6 @@ public class StationDiscussionActivity extends AppCompatActivity {
                         Log.d(TAG, "Current post list size for trainer: "+postList.size());
                     }
                 });
-        // [END listen_multiple]
-
-    }
-
-    private void onClickListeners(final String userName) {
         try {
 
             postButton.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +184,18 @@ public class StationDiscussionActivity extends AppCompatActivity {
 
             });
 
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG,"There was an error while adding your post");
+
+        }
+        // [END listen_multiple]
+
+    }
+
+    private void onClickListeners() {
+        try {
             takePhotoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -210,7 +217,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                onClickListeners(userName);
+                onClickListeners();
             } else {
                 // Permission Denied
                 Toast.makeText(StationDiscussionActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
@@ -242,7 +249,6 @@ public class StationDiscussionActivity extends AppCompatActivity {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         Log.d("Image uri :", path);
-        Toast.makeText(StationDiscussionActivity.this, path, Toast.LENGTH_LONG).show();
         return Uri.parse(path);
     }
 
