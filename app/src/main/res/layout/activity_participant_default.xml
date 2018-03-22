@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="4dp"
+                app:navigationIcon="@drawable/icons_student"
                 app:title="Enroll for Learning Trail" />
 
         </android.support.design.widget.AppBarLayout>

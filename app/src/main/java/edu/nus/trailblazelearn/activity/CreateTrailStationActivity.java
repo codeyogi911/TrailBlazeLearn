@@ -52,6 +52,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Create Trail Station");
         //Get the trailCode from Intent passed
         trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
         stationSize=(Integer) getIntent().getSerializableExtra("stationSize");

@@ -93,9 +93,15 @@ public class TrailStationListActivity extends AppCompatActivity {
         if(!isTrainer && isParticipant)
         createStation.hide();
         setSupportActionBar(toolBarStationListActivity);
-        getSupportActionBar().setTitle("Trail Stations");
+        getSupportActionBar().setTitle(" Trail Stations");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(isTrainer) {
+            getSupportActionBar().setIcon(R.drawable.icons_trainer);
+        }
+        else {
+            getSupportActionBar().setIcon(R.drawable.icons_student);
+        }
 
         recyclerView = (RecyclerView) findViewById(R.id.StationRecyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();

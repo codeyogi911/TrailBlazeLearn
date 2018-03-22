@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.model.TrailStation;
+import edu.nus.trailblazelearn.model.User;
 
 public class TrailStationDetailsActivity extends AppCompatActivity {
     private final static String TAG = "Station Details Activity";
@@ -25,6 +26,8 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
     Context context;
     Toolbar toolbar;
     FloatingActionButton joinDiscussion;
+    User user = User.getInstance(this);
+    boolean isTrainer = (boolean) user.getData().get("isTrainer");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,12 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        if(isTrainer) {
+            getSupportActionBar().setIcon(R.drawable.icons_trainer);
+        }
+        else {
+            getSupportActionBar().setIcon(R.drawable.icons_student);
+        }
         trailStationbj = (TrailStation) intent.getSerializableExtra("TrailStation");
         stationName = (TextView) findViewById(R.id.StationName);
         stationInstructions = (TextView) findViewById(R.id.StationInstructions);
@@ -44,7 +53,7 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         stringBuilderInstructions.append(trailStationbj.getStationInstructions().toString());
         stationName.setText(trailStationbj.getTrailStationName());
         stationInstructions.setText(trailStationbj.getStationInstructions());
-        getSupportActionBar().setTitle("Station - " + trailStationbj.getStationId());
+        getSupportActionBar().setTitle(" Station - " + trailStationbj.getStationId());
 
         joinDiscussion.setOnClickListener(new View.OnClickListener() {
             @Override

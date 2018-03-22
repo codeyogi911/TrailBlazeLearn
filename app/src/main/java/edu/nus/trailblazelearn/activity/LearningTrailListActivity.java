@@ -6,6 +6,7 @@ package edu.nus.trailblazelearn.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -57,6 +58,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
     private FirebaseFirestore mFireStore;
     private User user;
     private String userEmail;
+    public static boolean isTrainer;
     private FloatingActionButton createTrail;
 
 
@@ -91,17 +93,22 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         Log.d(TAG, "Start of onCreate API call");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_trail_list);
+        user = User.getInstance(this);
+        userEmail = (String) user.getData().get(ApplicationConstants.email);
+        isTrainer = (boolean) user.getData().get("isTrainer");
+
         toolBarListLearningActivity = findViewById(R.id.tb_trail_list_header);
         setSupportActionBar(toolBarListLearningActivity);
 
-        getSupportActionBar().setTitle(getString(R.string.page_heading_learning_list));
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setTitle(" " + getString(R.string.page_heading_learning_list));
+
+        getSupportActionBar().setIcon(R.drawable.icons_trainer);
         mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
         createTrail = findViewById(R.id.fab_create_trail);
         mProgressBar = findViewById(R.id.pb_trail_list);
         mFireStore = FirebaseFirestore.getInstance();
 
-        user = User.getInstance(this);
-        userEmail = (String) user.getData().get(ApplicationConstants.email);
 
 
         // use this setting to improve performance if you know that changes

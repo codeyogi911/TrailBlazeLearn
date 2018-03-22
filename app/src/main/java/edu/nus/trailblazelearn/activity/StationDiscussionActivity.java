@@ -76,6 +76,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
 
     User user = User.getInstance(this);
     final String userName = (String) user.getData().get("name");
+    boolean isTrainer = (boolean) user.getData().get("isTrainer");
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,8 +100,12 @@ public class StationDiscussionActivity extends AppCompatActivity {
         setSupportActionBar(messageListToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
+        if(isTrainer) {
+            getSupportActionBar().setIcon(R.drawable.icons_trainer);
+        }
+        else {
+            getSupportActionBar().setIcon(R.drawable.icons_student);
+        }
 
         db = FirebaseFirestore.getInstance();
         trailStation = (TrailStation) getIntent().getSerializableExtra(ApplicationConstants.trailStation);
