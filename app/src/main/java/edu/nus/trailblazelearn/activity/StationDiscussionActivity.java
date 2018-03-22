@@ -158,6 +158,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
                             Post postObj= doc.getDocument().toObject(Post.class);
                             postList.add(postObj);
                             mAdapter.notifyDataSetChanged();
+                            postsRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                         }
 
                         Log.d(TAG, "Current post list size for trainer: "+postList.size());
@@ -183,7 +184,6 @@ public class StationDiscussionActivity extends AppCompatActivity {
                         new PostHelper().addPost(postObj);
                         Log.d(TAG, "Successfully added post to the db");
                         inputMessageBox.getText().clear();
-                        postsRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                     }
                 }
 

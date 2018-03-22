@@ -31,6 +31,7 @@ import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.TrailStation;
+import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
 public class ParticipantItemListActivity extends AppCompatActivity {
@@ -38,6 +39,8 @@ public class ParticipantItemListActivity extends AppCompatActivity {
     private ParticipantItemAdapter participantItemAdapter;
     private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
     private TrailStation trailStation = new TrailStation();
+    User user = User.getInstance(this);
+    boolean isTrainer = (boolean) user.getData().get("isTrainer");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        if(isTrainer) {
+            floatingActionButton.setVisibility(View.INVISIBLE);
+        }
         RecyclerView recyclerView = findViewById(R.id.participant_list_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //ArrayList<ParticipantItem> participantItemArrayList = dbUtil.getParticipantItems("Ragu", progressBar, );

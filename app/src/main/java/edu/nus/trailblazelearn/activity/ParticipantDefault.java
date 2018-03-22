@@ -22,9 +22,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.List;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.RecyclerAdapter;
@@ -34,7 +31,6 @@ import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class ParticipantDefault extends AppCompatActivity implements SelectTrailDialogFragment.NoticeDialogListener {
     private static final String TAG = "PDActivity";
-    DbUtil dbUtil = new DbUtil();
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
@@ -48,7 +44,6 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     }
 
     public void toRoleSelect(MenuItem menuItem) {
-//        participant.revokeParticipant();
         Intent intent = new Intent(getApplicationContext(), RoleSelectActivity.class);
         startActivity(intent);
         finish();
@@ -78,46 +73,57 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 DialogFragment dialogFragment = new SelectTrailDialogFragment();
-//                dialogFragment.
                 dialogFragment.show(getFragmentManager(), "entertrailcode");
             }
         });
 
         if (participant.getData().get("enrolledTrails") != null) {
-            recyclerView =
-                    findViewById(R.id.recycler_view);
-            layoutManager = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(layoutManager);
-
-            adapter = new RecyclerAdapter(this);
-            recyclerView.setAdapter(adapter);
-            TextView appCompatTextView = findViewById(R.id.trailnotfound_txt);
-            appCompatTextView.setVisibility(View.GONE);
-//            appCompatTextView.re
-            findViewById(R.id.recycler_view_fragment).setVisibility(View.VISIBLE);
+            populateCardList();
+//            recyclerView =
+//                    findViewById(R.id.recycler_view);
+//            layoutManager = new LinearLayoutManager(this);
+//            recyclerView.setLayoutManager(layoutManager);
+//
+//            adapter = new RecyclerAdapter(this);
+//            recyclerView.setAdapter(adapter);
+//            TextView appCompatTextView = findViewById(R.id.trailnotfound_txt);
+//            appCompatTextView.setVisibility(View.GONE);
+//            findViewById(R.id.recycler_view_fragment).setVisibility(View.VISIBLE);
         }
 
 
     }
 
+    private void populateCardList() {
+        recyclerView =
+                findViewById(R.id.recycler_view);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new RecyclerAdapter(this);
+        recyclerView.setAdapter(adapter);
+        TextView appCompatTextView = findViewById(R.id.trailnotfound_txt);
+        appCompatTextView.setVisibility(View.GONE);
+        findViewById(R.id.recycler_view_fragment).setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, EditText editText) {
 
-        DbUtil.readWithKey("LearningTrail", "trailCode", editText.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        DbUtil.readWithDocID("LearningTrail", editText.getText().toString())
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
 //                            DocumentSnapshot document = task.getResult().getDocuments();
-                            List<DocumentSnapshot> documentSnapshotList = task.getResult().getDocuments();
-                            if (!documentSnapshotList.isEmpty()) {
-                                Log.d(TAG, "DocumentSnapshot data: " + task.getResult().getDocuments());
-                                participant.enrollforTrail(documentSnapshotList.get(0).getId());
-                                finish();
-                                startActivity(getIntent());
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + task.getResult());
+                                participant.enrollforTrail(documentSnapshot.getId());
+                                populateCardList();
+//                                finish();
+//                                startActivity(getIntent());
 
                             } else {
                                 Log.d(TAG, "No such trail, try creating new trail");
