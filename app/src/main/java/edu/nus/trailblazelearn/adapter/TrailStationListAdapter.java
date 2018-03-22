@@ -59,7 +59,7 @@ public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationLi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.textView.setText(trailStationList.get(position).getTrailStationName());
-
+        holder.stationId.setText(trailStationList.get(position).getStationId()+"");
         holder.setLongClickListener(new LongClickListener() {
             @Override
             public void onItemLongClick(int position) {
@@ -102,13 +102,14 @@ public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationLi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, LongClickListener, View.OnClickListener {
 
         public TextView textCode;
-        public TextView textView;
+        public TextView textView, stationId;
         LongClickListener longClickListener;
 
 
         public ViewHolder(View v) {
             super(v);
             textView = v.findViewById(R.id.StationName);
+            stationId = v.findViewById(R.id.station_id);
             v.setOnLongClickListener(this);
             v.setOnClickListener(this);
 

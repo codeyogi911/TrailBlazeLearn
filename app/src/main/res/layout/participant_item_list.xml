@@ -55,6 +55,15 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:indeterminateTintMode="src_atop"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_forum"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_forum_black"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="100dp" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_item_ActionButton"

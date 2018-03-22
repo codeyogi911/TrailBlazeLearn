@@ -49,6 +49,7 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
         Toolbar toolbar = findViewById(R.id.tb_participant_item_list_header);
         TextView stationName = findViewById(R.id.station_name_in_activity);
+        FloatingActionButton joinDiscussion = findViewById(R.id.btn_forum);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -81,6 +82,15 @@ public class ParticipantItemListActivity extends AppCompatActivity {
             }
         });
 
+        joinDiscussion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ParticipantItemListActivity.this, StationDiscussionActivity.class);
+                intent.putExtra("TrailStation", trailStation);
+                Log.i(TAG, "call to Post");
+                startActivity(intent);
+            }
+        });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

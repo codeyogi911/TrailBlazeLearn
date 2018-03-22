@@ -60,7 +60,6 @@ public class StationDiscussionActivity extends AppCompatActivity {
     private ImageButton postButton, takePhotoButton;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
-    private User user;
     private List<Post> postList;
 
     private RecyclerView.Adapter mAdapter;
@@ -75,17 +74,19 @@ public class StationDiscussionActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private String userNameDb;
 
+    User user = User.getInstance(this);
+    final String userName = (String) user.getData().get("name");
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         userNameDb = (String)user.getData().get("name");
-            if(requestCode == 1) {
+            if(requestCode == 1 && resultCode == RESULT_OK && data != null) {
                 imageUri = data.getData();
                 Bundle bundle = data.getExtras();
                 Bitmap bmp = (Bitmap) bundle.get("data");
                 imageUri = getImageUri(getApplicationContext(), bmp);
-                resultMessgae = storeImageFileInDb(imageUri, userNameDb, imageUri.getLastPathSegment());
+                resultMessgae = storeImageFileInDb(imageUri, userName, imageUri.getLastPathSegment());
             }
     }
 
@@ -99,8 +100,6 @@ public class StationDiscussionActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        user = User.getInstance();
-        final String userName = (String) user.getData().get("name");
 
 
         db = FirebaseFirestore.getInstance();
@@ -132,6 +131,19 @@ public class StationDiscussionActivity extends AppCompatActivity {
         //Register context menu with list item
         registerForContextMenu(postsRecyclerView);
 
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(StationDiscussionActivity.this,
+                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        }
+        else
+        {
+            onClickListeners(userName);
+        }
+
         db.collection(ApplicationConstants.Post)
                 .whereEqualTo(ApplicationConstants.stationID, stationName)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -153,52 +165,58 @@ public class StationDiscussionActivity extends AppCompatActivity {
                 });
         // [END listen_multiple]
 
+    }
 
-            try {
+    private void onClickListeners(final String userName) {
+        try {
 
-                postButton.setOnClickListener(new View.OnClickListener() {
+            postButton.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onClick(View v) {
-                        if (isValid()) {
-                            Post postObj = new Post();
-                            postObj.setMessage(inputMessageBox.getText().toString());
-                            postObj.setUserName(userName);
-                            postObj.setStationID(stationName);
-                            postObj.setTrailCode(trailCode);
-                            new PostHelper().addPost(postObj);
-                            Log.d(TAG, "Successfully added post to the db");
-                            inputMessageBox.getText().clear();
-                            postsRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
-                        }
+                @Override
+                public void onClick(View v) {
+                    if (isValid()) {
+                        Post postObj = new Post();
+                        postObj.setMessage(inputMessageBox.getText().toString());
+                        postObj.setUserName(userName);
+                        postObj.setStationID(stationName);
+                        postObj.setTrailCode(trailCode);
+                        new PostHelper().addPost(postObj);
+                        Log.d(TAG, "Successfully added post to the db");
+                        inputMessageBox.getText().clear();
+                        postsRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                     }
-
-                });
-                if (ContextCompat.checkSelfPermission(this,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA},
-                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                } else {
-                    takePhotoButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent startCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(startCamera, 1);
-                        }
-                    });
                 }
+
+            });
+
+            takePhotoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent startCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(startCamera, 1);
+                }
+            });
+
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG,"There was an error while adding your post");
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                onClickListeners(userName);
+            } else {
+                // Permission Denied
+                Toast.makeText(StationDiscussionActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
-            catch (Exception e)
-            {
-                Log.e(TAG,"There was an error while adding your post");
-
-            }
-
-
-
+            return;
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

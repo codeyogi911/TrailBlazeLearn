@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -231,13 +232,16 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     private void dialogUpload(final Uri uri, final int code, final String name) {
         View dialogView = null;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ParticipantAddItemActivity.this);
-        dialogBuilder.setTitle("Confirm it BudDy");
+        Toolbar dialogToolbar = new Toolbar(this);
+        setSupportActionBar(dialogToolbar);
+        getSupportActionBar().setTitle("CONFIRM");
         //final ImageView imageView = dialogView.findViewById(R.id.dialog_upload_image);
         //final TextView textView = dialogView.findViewById(R.id.dialog_upload_text);
         //textView.setText(name);
         /*if(code == RESULT_LOAD_IMAGE) {
             imageView.setImageURI(uri);
         }*/
+        final MediaPlayer mediaPlayer = source(uri);
         if(code == RESULT_LOAD_VIDEO || code == RESULT_LOAD_VIDEO_CAPTURE) {
         MediaController mediaController = new MediaController(ParticipantAddItemActivity.this);
         dialogView = getLayoutInflater().inflate(R.layout.upload_video, null);
@@ -265,7 +269,6 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
             imageButtonStop = dialogView.findViewById(R.id.stop_button);
             imageButtonStop.setVisibility(View.INVISIBLE);
 
-           final MediaPlayer mediaPlayer = source(uri);
 
             imageButtonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -310,6 +313,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         }
         Button uploadButton = dialogView.findViewById(R.id.upload_action);
         Button cancelButton = dialogView.findViewById(R.id.cancel_button);
+        dialogBuilder.setCustomTitle(dialogToolbar);
         dialogBuilder.setView(dialogView);
         final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
@@ -317,6 +321,9 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
                 addParticipantItemHelper = new AddParticipantItemHelper(getApplicationContext(), uriHashMap, userName, addItemProgressbar);
                 addParticipantItemHelper.execute(uriArrayList);
                 alertDialog.dismiss();
@@ -351,6 +358,9 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
                 alertDialog.dismiss();
             }
         });
