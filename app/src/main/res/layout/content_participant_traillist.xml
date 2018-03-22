@@ -4,17 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_toEndOf="@+id/appbar"
-    android:theme="@style/ToolbarTheme"
     tools:context=".activity.ParticipantDefault">
-
-    <!--<android.support.design.widget.CoordinatorLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:fitsSystemWindows="true"-->
-    <!--tools:context=".CardDemoActivity" />-->
 
 
     <android.support.v7.widget.RecyclerView
@@ -24,8 +14,4 @@
         android:layout_below="@+id/appBarLayout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <!--<android.support.design.widget.AppBarLayout-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_width="match_parent"-->
-    <!--/>-->
 </RelativeLayout>

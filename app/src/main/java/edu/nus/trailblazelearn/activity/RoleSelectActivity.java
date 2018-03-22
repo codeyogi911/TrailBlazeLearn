@@ -19,8 +19,6 @@ import com.google.android.gms.tasks.Task;
 import edu.nus.trailblazelearn.R;
 
 public class RoleSelectActivity extends AppCompatActivity {
-//    Map<String,Object> map;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

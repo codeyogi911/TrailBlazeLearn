@@ -149,7 +149,8 @@ public class User {
         if (isParticipant()) {
             List<String> list = (List<String>) data.get("enrolledTrails");
             if (list != null) {
-                list.add(trailID);
+                if (!list.contains(trailID.toUpperCase()))
+                    list.add(trailID);
             } else {
                 list = new ArrayList<>();
                 list.add(trailID);

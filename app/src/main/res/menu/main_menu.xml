@@ -11,8 +11,8 @@
     <!-- Settings, should always be in the overflow -->
     <item
         android:id="@+id/action_signout"
+        android:icon="@drawable/ic_action_name"
+        android:onClick="signOut"
         android:title="@string/SignOut_text"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_exit_to_app_black_24dp"
-        android:onClick="signOut" />
+        app:showAsAction="ifRoom" />
 </menu>

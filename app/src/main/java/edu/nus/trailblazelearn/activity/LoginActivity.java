@@ -26,11 +26,10 @@ public class LoginActivity extends AppCompatActivity {
                             .createSignInIntentBuilder()
                             .setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build(),
                                     new AuthUI.IdpConfig.FacebookBuilder().build()))
-                            .setTheme(R.style.Theme_AppCompat_Light_NoActionBar)
+                            .setTheme(R.style.ToolbarTheme)
                             .setIsSmartLockEnabled(false)
                             .build(),
                     RC_SIGN_IN);
-//            finish();
         } else {
             navToWelcome();
         }
@@ -43,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -55,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 navToWelcome();
-                // ...
             } else {
                 // Sign in failed, check response for error code
                 // ...

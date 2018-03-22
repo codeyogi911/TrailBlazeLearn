@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TrailBlazeLearn</string>
+    <string name="app_name">Trailblaze Learn</string>
     <!--Facebook Login Data-->
     <string name="facebook_application_id">2138573943050953</string>
     <string name="fb_login_protocol_scheme">fb2138573943050953</string>
@@ -28,7 +28,7 @@
     <string name="dialog_enter_trail_code">Enter Trail Code</string>
     <string name="add">ADD</string>
     <string name="cancel">CANCEL</string>
-    <string name="trail_code_example">YYYYMMDD-Name</string>
+    <string name="trail_code_example">YYYYMMDD_Name</string>
     <string name="localuser_file">loggedinUser</string>
     <string name="page_heading_learning">Create Learning Trail</string>
     <string name="page_heading_learning_list">Learning Trails</string>
@@ -47,8 +47,8 @@
     <string name = "message_box_description">Enter your message here</string>
     <string name = "Post_Message">Post Message</string>
 
-    <string name="trainer_note">Trainer - You can create Learning trails, trail stations.</string>
-    <string name="participant_note">Participant - You ccn enroll for trails and record your activities.</string>
+    <string name="trainer_note">You can create Learning trails, trail stations.</string>
+    <string name="participant_note">You can enroll for trails and record your activities.</string>
     <string name="valid_message_discussion">Please enter message</string>
     <string name="exit">Exit</string>
     <string name="network_error_txt">Sorry communication with server was lost!</string>
