@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +19,11 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,6 +50,7 @@ public class TrailStationListActivity extends AppCompatActivity {
     private List<TrailStation> trailStationList;
     private FirebaseFirestore firebaseFirestore;
     private String trailCode;
+    FloatingActionButton createStation;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,6 +58,18 @@ public class TrailStationListActivity extends AppCompatActivity {
         inflater.inflate(R.menu.participant_default, menu);
         return true;
     }
+
+    public void signOut(MenuItem menuItem) {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        edu.nus.trailblazelearn.model.User.signOut();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });    }
 
     public void toRoleSelect(MenuItem menuItem) {
         Intent intent = new Intent(getApplicationContext(),
@@ -67,6 +84,7 @@ public class TrailStationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_station_list);
         toolBarStationListActivity = findViewById(R.id.StationListHeader);
+        createStation = findViewById(R.id.fab_create_station);
         setSupportActionBar(toolBarStationListActivity);
         getSupportActionBar().setTitle("Trail Stations");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -93,6 +111,12 @@ public class TrailStationListActivity extends AppCompatActivity {
         LearningTrail trailObj = (LearningTrail) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
         trailCode= trailObj.getTrailCode();
 
+        createStation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createTrailStation();
+            }
+        });
 
         //Set mFireStore to call Firebase Collection
 
@@ -137,7 +161,7 @@ public class TrailStationListActivity extends AppCompatActivity {
     /**
      * Create Station
      */
-    public void CreateTrailStation(View v) {
+    public void createTrailStation() {
         Log.d(TAG, "Start CreateTrailStation");
         Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
         intent.putExtra("trailCode",trailCode);

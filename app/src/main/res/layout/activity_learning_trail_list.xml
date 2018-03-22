@@ -49,13 +49,12 @@
             android:layout_gravity="center"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_create_trail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:background="@color/toolBar"
-        android:src="@drawable/ic_add_black_24dp"
-        android:onClick="startActivityForCreateTrail"/>
+        android:src="@drawable/ic_add_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

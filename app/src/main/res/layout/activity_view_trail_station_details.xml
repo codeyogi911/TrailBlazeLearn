@@ -13,7 +13,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tb_trail_details"
         android:layout_marginTop="10dp"
-        android:textSize="40dp" />
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:textColor="@color/cardview_dark_background"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/instructions"
+        android:layout_below="@+id/StationName"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Instructions :"
+        android:textColor="@color/cardview_dark_background"/>
 
     <TextView
         android:id="@+id/StationInstructions"
@@ -23,7 +35,7 @@
         android:text="TextView"
         android:textSize="20dp"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/StationName"/>
+        android:layout_below="@+id/instructions"/>
 
     <Button
         android:id="@+id/btn_activities"
@@ -45,7 +57,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_forum_black"
-        android:onClick="joinDiscussion"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="100dp"
         android:text="Join Discussion" />
@@ -56,7 +67,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/toolBar"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:minHeight="?attr/actionBarSize" />
 
 </RelativeLayout>

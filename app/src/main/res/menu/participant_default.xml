@@ -16,7 +16,11 @@
         android:title="@string/to_role_selection"
         app:showAsAction="never" />
 
-
+    <item
+        android:id="@+id/action_signout"
+        android:title="@string/SignOut_text"
+        app:showAsAction="never"
+        android:onClick="signOut" />
     <!--<item-->
     <!--android:id="@+id/action_signout"-->
     <!--android:title="@string/SignOut_text"-->

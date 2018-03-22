@@ -99,7 +99,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        user = User.getInstance(getApplicationContext());
+        user = User.getInstance();
         final String userName = (String) user.getData().get("name");
 
 
@@ -169,6 +169,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
                             new PostHelper().addPost(postObj);
                             Log.d(TAG, "Successfully added post to the db");
                             inputMessageBox.getText().clear();
+                            postsRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                         }
                     }
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +23,11 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,6 +55,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
     private FirebaseFirestore mFireStore;
     private User user;
     private String userEmail;
+    private FloatingActionButton createTrail;
 
 
     @Override
@@ -66,6 +71,19 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         startActivity(intent);
         finish();
     }
+
+    public void signOut(MenuItem menuItem) {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        edu.nus.trailblazelearn.model.User.signOut();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "Start of onCreate API call");
@@ -78,6 +96,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
+        createTrail = findViewById(R.id.fab_create_trail);
         mProgressBar = findViewById(R.id.pb_trail_list);
         mFireStore = FirebaseFirestore.getInstance();
 
@@ -101,6 +120,12 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         //Register context menu with list item
         registerForContextMenu(mRecyclerView);
 
+        createTrail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForCreateTrail();
+            }
+        });
 
         //Set mFireStore to call Firebase Collection
         // [START listen_multiple]
@@ -142,9 +167,9 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
     /**
      * API to redirect to Create
      * Learning Trail Activity Page
-     * @param v
+     * @param
      */
-    public void startActivityForCreateTrail(View v){
+    public void startActivityForCreateTrail(){
         Log.d(TAG, "Start of startActivityForCreateTrail API call");
         Intent intent = new Intent(getApplicationContext(), CreateLearningTrailActivity.class);
         startActivity(intent);
