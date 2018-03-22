@@ -37,6 +37,7 @@ import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.TrailStationListAdapter;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.TrailStation;
+import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
 public class TrailStationListActivity extends AppCompatActivity {
@@ -50,8 +51,9 @@ public class TrailStationListActivity extends AppCompatActivity {
     private List<TrailStation> trailStationList;
     private FirebaseFirestore firebaseFirestore;
     private String trailCode;
+    private Boolean isTrainer,isParticipant;
     FloatingActionButton createStation;
-
+    private User user;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -84,7 +86,12 @@ public class TrailStationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_station_list);
         toolBarStationListActivity = findViewById(R.id.StationListHeader);
+        user= User.getInstance(this);
+        isTrainer = (Boolean)user.getData().get("isTrainer");
+        isParticipant =(Boolean)user.getData().get("isParticipant");
         createStation = findViewById(R.id.fab_create_station);
+        if(!isTrainer && isParticipant)
+        createStation.hide();
         setSupportActionBar(toolBarStationListActivity);
         getSupportActionBar().setTitle("Trail Stations");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -117,7 +124,6 @@ public class TrailStationListActivity extends AppCompatActivity {
                 createTrailStation();
             }
         });
-
         //Set mFireStore to call Firebase Collection
 
         firebaseFirestore.collection("TrailStation")
@@ -165,6 +171,7 @@ public class TrailStationListActivity extends AppCompatActivity {
         Log.d(TAG, "Start CreateTrailStation");
         Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
         intent.putExtra("trailCode",trailCode);
+        intent.putExtra("stationSize",trailStationList.size());
         startActivity(intent);
         Log.d(TAG, "End Create Trail Station");
     }
@@ -180,9 +187,11 @@ public class TrailStationListActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         Log.d(TAG, "Start of onCreateContextMenu API call");
         super.onCreateContextMenu(menu, v, menuInfo);
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_context_menu, menu);
+        if(isTrainer && !isParticipant) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.main_context_menu, menu);
+        }
         Log.d(TAG, "End of onCreateContextMenu API call");
 
     }

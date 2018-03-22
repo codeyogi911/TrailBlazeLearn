@@ -2,6 +2,7 @@ package edu.nus.trailblazelearn.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.List;
 import java.util.Random;
 
 import edu.nus.trailblazelearn.R;
@@ -33,11 +35,13 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     public static FirebaseFirestore firebaseStorage;
     private static StorageReference storageReference;
     Toolbar toolbar;
+    List<TrailStation> trailStationList;
     private EditText edstationName, edinstructions;
     private TextView txtDetails;
-    private Button btnSave, btnSearch;
+    private Button btnSave;
+    private FloatingActionButton btnSearch;
     private String trailCode;
-    private Integer stationId;
+    private Integer stationId,sequence,stationSize;
     private boolean editStation;
 
     @Override
@@ -50,11 +54,12 @@ public class CreateTrailStationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Get the trailCode from Intent passed
         trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
+        stationSize=(Integer) getIntent().getSerializableExtra("stationSize");
 
         edstationName = (EditText) findViewById(R.id.station_name);
         edinstructions = (EditText) findViewById(R.id.station_instructions);
         btnSave = (Button) findViewById(R.id.btn_save);
-        btnSearch = (Button) findViewById(R.id.btn_search);
+        btnSearch = (FloatingActionButton) findViewById(R.id.btn_search);
 
         firebaseStorage = firebaseStorage.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -82,6 +87,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             edinstructions.setText(editStationObj.getStationInstructions());
             stationId=editStationObj.getStationId();
             trailCode = editStationObj.getTrailCode();
+            sequence=editStationObj.getSequence();
         }
 
         btnSave.setOnClickListener(new OnClickListener() {
@@ -93,6 +99,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 trailStationObj.setTrailStationName(stationName);
                 trailStationObj.setStationInstructions(instructions);
                 trailStationObj.setTrailCode(trailCode);
+
 
                 if (TextUtils.isEmpty(stationName)) {
                     Toast.makeText(CreateTrailStationActivity.this, "You must enter the Station Name", Toast.LENGTH_LONG).show();
@@ -134,6 +141,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             Random random = new Random();
             stationId = random.nextInt(10000);
             trailStation.setStationId(stationId);
+            trailStation.setSequence(stationSize+1);
         }else
         {stationId= trailStation.getStationId();}
 

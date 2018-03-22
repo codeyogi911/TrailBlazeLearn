@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:theme="@style/ToolbarTheme"
     tools:context="edu.nus.trailblazelearn.activity.CreateTrailStationActivity">
 
@@ -12,51 +12,42 @@
         android:id="@+id/getPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="88dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/station_instructions"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="51dp"
         android:gravity="center_horizontal"
         android:text="Get Place"
-        app:layout_constraintBottom_toTopOf="@id/station_instructions"
-        app:layout_constraintLeft_toRightOf="@id/btn_search" />
+        app:layout_constraintBottom_toBottomOf="@id/btn_search" />
 
     <EditText
         android:id="@+id/station_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:hint="@string/station_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.724"
-        app:layout_constraintBottom_toTopOf="@id/btn_search"/>
+        android:layout_below="@+id/trail_header"
+        android:layout_marginTop="24dp"
+        android:hint="@string/station_name" />
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_search"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/getPlace"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.5"
-        android:text="@string/btnSearchLocation"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="157dp"
-        app:layout_constraintBottom_toTopOf="@id/station_instructions"/>
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_add_location"
+        app:layout_constraintBottom_toBottomOf="@id/station_instructions" />
 
     <EditText
         android:id="@+id/station_instructions"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="228dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/station_name"
+        android:layout_marginTop="33dp"
         android:hint="@string/station_instructions"
-        app:layout_constraintBottom_toTopOf="@+id/btn_save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="0dp" />
 
 
     <Button
@@ -64,29 +55,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:layout_marginBottom="84dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:background="@color/toolBar"
         android:text="@string/save"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColor="@android:color/white" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/trail_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/toolBar"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_constraintBottom_toTopOf="@+id/StationName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:minHeight="?attr/actionBarSize" />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
