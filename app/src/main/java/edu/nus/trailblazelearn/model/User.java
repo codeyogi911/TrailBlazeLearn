@@ -124,13 +124,14 @@ public class User {
 
     //  Saves to Firebase
     public void save() {
-        FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                context.startActivity(new Intent(context.getApplicationContext(), NetworkError.class));
+        if (data.get("name") != null)
+            FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    context.startActivity(new Intent(context.getApplicationContext(), NetworkError.class));
 
-            }
-        });
+                }
+            });
     }
 
     //  data getter
