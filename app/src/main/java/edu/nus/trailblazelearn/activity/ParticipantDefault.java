@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,6 +53,18 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         startActivity(intent);
         finish();
     }
+
+    public void signOut(MenuItem menuItem) {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        edu.nus.trailblazelearn.model.User.signOut();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
