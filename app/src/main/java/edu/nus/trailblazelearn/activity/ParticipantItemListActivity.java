@@ -40,7 +40,7 @@ public class ParticipantItemListActivity extends AppCompatActivity {
     private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
     private TrailStation trailStation = new TrailStation();
     User user = User.getInstance(this);
-    boolean isTrainer = (boolean) user.getData().get("isTrainer");
+    public boolean isTrainer = (boolean) user.getData().get("isTrainer");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +57,20 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        if(isTrainer) {
-            floatingActionButton.setVisibility(View.INVISIBLE);
-        }
         RecyclerView recyclerView = findViewById(R.id.participant_list_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //ArrayList<ParticipantItem> participantItemArrayList = dbUtil.getParticipantItems("Ragu", progressBar, );
         participantItemAdapter = new ParticipantItemAdapter(getApplicationContext(), participantItemArrayList);
         recyclerView.setAdapter(participantItemAdapter);
         trailStation = (TrailStation) getIntent().getSerializableExtra("TrailStation");
-        getSupportActionBar().setTitle("Activities - " + trailStation.getStationId());
+        if(isTrainer) {
+            floatingActionButton.setVisibility(View.INVISIBLE);
+            getSupportActionBar().setIcon(R.drawable.icons_trainer);
+        }
+        else {
+            getSupportActionBar().setIcon(R.drawable.icons_student);
+        }
+        getSupportActionBar().setTitle(" Activities - " + trailStation.getStationId());
         stationName.setText(trailStation.getTrailStationName());
 
         FirebaseFirestore.getInstance().collection("participantActivities")

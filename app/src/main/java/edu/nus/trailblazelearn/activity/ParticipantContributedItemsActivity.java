@@ -14,10 +14,13 @@ import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.PagerAdapter;
 import edu.nus.trailblazelearn.helper.RetriveImageBitmap;
 import edu.nus.trailblazelearn.model.ParticipantItem;
+import edu.nus.trailblazelearn.model.User;
 
 public class ParticipantContributedItemsActivity extends AppCompatActivity {
 private ParticipantItem participantItem = new ParticipantItem();
 private RetriveImageBitmap retriveImageBitmap;
+User user = User.getInstance(this);
+public boolean isTrainer = (boolean) user.getData().get("isTrainer");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,15 @@ private RetriveImageBitmap retriveImageBitmap;
 
         final ViewPager viewPager = findViewById(R.id.pager);
         participantItem = (ParticipantItem) getIntent().getSerializableExtra("participantItems");
+
+        getSupportActionBar().setTitle(" Activity Details" + participantItem.getTrailStationId());
+        if(isTrainer) {
+            getSupportActionBar().setIcon(R.drawable.icons_trainer);
+        }
+        else {
+            getSupportActionBar().setIcon(R.drawable.icons_student);
+        }
+
         participantName.setText(participantItem.getUserId());
         participantDescription.setText(participantItem.getDescription());
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), participantItem, 4);

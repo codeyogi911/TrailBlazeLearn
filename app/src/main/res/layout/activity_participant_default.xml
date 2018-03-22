@@ -8,20 +8,12 @@
     android:theme="@style/ToolbarTheme"
     tools:context="edu.nus.trailblazelearn.activity.ParticipantDefault">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -33,11 +25,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="4dp"
-                app:title="Enroll for Learning Trail"
-                app:titleTextColor="@color/white" />
+                app:title="Enroll for Learning Trail" />
 
         </android.support.design.widget.AppBarLayout>
-
 
         <android.widget.TextView
             android:id="@+id/trailnotfound_txt"
@@ -61,7 +51,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="@color/statusBar"
+        android:backgroundTint="@color/toolBar"
         android:src="@drawable/ic_search_black_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
