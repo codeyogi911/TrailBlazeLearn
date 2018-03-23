@@ -19,8 +19,6 @@ import com.google.android.gms.tasks.Task;
 import edu.nus.trailblazelearn.R;
 
 public class RoleSelectActivity extends AppCompatActivity {
-//    Map<String,Object> map;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -77,7 +75,11 @@ public class RoleSelectActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        RoleSelectActivity.this.finish();
+                        //LearningTrailListActivity.this.finish();
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

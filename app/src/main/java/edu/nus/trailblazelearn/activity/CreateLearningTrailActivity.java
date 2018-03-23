@@ -46,12 +46,16 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
     private boolean updateOperationSuccess;
     private User user;
     private String userEmail;
+    private boolean isTrainer;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "Start of onCreate API");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail);
+        user = User.getInstance(this);
+        userEmail = (String) user.getData().get(ApplicationConstants.email);
+        isTrainer = (boolean) user.getData().get("isTrainer");
         toolBarLearningActivity = findViewById(R.id.tb_trail_header);
         setSupportActionBar(toolBarLearningActivity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,9 +64,6 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         edTrailDescription = findViewById(R.id.et_trail_description);
         edTrailStartDate = findViewById(R.id.et_trail_startdate);
         edTrailEndDate = findViewById(R.id.et_trail_enddate);
-
-        user = User.getInstance(this);
-        userEmail = (String) user.getData().get(ApplicationConstants.email);
 
         try {
 
@@ -391,7 +392,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         StringBuilder trailCodeStr = new StringBuilder();
         trailCodeStr.append(startDate);
         trailCodeStr.append(ApplicationConstants.underScoreConstants);
-        trailCodeStr.append(trailName);
+        trailCodeStr.append(trailName.toUpperCase());
         Log.d(TAG, "End of constructTrailCode API");
         return trailCodeStr.toString();
     }

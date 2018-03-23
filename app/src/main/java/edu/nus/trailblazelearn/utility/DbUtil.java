@@ -41,13 +41,13 @@ public final class DbUtil {
     public static ArrayList<String> audioUriList = new ArrayList<>();
     public static ArrayList<String> documentUriList = new ArrayList<>();
     private static StorageReference storageReference;
-    private static ArrayList<String> fileTypes;
+//    private static ArrayList<String> fileTypes;
 
     static{
         db = FirebaseFirestore.getInstance();
     }
 
-    QuerySnapshot lastRead;
+//    QuerySnapshot lastRead;
 
     /**
      * API to add map with

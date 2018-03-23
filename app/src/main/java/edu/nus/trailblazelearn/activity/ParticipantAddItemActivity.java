@@ -71,7 +71,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     ProgressBar addItemProgressbar;
     Uri selectedFile;
     String imageURL = null;
-    String[] documentTypes = {"text/*", "application/pdf", "application/msword"};
+    String[] documentTypes = {"text/*", "application/pdf", "application/msword", "application/ppt", "application/docx"};
     String[] addImageItems = {"camera", "gallary"};
     String[] addVideoItems = {"Record", "Gallary"};
     ArrayList<String> fileUri = null;
@@ -82,6 +82,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     private ArrayList<Uri> uriArrayList = new ArrayList<>();
     private User user;
     private String userName;
+    private boolean isTrainer;
     private UploadedFiles uploadedFiles;
     private ArrayList<String> uploadedVideoList = new ArrayList<>();
     private ArrayList<String> uploadedImageList = new ArrayList<>();
@@ -124,6 +125,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         setContentView(R.layout.participant_add_item);
         user = User.getInstance(this);
         userName = (String) user.getData().get("name");
+        isTrainer = (boolean) user.getData().get("isTrainer");
 
         sharedPref = getApplicationContext().getSharedPreferences("CONSTANTS", Context.MODE_PRIVATE);
         sharedPref.edit().putInt("IMAGE_LIMIT", 1).commit();
@@ -159,7 +161,13 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        getSupportActionBar().setTitle(" Record Activity");
+        if(isTrainer){
+            getSupportActionBar().setIcon(R.drawable.icons_trainer);
+        }
+        else {
+            getSupportActionBar().setIcon(R.drawable.icons_student);
+        }
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -471,6 +479,10 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                     }
 
                     DbUtil.addObjectToDB("participantActivities", participantItem);
+                    DbUtil.imageUriList.clear();
+                    DbUtil.videoUriList.clear();
+                    DbUtil.documentUriList.clear();
+                    DbUtil.audioUriList.clear();
                     finish();
                 }
                 else {

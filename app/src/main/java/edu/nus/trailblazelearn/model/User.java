@@ -144,12 +144,18 @@ public class User {
         data = in;
     }
 
-    //  Enrolls participant to the learning trail
+    /**
+     * API to enroll participant for
+     * searched learning trail
+     *
+     * @param trailID which is trailCode
+     */
     public void enrollforTrail(String trailID) {
         if (isParticipant()) {
             List<String> list = (List<String>) data.get("enrolledTrails");
             if (list != null) {
-                list.add(trailID);
+                if (!list.contains(trailID.toUpperCase()))
+                    list.add(trailID);
             } else {
                 list = new ArrayList<>();
                 list.add(trailID);
@@ -159,19 +165,21 @@ public class User {
         }
     }
 
+    /**
+     * API to unenroll for trailCode
+     * while trainer tries to delete
+     * any learning trail
+     * @param trailID
+     */
+
     public void unenrollforTrail(String trailID) {
-//        if (isParticipant()) {
         List<String> list = (List<String>) data.get("enrolledTrails");
         if (list != null) {
-            list.remove(list.indexOf(trailID));
+            if (list.indexOf(trailID) > 0) {
+                list.remove(list.indexOf(trailID));
+            }
         }
-//            else {
-//                list = new ArrayList<>();
-//                list.add(trailID);
-//                data.put("enrolledTrails", list);
-//            }
         save();
-//        }
     }
 
     //  Returns true if user is trainer

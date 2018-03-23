@@ -6,10 +6,34 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
+    <!--<style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar" >-->
+    <!--<item name="colorPrimary">@color/toolBar</item>-->
+    <!--<item name="colorPrimaryDark">@color/statusBar</item>-->
+    <!--<item name="colorAccent">@color/toolBar</item>-->
+    <!--</style>-->
+
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+    <!--&lt;!&ndash; Required for sign-in flow styling &ndash;&gt;-->
+    <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Required for sign-in flow styling -->
         <item name="colorPrimary">@color/toolBar</item>
-        <item name="colorPrimaryDark">@color/statusBar</item>
-        <item name="colorAccent">@color/toolBar</item>
+        <item name="colorPrimaryDark">@color/actionBar</item>
+        <item name="colorAccent">@color/statusBar</item>
+
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/statusBar</item>
+        <item name="colorControlHighlight">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
+    <color name="white">#FFFFFF</color>
+    <!--<color name="material_blue_500">#5AC8FA</color>-->
+    <!--<color name="material_blue_700">#007AFF</color>-->
+    <!--&lt;!&ndash;<color name="material_blue_a200">#69F0AE</color>&ndash;&gt;-->
+    <!--&lt;!&ndash;<color name="material_lime_a700">#AEEA00</color>&ndash;&gt;-->
+    <!--<color name="material_pink_a700">#FF2D55</color>-->
 </resources>
