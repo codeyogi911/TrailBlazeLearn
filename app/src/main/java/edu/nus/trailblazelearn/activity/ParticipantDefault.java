@@ -30,7 +30,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.RecyclerAdapter;
@@ -48,7 +51,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     View fragment;
     TextView textView;
     private User participant;
-    private List<String> enrolledTrails = new ArrayList<>();
+    private Map<String, Object> enrolledTrails = new HashMap<>();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,7 +87,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         setContentView(R.layout.activity_participant_default);
         participant = User.getInstance(this);
         participant.grantParticipant();
-        enrolledTrails = (List<String>) participant.getData().get("enrolledTrails");
+        enrolledTrails = (Map<String, Object>) participant.getData().get("enrolledTrails");
         progressBar = findViewById(R.id.progress_bar);
         fragment = findViewById(R.id.recycler_view_fragment);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -101,6 +104,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         if (enrolledTrails != null) {
             populateCardList();
         } else {
+            textView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
         }
 
@@ -109,8 +113,9 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     private void populateCardList() {
         final Context that = this;
         trailData = new ArrayList<>();
-        for (int i = 0; i < enrolledTrails.size(); i++) {
-            FirebaseFirestore.getInstance().collection("LearningTrail").document(enrolledTrails.get(i)).get().addOnSuccessListener(
+        Iterator<String> iterator = enrolledTrails.keySet().iterator();
+        while (iterator.hasNext()) {
+            FirebaseFirestore.getInstance().collection("LearningTrail").document(iterator.next().toString()).get().addOnSuccessListener(
                     new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -145,7 +150,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
                             if (documentSnapshot.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + task.getResult());
                                 participant.enrollforTrail(documentSnapshot.getId());
-                                enrolledTrails = (List<String>) User.getInstance().getData().get("enrolledTrails");
+                                enrolledTrails = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
                                 populateCardList();
                             } else {
                                 Log.d(TAG, "No such trail, try creating new trail");

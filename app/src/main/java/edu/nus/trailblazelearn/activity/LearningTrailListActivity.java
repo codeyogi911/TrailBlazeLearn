@@ -28,8 +28,6 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -45,6 +43,7 @@ import edu.nus.trailblazelearn.adapter.LearningTrailAdapter;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
+import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class LearningTrailListActivity extends AppCompatActivity implements ApplicationConstants {
 
@@ -106,7 +105,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.page_heading_learning_list));
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
+        mRecyclerView = findViewById(R.id.learning_trail_recycler_view);
         createTrail = findViewById(R.id.fab_create_trail);
         mProgressBar = findViewById(R.id.pb_trail_list);
         defaultTrailMessage = findViewById(R.id.learning_trail_not_found);
@@ -235,28 +234,30 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                 String trailCodeForDeletion = learningTrailLst.get(position).getTrailCode();
                 //Invoke api to delete enrolled trail for trailCode
                 try {
-                    user.unenrollforTrail(trailCodeForDeletion);
+                    DbUtil.deleteTrail(trailCodeForDeletion, learningTrailLst, position);
                 } catch (Exception e) {
                     Log.e(TAG, "Exception occurred while deleting enrolled trail");
                     Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
                 }
                 Log.d(TAG, "Trail code to be deleted.." + learningTrailLst.get(position).getTrailCode());
-                mFireStore.collection(ApplicationConstants.learningTrailCollection).document("/" + learningTrailLst.get(position).getTrailCode())
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                mAdapter.removeLearningTrail(learningTrailLst.get(position));
+//                mFireStore.collection(ApplicationConstants.learningTrailCollection).document("/" + learningTrailLst.get(position).getTrailCode())
+//                        .delete()
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                mAdapter.removeLearningTrail(learningTrailLst.get(position));
+//                                Log.d(TAG, "Learning Trail successfully deleted...size is!" + learningTrailLst.size());
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.e(TAG, "Error deleting learning trail", e);
+//                                Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+                mAdapter.removeLearningTrail(learningTrailLst.get(position));
                                 Log.d(TAG, "Learning Trail successfully deleted...size is!" + learningTrailLst.size());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e(TAG, "Error deleting learning trail", e);
-                                Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
-                            }
-                        });
                 return true;
             default:
                 Log.d(TAG, "End of onContextItemSelected API call");

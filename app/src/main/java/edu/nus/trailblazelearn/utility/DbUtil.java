@@ -23,6 +23,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +45,7 @@ public final class DbUtil {
     private static StorageReference storageReference;
 //    private static ArrayList<String> fileTypes;
 
-    static{
+    static {
         db = FirebaseFirestore.getInstance();
     }
 
@@ -52,6 +54,7 @@ public final class DbUtil {
     /**
      * API to add map with
      * values to be saved in database
+     *
      * @param collectionName
      * @param data
      */
@@ -89,6 +92,7 @@ public final class DbUtil {
                     }
                 });
     }
+
     //To do.. saving image/video/audio/document files to db
     public static String addFilesToDB(final String userEmail, final String child, final Uri uri, final Context context, final String resultMessage, final ProgressBar progressBar, final String check) {
         storageReference = FirebaseStorage.getInstance().getReference("activity").child(userEmail).child(child);
@@ -97,16 +101,16 @@ public final class DbUtil {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(context, resultMessage, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
-                if(check.equals("image")) {
+                if (check.equals("image")) {
                     imageUriList.add(taskSnapshot.getDownloadUrl().toString());
                 }
-                if(check.equals("video")) {
+                if (check.equals("video")) {
                     videoUriList.add(taskSnapshot.getDownloadUrl().toString());
                 }
-                if(check.equals("audio")) {
+                if (check.equals("audio")) {
                     audioUriList.add(taskSnapshot.getDownloadUrl().toString());
                 }
-                if(check.equals("document")) {
+                if (check.equals("document")) {
                     documentUriList.add(taskSnapshot.getDownloadUrl().toString());
                 }
             }
@@ -155,10 +159,11 @@ public final class DbUtil {
      * API to persist an object based on
      * passed reference id
      * into DB
+     *
      * @param collectionName
      * @param data
      */
-    public static void addRecordForCollection(String collectionName, Object data,String referenceId) throws TrailDaoException {
+    public static void addRecordForCollection(String collectionName, Object data, String referenceId) throws TrailDaoException {
         db.collection(collectionName).document(referenceId).set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -178,6 +183,7 @@ public final class DbUtil {
     /**
      * API to fetch list of learning trails
      * for logged in Trainer
+     *
      * @param trailCode
      * @return
      */
@@ -202,7 +208,7 @@ public final class DbUtil {
                             Log.d(TAG, "Record existing for trail code " + trailCode);
                         }
 
-                        Log.d(TAG, "Current learning trail list size for trainer: "+learningTrailLst.size());
+                        Log.d(TAG, "Current learning trail list size for trainer: " + learningTrailLst.size());
                     }
                 });
         // [END listen_multiple]
@@ -212,12 +218,55 @@ public final class DbUtil {
 
     //      Query DB using key and value
     public static Task<QuerySnapshot> readWithKey(String collectionName, String key, String value) {
-        return db.collection(collectionName).whereEqualTo(key, value)
+        return db.collection(collectionName).whereEqualTo(key + "." + value, true)
                 .get();
     }
 
     //      Query DB using docID
     public static Task<DocumentSnapshot> readWithDocID(String collectionName, String docID) {
         return db.collection(collectionName).document(docID).get();
+    }
+
+    /**
+     * API to unenroll for trailCode
+     * while trainer tries to delete
+     * any learning trail
+     *
+     * @param trailID
+     */
+
+    public static void deleteTrail(final String trailID, final List<LearningTrail> learningTrailList, final int position) {
+        readWithKey("users", "enrolledTrails", trailID).addOnSuccessListener(
+                new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        List<DocumentSnapshot> userlist = documentSnapshots.getDocuments();
+                        Iterator<DocumentSnapshot> iterator = userlist.iterator();
+                        while (iterator.hasNext()) {
+                            DocumentSnapshot user = iterator.next();
+                            Map<String, Object> enrolledTrails = (Map<String, Object>) user.getData().get("enrolledTrails");
+                            enrolledTrails.remove(trailID);
+                            DocumentReference documentReference = FirebaseFirestore.getInstance()
+                                    .collection("users").document(user.getId());
+                            Map<String, Object> updatedlist = new HashMap<>();
+                            updatedlist.put("enrolledTrails", enrolledTrails);
+                            documentReference.update(updatedlist)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection).document("/" + learningTrailList.get(position).getTrailCode())
+                                                    .delete()
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.e(TAG, "Error deleting learning trail", e);
+                                                        }
+                                                    });
+                                        }
+                                    });
+                        }
+                    }
+                }
+        );
     }
 }

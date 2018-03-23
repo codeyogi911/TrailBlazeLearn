@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/participantdefault"
@@ -8,12 +8,20 @@
     android:theme="@style/ToolbarTheme"
     tools:context="edu.nus.trailblazelearn.activity.ParticipantDefault">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -25,10 +33,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="4dp"
-                app:titleTextColor="@color/white"
-                app:title="Enroll for Learning Trail" />
+                app:title="Enroll for Learning Trail"
+                app:titleTextColor="@color/white" />
 
         </android.support.design.widget.AppBarLayout>
+
 
         <android.widget.TextView
             android:id="@+id/trailnotfound_txt"
@@ -38,13 +47,8 @@
             android:layout_margin="@dimen/text_margin"
             android:text="@string/trail_not_found_txt"
             android:textAlignment="center"
-            android:textAllCaps="true" />
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:textAllCaps="true"
+            android:visibility="invisible" />
 
         <include
             android:id="@+id/recycler_view_fragment"
@@ -56,11 +60,9 @@
         android:id="@+id/fab"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:theme="@style/Theme.AppCompat"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/toolBar"
+        android:backgroundTint="@color/statusBar"
         android:src="@drawable/ic_search_black_24dp"/>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

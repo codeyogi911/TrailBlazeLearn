@@ -13,9 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.nus.trailblazelearn.activity.LearningTrailListActivity;
@@ -152,35 +150,36 @@ public class User {
      */
     public void enrollforTrail(String trailID) {
         if (isParticipant()) {
-            List<String> list = (List<String>) data.get("enrolledTrails");
-            if (list != null) {
-                if (!list.contains(trailID.toUpperCase()))
-                    list.add(trailID);
+//            List<String> list = (List<String>) data.get("enrolledTrails");
+            Map<String, Object> map = (Map<String, Object>) data.get("enrolledTrails");
+            if (map != null) {
+                if (map.get(trailID.toUpperCase()) == null)
+                    map.put(trailID, true);
             } else {
-                list = new ArrayList<>();
-                list.add(trailID);
-                data.put("enrolledTrails", list);
+                map = new HashMap<>();
+                map.put(trailID, true);
+                data.put("enrolledTrails", map);
             }
             save();
         }
     }
 
-    /**
-     * API to unenroll for trailCode
-     * while trainer tries to delete
-     * any learning trail
-     * @param trailID
-     */
-
-    public void unenrollforTrail(String trailID) {
-        List<String> list = (List<String>) data.get("enrolledTrails");
-        if (list != null) {
-            if (list.indexOf(trailID) > 0) {
-                list.remove(list.indexOf(trailID));
-            }
-        }
-        save();
-    }
+//    /**
+//     * API to unenroll for trailCode
+//     * while trainer tries to delete
+//     * any learning trail
+//     * @param trailID
+//     */
+//
+//    public void deleteTrail(String trailID) {
+//        List<String> list = (List<String>) data.get("enrolledTrails");
+//        if (list != null) {
+//            if (list.indexOf(trailID) > 0) {
+//                list.remove(list.indexOf(trailID));
+//            }
+//        }
+//        save();
+//    }
 
     //  Returns true if user is trainer
     private boolean isTrainer() {
