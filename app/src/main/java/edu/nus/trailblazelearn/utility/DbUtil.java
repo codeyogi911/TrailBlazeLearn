@@ -32,6 +32,7 @@ import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.ParticipantItem;
+import edu.nus.trailblazelearn.model.User;
 
 public final class DbUtil {
     private static final String TAG = "dbUtil";
@@ -254,6 +255,8 @@ public final class DbUtil {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                            Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
+                                            map.remove(trailID);
                                             FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection).document(trailID)
                                                     .delete()
                                                     .addOnFailureListener(new OnFailureListener() {
