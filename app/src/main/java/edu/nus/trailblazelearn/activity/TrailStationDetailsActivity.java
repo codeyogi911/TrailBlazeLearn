@@ -44,7 +44,6 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         locationdetails=(TextView)findViewById(R.id.StationPlace);
         stringBuilderName.append(trailStationbj.getTrailStationName().toString());
         stringBuilderInstructions.append(trailStationbj.getStationInstructions().toString());
-        stringBuilderLocation.append(trailStationbj.getGps());
         stationName.setText(trailStationbj.getTrailStationName());
         stationInstructions.setText(trailStationbj.getStationInstructions());
         locationdetails.setText(trailStationbj.getGps());
