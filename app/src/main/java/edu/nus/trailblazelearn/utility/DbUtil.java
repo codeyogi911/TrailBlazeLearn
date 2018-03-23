@@ -235,7 +235,7 @@ public final class DbUtil {
      * @param trailID
      */
 
-    public static void deleteTrail(final String trailID, final List<LearningTrail> learningTrailList, final int position) {
+    public static void deleteTrail(final String trailID) {
         readWithKey("users", "enrolledTrails", trailID).addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -254,7 +254,7 @@ public final class DbUtil {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection).document("/" + learningTrailList.get(position).getTrailCode())
+                                            FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection).document(trailID)
                                                     .delete()
                                                     .addOnFailureListener(new OnFailureListener() {
                                                         @Override

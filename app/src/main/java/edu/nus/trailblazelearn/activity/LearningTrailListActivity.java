@@ -234,7 +234,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                 String trailCodeForDeletion = learningTrailLst.get(position).getTrailCode();
                 //Invoke api to delete enrolled trail for trailCode
                 try {
-                    DbUtil.deleteTrail(trailCodeForDeletion, learningTrailLst, position);
+                    DbUtil.deleteTrail(trailCodeForDeletion);
                 } catch (Exception e) {
                     Log.e(TAG, "Exception occurred while deleting enrolled trail");
                     Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
