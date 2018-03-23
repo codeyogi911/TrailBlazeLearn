@@ -237,6 +237,11 @@ public final class DbUtil {
      */
 
     public static void deleteTrail(final String trailID) {
+        Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
+        map.remove(trailID);
+        Map<String, Object> map1 = User.getInstance().getData();
+        map1.put("enrolledTrails", map);
+        User.getInstance().setData(map1);
         readWithKey("users", "enrolledTrails", trailID).addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -255,11 +260,6 @@ public final class DbUtil {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
-                                            map.remove(trailID);
-                                            Map<String, Object> map1 = User.getInstance().getData();
-                                            map1.put("enrolledTrails", map);
-                                            User.getInstance().setData(map1);
                                             FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection).document(trailID)
                                                     .delete()
                                                     .addOnFailureListener(new OnFailureListener() {
@@ -271,6 +271,7 @@ public final class DbUtil {
                                         }
                                     });
                         }
+
                     }
                 }
         );

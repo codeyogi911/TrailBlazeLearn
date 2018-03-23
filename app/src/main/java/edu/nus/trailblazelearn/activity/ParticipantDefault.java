@@ -26,6 +26,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -87,7 +88,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         setContentView(R.layout.activity_participant_default);
         participant = User.getInstance(this);
         participant.grantParticipant();
-        enrolledTrails = (Map<String, Object>) participant.getData().get("enrolledTrails");
+//        enrolledTrails = (Map<String, Object>) participant.getData().get("enrolledTrails");
         progressBar = findViewById(R.id.progress_bar);
         fragment = findViewById(R.id.recycler_view_fragment);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -101,13 +102,18 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
             }
         });
         textView = findViewById(R.id.trailnotfound_txt);
-        if (enrolledTrails != null) {
-            populateCardList();
-        } else {
-            textView.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
-        }
-
+        DbUtil.readWithDocID("users", FirebaseAuth.getInstance().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails");
+                if (enrolledTrails != null) {
+                    populateCardList();
+                } else {
+                    textView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void populateCardList() {
