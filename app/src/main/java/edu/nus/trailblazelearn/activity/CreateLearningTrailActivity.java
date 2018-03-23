@@ -392,7 +392,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         StringBuilder trailCodeStr = new StringBuilder();
         trailCodeStr.append(startDate);
         trailCodeStr.append(ApplicationConstants.underScoreConstants);
-        trailCodeStr.append(trailName);
+        trailCodeStr.append(trailName.toUpperCase());
         Log.d(TAG, "End of constructTrailCode API");
         return trailCodeStr.toString();
     }

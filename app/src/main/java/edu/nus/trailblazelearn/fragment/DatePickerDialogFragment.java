@@ -10,6 +10,8 @@ import android.widget.EditText;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
+
 public class DatePickerDialogFragment extends DialogFragment implements
         DatePickerDialog.OnDateSetListener {
     public static final int FLAG_START_DATE = 0;
@@ -38,7 +40,7 @@ public class DatePickerDialogFragment extends DialogFragment implements
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, monthOfYear, dayOfMonth);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat(ApplicationConstants.dateFormat);
         if (flag == FLAG_START_DATE) {
             edTrailStartDate.setText(format.format(calendar.getTime()));
         } else if (flag == FLAG_END_DATE) {
