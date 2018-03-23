@@ -14,13 +14,11 @@ import android.widget.TextView;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.PagerAdapter;
-import edu.nus.trailblazelearn.helper.RetriveImageBitmap;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.User;
 
 public class ParticipantContributedItemsActivity extends AppCompatActivity {
 private ParticipantItem participantItem = new ParticipantItem();
-private RetriveImageBitmap retriveImageBitmap;
 User user = User.getInstance(this);
 public boolean isTrainer = (boolean) user.getData().get("isTrainer");
 

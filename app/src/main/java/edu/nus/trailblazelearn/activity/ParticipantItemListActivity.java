@@ -62,7 +62,6 @@ public class ParticipantItemListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.participant_list_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //ArrayList<ParticipantItem> participantItemArrayList = dbUtil.getParticipantItems("Ragu", progressBar, );
         participantItemAdapter = new ParticipantItemAdapter(getApplicationContext(), participantItemArrayList);
         recyclerView.setAdapter(participantItemAdapter);
         trailStation = (TrailStation) getIntent().getSerializableExtra("TrailStation");

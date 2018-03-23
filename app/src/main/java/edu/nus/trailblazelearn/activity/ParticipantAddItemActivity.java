@@ -3,9 +3,7 @@ package edu.nus.trailblazelearn.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -76,8 +74,6 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     String[] documentTypes = {"text/*", "application/pdf", "application/msword", "application/ppt", "application/docx"};
     String[] addImageItems = {"camera", "gallary"};
     String[] addVideoItems = {"Record", "Gallary"};
-    ArrayList<String> fileUri = null;
-    SharedPreferences sharedPref;
     Date today = new Date();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_DD");
     private HashMap<String, Uri> uriHashMap = new HashMap<>();
@@ -91,12 +87,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     private ArrayList<String> uploadedAudioList = new ArrayList<>();
     private ArrayList<String> uploadedDocumentList = new ArrayList<>();
     private ParticipantItem participantItem;
-    private int imageLimit;
 
-    //String[] imageTypes = {"image/png"};
-    private int videoLimit;
-    private int audioLimit;
-    private int documentLimit;
 
     public static String getDataColumn(Context context, Uri uri, String selection,
                                        String[] selectionArgs) {
@@ -129,19 +120,6 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         userName = (String) user.getData().get("name");
         isTrainer = (boolean) user.getData().get("isTrainer");
 
-        sharedPref = getApplicationContext().getSharedPreferences("CONSTANTS", Context.MODE_PRIVATE);
-        sharedPref.edit().putInt("IMAGE_LIMIT", 1).commit();
-        sharedPref.edit().putInt("VIDEO_LIMIT", 3).commit();
-        sharedPref.edit().putInt("AUDIO_LIMIT", 3).commit();
-        sharedPref.edit().putInt("FILE_LIMIT", 1).commit();
-
-        imageLimit = sharedPref.getInt("IMAGE_LIMIT", 1);
-        videoLimit = sharedPref.getInt("VIDEO_LIMIT", 3);
-        audioLimit = sharedPref.getInt("AUDIO_LIMIT", 3);
-        documentLimit = sharedPref.getInt("FILE_LIMIT", 1);
-
-        /*Toolbar addActivityToonbar = findViewById(R.id.add_activity);
-        addActivityToonbar.setTitle("ADD ACTIVITY");*/
         trailStation = new TrailStation();
         trailStation = (TrailStation) getIntent().getSerializableExtra("TrailStation");
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -187,11 +165,9 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         File name;
         super.onActivityResult(requestCode, resultCode, data);
         if ((resultCode == RESULT_OK && data != null) && (requestCode == 1 || requestCode == 2 || requestCode == 4 || requestCode == 5 || requestCode == 3 || requestCode == 6)) {
-            //if(requestCode != RESULT_LOAD_IMAGE_CAPTURE) {
             Log.d("request code", Integer.toString(requestCode));
                 selectedFile = data.getData();
 
-            //}
             if (requestCode == RESULT_LOAD_IMAGE) {
                 imageURL = getDataColumn(getApplicationContext(), selectedFile, null, null);
                 name = new File(imageURL);
@@ -229,24 +205,19 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
                 uriHashMap.put("document", selectedFile);
                 dialogUpload(selectedFile, RESULT_LOAD_DOCUMENT, name.getName());
             }
-            //Log.d("Image path and doc path", selectedImage.getPath().toString() + " " + name.getName() + " " + imageURL);
-            //Toast.makeText(ParticipantAddItemActivity.this, name.getName() + " " + selectedImage.getEncodedPath().toString(), Toast.LENGTH_SHORT).show();
         }
     }
-
+/*
+* Dialogs on choosing video audio doc and inge files to confirm upload
+* */
     private void dialogUpload(final Uri uri, final int code, final String name) {
         View dialogView = null;
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ParticipantAddItemActivity.this);
         Toolbar dialogToolbar = new Toolbar(this);
         setSupportActionBar(dialogToolbar);
         getSupportActionBar().setTitle("CONFIRM");
-        //final ImageView imageView = dialogView.findViewById(R.id.dialog_upload_image);
-        //final TextView textView = dialogView.findViewById(R.id.dialog_upload_text);
-        //textView.setText(name);
-        /*if(code == RESULT_LOAD_IMAGE) {
-            imageView.setImageURI(uri);
-        }*/
         final MediaPlayer mediaPlayer = source(uri);
+
         if(code == RESULT_LOAD_VIDEO || code == RESULT_LOAD_VIDEO_CAPTURE) {
         MediaController mediaController = new MediaController(ParticipantAddItemActivity.this);
         dialogView = getLayoutInflater().inflate(R.layout.upload_video, null);
@@ -383,7 +354,9 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         }
         return mediaPlayer;
     }
-
+/*
+* Onclick listeners to choose and create activity
+* */
     private void onclickListeners() {
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -459,8 +432,6 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(imageDescription.getText())) {
-                    //Code to create contributor item
-                    //fileUri = UploadedFiles.downLoadUri;
                     participantItem = new ParticipantItem(userName, trailStation.getTrailCode(), trailStation.getStationId(), imageDescription.getText().toString());
                     if (DbUtil.imageUriList != null) {
                         participantItem.setImageUri(DbUtil.imageUriList);
@@ -517,6 +488,9 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         Toast.makeText(ParticipantAddItemActivity.this, path, Toast.LENGTH_LONG).show();
         return Uri.parse(path);
     }
+    /*
+    * setting menu in toolbar
+    * */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/ToolbarTheme">
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
@@ -20,11 +21,13 @@
     android:background="@drawable/border"
     android:id="@+id/relativesearch">
 
-    <ImageView
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:id="@+id/ic_magnify"
+        android:backgroundTint="@color/toolBar"
         android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/search_input"
         android:layout_marginLeft="10dp"
         android:src="@drawable/ic_magnify"/>
 
@@ -32,7 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/search_input"
-        android:layout_toRightOf="@id/ic_magnify"
         android:layout_centerVertical="true"
         android:textSize="15sp"
         android:textColor="#000"
@@ -52,5 +54,7 @@
         android:id="@+id/confirm_selection"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/toolBar"
+        android:textColor="@color/white"
         android:text="ok"/>
 </RelativeLayout>
