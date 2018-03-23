@@ -256,11 +256,11 @@ public final class DbUtil {
                             DocumentReference documentReference = FirebaseFirestore.getInstance()
                                     .collection("users").document(user.getId());
                             Map<String, Object> updatedlist = new HashMap<>();
-                            if (enrolledTrails.size() > 0) {
+                            if (enrolledTrails.size() > 0)
                                 updatedlist.put("enrolledTrails", enrolledTrails);
-                            } else {
+                            else
                                 updatedlist.put("enrolledTrails", FieldValue.delete());
-                            }
+
                             documentReference.update(updatedlist)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override

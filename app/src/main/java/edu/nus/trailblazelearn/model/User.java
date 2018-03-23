@@ -121,15 +121,17 @@ public class User {
     }
 
     //  Saves to Firebase
-    public void save() {
+    public Task<Void> save() {
         if (data.get("name") != null)
-            FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data).addOnFailureListener(new OnFailureListener() {
+            return FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     context.startActivity(new Intent(context.getApplicationContext(), NetworkError.class));
 
                 }
             });
+        else
+            return null;
     }
 
     //  data getter
@@ -148,9 +150,8 @@ public class User {
      *
      * @param trailID which is trailCode
      */
-    public void enrollforTrail(String trailID) {
+    public Task<Void> enrollforTrail(String trailID) {
         if (isParticipant()) {
-//            List<String> list = (List<String>) data.get("enrolledTrails");
             Map<String, Object> map = (Map<String, Object>) data.get("enrolledTrails");
             if (map != null) {
                 if (map.get(trailID.toUpperCase()) == null)
@@ -160,8 +161,8 @@ public class User {
                 map.put(trailID, true);
                 data.put("enrolledTrails", map);
             }
-            save();
         }
+        return save();
     }
 
 //    /**
