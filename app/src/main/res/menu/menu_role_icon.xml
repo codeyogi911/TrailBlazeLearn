@@ -14,13 +14,15 @@
         android:id="@+id/trainer_icon"
         android:icon="@drawable/icons_trainer"
         app:showAsAction="always"
+        android:enabled="false"
         android:iconTint="@color/cardview_light_background"
-        tools:ignore="MenuTitle" />
+        android:title="trainer" />
     <item
         android:id="@+id/participant_icon"
         android:icon="@drawable/icons_student"
         app:showAsAction="always"
+        android:enabled="false"
         android:iconTint="@color/cardview_light_background"
-        tools:ignore="MenuTitle" />
+        android:title="participant" />
 
 </menu>
