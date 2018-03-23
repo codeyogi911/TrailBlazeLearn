@@ -9,5 +9,11 @@
     android:layout_columnSpan="2"
     tools:context="edu.nus.trailblazelearn.fragment.FragmentImage">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_files_not_found"
+        android:text="NO IMAGES ATTACHED"
+        android:layout_gravity="center_horizontal" />
 
 </GridLayout>

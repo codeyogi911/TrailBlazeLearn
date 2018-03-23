@@ -47,6 +47,12 @@
         android:id="@+id/participant_list_items">
 
     </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/items_not_found"
+            android:text="NO ITEMS FOUND"
+            android:layout_centerInParent="true"/>
     <ProgressBar
         android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyle"

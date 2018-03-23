@@ -46,7 +46,11 @@ AudioListAdapter audioListAdapter;
         LinearLayout audioLinearLayout = fragmentAudioView.findViewById(R.id.fragment_audio_linear_layout);
 
         RecyclerView recyclerView = fragmentAudioView.findViewById(R.id.audio_recycler_view);
+        TextView notFoundAudio = fragmentAudioView.findViewById(R.id.audio_files_not_found);
         recyclerView.setLayoutManager(new LinearLayoutManager(fragmentAudioView.getContext()));
+        if(participantItem.getAudioUri().size() > 0) {
+            notFoundAudio.setVisibility(View.GONE);
+        }
         audioListAdapter = new AudioListAdapter(fragmentAudioView.getContext(), participantItem.getAudioUri());
         recyclerView.setAdapter(audioListAdapter);
         //audioLinearLayout.addView(recyclerView);
