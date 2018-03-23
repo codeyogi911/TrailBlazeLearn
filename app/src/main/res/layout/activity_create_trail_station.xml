@@ -13,20 +13,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/station_instructions"
-        android:layout_marginTop="51dp"
         android:layout_marginRight="60dp"
+        android:layout_marginTop="20dp"
+        android:hint="Select a Location"
+        android:layout_below="@+id/trail_header"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
-        android:gravity="center_horizontal"
-        android:textSize="40dp"/>
+        android:textSize="20dp"/>
 
     <EditText
         android:id="@+id/station_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/trail_header"
-        android:layout_marginTop="24dp"
+        android:layout_below="@+id/getPlace"
+        android:layout_marginTop="33dp"
         android:hint="@string/station_name" />
 
     <android.support.design.widget.FloatingActionButton
