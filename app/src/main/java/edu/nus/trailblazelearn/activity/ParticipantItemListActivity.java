@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +38,7 @@ import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
+import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class ParticipantItemListActivity extends AppCompatActivity {
     private static final String TAG = ApplicationConstants.participantItemListActivity;
@@ -54,10 +57,10 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         Log.d(TAG,"Start of onCreate participant List Activity");
         final ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.VISIBLE);
-        FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
+        final FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
         Toolbar toolbar = findViewById(R.id.tb_participant_item_list_header);
         final TextView notFound = findViewById(R.id.items_not_found);
-        TextView stationName = findViewById(R.id.station_name_in_activity);
+        final TextView stationName = findViewById(R.id.station_name_in_activity);
         FloatingActionButton joinDiscussion = findViewById(R.id.btn_forum);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -73,30 +76,27 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         stationName.setText(trailStation.getTrailStationName());
 
         String trailCode = trailStation.getTrailCode();
-        FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection)
-                .whereEqualTo("trailCode",trailCode)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-
-                    @Override
-                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        if(e != null) {
-                            Log.d("ParticipantItemList", e.getMessage());
-                        }
-                        for(DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
-                            learningTrail = documentSnapshot.toObject(LearningTrail.class);
-                        }
+        DbUtil.readWithDocID("LearningTrail",trailCode).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()) {
+                    Date currentDate = new Date();
+                    Date endDate = (Date) documentSnapshot.get("endDate");
+                    if (isParticipant && endDate.before(currentDate)) {
+                        stationName.setText(trailStation.getTrailStationName() + "(EXPIRED)");
+                        stationName.setTextColor(Color.RED);
+                        floatingActionButton.setVisibility(View.INVISIBLE);
                     }
-                });
-
+                }
+            }
+        });
         if(isTrainer) {
             floatingActionButton.setVisibility(View.INVISIBLE);
         }
-
-        if((isParticipant && learningTrail.getEndDate().before(new Date()))) {
-            stationName.setText(trailStation.getTrailStationName() + "(EXPIRED)");
-            stationName.setTextColor(Color.RED);
-            floatingActionButton.setVisibility(View.INVISIBLE);
-        }
+        /*Date endDate = learningTrail.getEndDate();
+        Date currentDate = new Date();
+        boolean value = endDate.before(currentDate);
+*/
 
         FirebaseFirestore.getInstance().collection("participantActivities")
                 .whereEqualTo("trailStationId",trailStation.getStationId())
