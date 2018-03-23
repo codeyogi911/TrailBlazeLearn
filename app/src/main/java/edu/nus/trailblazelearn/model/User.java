@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +21,7 @@ import edu.nus.trailblazelearn.activity.LearningTrailListActivity;
 import edu.nus.trailblazelearn.activity.ParticipantDefault;
 import edu.nus.trailblazelearn.activity.RoleSelectActivity;
 import edu.nus.trailblazelearn.exception.NetworkError;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class User {
@@ -50,7 +52,7 @@ public class User {
         user = null;
     }
 
-    private void initialize() {
+    public void initialize() {
         DbUtil.readWithDocID("users", mAuth.getUid())
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -108,16 +110,18 @@ public class User {
         context.finish();
     }
 
-    public void grantTrainer() {
-        data.put("isTrainer", true);
-        data.put("isParticipant", false);
-        save();
+    public Task<Void> grantTrainer() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("isTrainer", true);
+        map.put("isParticipant", false);
+        return DbUtil.MergeData("users", mAuth.getUid(), map);
     }
 
-    public void grantParticipant() {
-        data.put("isParticipant", true);
-        data.put("isTrainer", false);
-        save();
+    public Task<Void> grantParticipant() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("isTrainer", false);
+        map.put("isParticipant", true);
+        return DbUtil.MergeData("users", mAuth.getUid(), map);
     }
 
     //  Saves to Firebase
@@ -150,19 +154,25 @@ public class User {
      *
      * @param trailID which is trailCode
      */
-    public Task<Void> enrollforTrail(String trailID) {
+    public void enrollforTrail(final String trailID) {
         if (isParticipant()) {
-            Map<String, Object> map = (Map<String, Object>) data.get("enrolledTrails");
-            if (map != null) {
-                if (map.get(trailID.toUpperCase()) == null)
-                    map.put(trailID, true);
-            } else {
-                map = new HashMap<>();
-                map.put(trailID, true);
-                data.put("enrolledTrails", map);
-            }
+            DbUtil.readWithDocID("users", mAuth.getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Map<String, Object> trails = (Map<String, Object>) documentSnapshot.get("enrolledTrails");
+                    if (trails != null) {
+                        if (trails.get(trailID.toUpperCase()) == null)
+                            trails.put(trailID, true);
+                    } else {
+                        trails = new HashMap<>();
+                        trails.put(trailID, true);
+                    }
+                    Map<String, Object> map = documentSnapshot.getData();
+                    map.put(ApplicationConstants.enrolledTrails, trails);
+                    DbUtil.MergeData("users", mAuth.getUid(), map);
+                }
+            });
         }
-        return save();
     }
 
 //    /**
