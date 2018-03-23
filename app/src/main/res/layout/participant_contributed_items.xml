@@ -20,9 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/PopupOverlay"
+            app:titleTextColor="@color/white"
             app:layout_scrollFlags="scroll|enterAlways"
             android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ToolbarTheme"
             android:background="@color/toolBar">
 
         </android.support.v7.widget.Toolbar>
@@ -52,8 +52,8 @@
         android:background="@color/toolBar"
         android:elevation="6dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/AlertDialog.AppCompat.Light">
+        app:tabTextColor="@color/white"
+        android:minHeight="?attr/actionBarSize">
 
     </android.support.design.widget.TabLayout>
     <android.support.v4.view.ViewPager

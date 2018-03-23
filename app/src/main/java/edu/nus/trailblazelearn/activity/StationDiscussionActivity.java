@@ -17,6 +17,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -100,12 +102,6 @@ public class StationDiscussionActivity extends AppCompatActivity {
         setSupportActionBar(messageListToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(isTrainer) {
-            getSupportActionBar().setIcon(R.drawable.icons_trainer);
-        }
-        else {
-            getSupportActionBar().setIcon(R.drawable.icons_student);
-        }
 
         db = FirebaseFirestore.getInstance();
         trailStation = (TrailStation) getIntent().getSerializableExtra(ApplicationConstants.trailStation);
@@ -197,6 +193,21 @@ public class StationDiscussionActivity extends AppCompatActivity {
         }
         // [END listen_multiple]
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_role_icon, menu);
+        MenuItem participant = menu.findItem(R.id.participant_icon);
+        MenuItem trainer = menu.findItem(R.id.trainer_icon);
+        if(isTrainer) {
+            participant.setVisible(false);
+        }
+        else {
+            trainer.setVisible(false);
+        }
+        return true;
     }
 
     private void onClickListeners() {

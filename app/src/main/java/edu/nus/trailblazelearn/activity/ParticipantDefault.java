@@ -54,6 +54,8 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.participant_default, menu);
+        MenuItem trainer = menu.findItem(R.id.trainer_icon);
+        trainer.setVisible(false);
         return true;
     }
 
@@ -79,9 +81,9 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_participant_default);
         participant = User.getInstance(this);
         participant.grantParticipant();
-        setContentView(R.layout.activity_participant_default);
         enrolledTrails = (List<String>) participant.getData().get("enrolledTrails");
         progressBar = findViewById(R.id.progress_bar);
         fragment = findViewById(R.id.recycler_view_fragment);

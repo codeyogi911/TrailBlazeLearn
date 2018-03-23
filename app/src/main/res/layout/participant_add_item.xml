@@ -19,7 +19,8 @@
             app:layout_scrollFlags="scroll|enterAlways"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
-            android:background="@color/toolBar">
+            android:background="@color/toolBar"
+            app:titleTextColor="@color/white">
 
         </android.support.v7.widget.Toolbar>
 

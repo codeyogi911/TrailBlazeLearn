@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,13 +39,8 @@ public boolean isTrainer = (boolean) user.getData().get("isTrainer");
         final ViewPager viewPager = findViewById(R.id.pager);
         participantItem = (ParticipantItem) getIntent().getSerializableExtra("participantItems");
 
-        getSupportActionBar().setTitle(" Activity Details" + participantItem.getTrailStationId());
-        if(isTrainer) {
-            getSupportActionBar().setIcon(R.drawable.icons_trainer);
-        }
-        else {
-            getSupportActionBar().setIcon(R.drawable.icons_student);
-        }
+        getSupportActionBar().setTitle("Activity Details" + participantItem.getTrailStationId());
+
 
         participantName.setText(participantItem.getUserId());
         participantDescription.setText(participantItem.getDescription());
@@ -79,5 +76,20 @@ public boolean isTrainer = (boolean) user.getData().get("isTrainer");
         finish();
         return true;
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_role_icon, menu);
+        MenuItem participant = menu.findItem(R.id.participant_icon);
+        MenuItem trainer = menu.findItem(R.id.trainer_icon);
+        if(isTrainer) {
+            participant.setVisible(false);
+        }
+        else {
+            trainer.setVisible(false);
+        }
+        return true;
     }
 }

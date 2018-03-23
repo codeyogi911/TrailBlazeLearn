@@ -58,6 +58,14 @@ public class TrailStationListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.participant_default, menu);
+        MenuItem participant = menu.findItem(R.id.participant_icon);
+        MenuItem trainer = menu.findItem(R.id.trainer_icon);
+        if(isTrainer) {
+            participant.setVisible(false);
+        }
+        else {
+            trainer.setVisible(false);
+        }
         return true;
     }
 
@@ -96,12 +104,7 @@ public class TrailStationListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Trail Stations");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(isTrainer) {
-           getSupportActionBar().setIcon(R.drawable.icons_trainer);
-        }
-        else {
-          getSupportActionBar().setIcon(R.drawable.icons_student);
-        }
+
 
         recyclerView = (RecyclerView) findViewById(R.id.StationRecyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
