@@ -14,6 +14,7 @@ public interface ApplicationConstants {
     String trailCodeParam = "trailCode";
     String underScoreConstants = "_";
     String trailStation = "TrailStation";
+    String dateFormat = "yyyy-MM-dd";
 
 
     /***DB Collection related constants**/
