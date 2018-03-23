@@ -21,6 +21,16 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <android.widget.TextView
+        android:id="@+id/learning_trail_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/trail_not_found"
+        android:textAlignment="center"
+        android:textAllCaps="true" />
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"

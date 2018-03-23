@@ -6,7 +6,6 @@ package edu.nus.trailblazelearn.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -49,6 +49,7 @@ import edu.nus.trailblazelearn.utility.ApplicationConstants;
 public class LearningTrailListActivity extends AppCompatActivity implements ApplicationConstants {
 
     private static final String TAG = ApplicationConstants.trailActivityListClassName;
+    public static boolean isTrainer;
     Toolbar toolBarListLearningActivity;
     ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
@@ -58,8 +59,8 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
     private FirebaseFirestore mFireStore;
     private User user;
     private String userEmail;
-    public static boolean isTrainer;
     private FloatingActionButton createTrail;
+    private TextView defaultTrailMessage;
 
 
     @Override
@@ -107,6 +108,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
         createTrail = findViewById(R.id.fab_create_trail);
         mProgressBar = findViewById(R.id.pb_trail_list);
+        defaultTrailMessage = findViewById(R.id.learning_trail_not_found);
         mFireStore = FirebaseFirestore.getInstance();
 
 
@@ -160,6 +162,11 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                             }
 
                             mAdapter.notifyDataSetChanged();
+                            if (learningTrailLst.size() > 0) {
+                                defaultTrailMessage.setVisibility(View.INVISIBLE);
+                            } else {
+                                defaultTrailMessage.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         Log.d(TAG, "Current learning trail list size for trainer: " + learningTrailLst.size());

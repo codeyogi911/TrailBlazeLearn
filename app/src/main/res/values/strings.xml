@@ -53,5 +53,6 @@
     <string name="exit">Exit</string>
     <string name="network_error_txt">Sorry communication with server was lost!</string>
     <string name="trail_not_found_txt">No learning trail found! \nTry enrolling for a new one</string>
+    <string name="trail_not_found">No Learning Trail available.Please add one.</string>
 
 </resources>
