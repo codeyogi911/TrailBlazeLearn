@@ -46,7 +46,7 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         stringBuilderInstructions.append(trailStationbj.getStationInstructions().toString());
         stationName.setText(trailStationbj.getTrailStationName());
         stationInstructions.setText(trailStationbj.getStationInstructions());
-        locationdetails.setText(trailStationbj.getGps());
+        locationdetails.setText(trailStationbj.getStationAddress());
         getSupportActionBar().setTitle("Station - " + trailStationbj.getStationId());
 
         joinDiscussion.setOnClickListener(new View.OnClickListener() {

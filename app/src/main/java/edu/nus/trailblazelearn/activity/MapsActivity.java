@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,19 +61,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Integer placePickerRequest=1;
     private FloatingActionButton mPlacePicker;
+    private ImageButton searchedLocation;
     private AutoCompleteTextView searchInput;
     PlaceAutoCompleteAdapter placeAutoCompleteAdapter;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private GoogleApiClient mGoogleApiClient;
     Context context;
     Address address;
+    String mapAddress;
     private TextView getPlace;
     private Button btn_selection;
     int PLACE_PICKER_REQUEST,result = 1;
     Place mPlace;
     TrailStation trailStationPlace;
-    private LatLngBounds locationBound;
+    private LatLngBounds locationBound, defaultLocationBound;
     private LatLng location;
+    String trailCode;
+    Integer stationSize;
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -87,17 +92,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        trailCode=(String)getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
+        stationSize=(Integer)getIntent().getSerializableExtra(ApplicationConstants.stationSize);
         searchInput = (AutoCompleteTextView) findViewById(R.id.search_input);
         getPlace = (TextView) findViewById(R.id.getPlace);
         mPlacePicker =(FloatingActionButton)findViewById(R.id.ic_place_picker);
         btn_selection=(Button)findViewById(R.id.confirm_selection);
-        final String trailCode=(String)getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
-        final Integer stationSize=(Integer)getIntent().getSerializableExtra(ApplicationConstants.stationSize);
+        searchedLocation = findViewById(R.id.ic_magnify);
         mPlacePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PlacePicker.IntentBuilder builder= new PlacePicker.IntentBuilder();
-                builder.setLatLngBounds(locationBound);
+                if(locationBound == null) {
+                    builder.setLatLngBounds(defaultLocationBound);
+                }
+                else {
+                    builder.setLatLngBounds(locationBound);
+                }
                 Intent intent;
                 try {
                     startActivityForResult(builder.build(MapsActivity.this), PLACE_PICKER_REQUEST);
@@ -114,32 +125,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
            // this.activity = activity;
       //  }
 
+        searchedLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                geolocate();
+            }
+        });
+
         btn_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringBuilder setaddress=new StringBuilder(address.getFeatureName());
-                setaddress.append(address.getFeatureName()).append(" ").append(address.getLocality())
-                .append(" ").append(address.getCountryName());
-                Intent intent=new Intent(getApplicationContext(),CreateTrailStationActivity.class);
-                intent.putExtra(ApplicationConstants.stationLocation,location);
-                intent.putExtra(ApplicationConstants.address, setaddress.toString());
-                intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
-                intent.putExtra(ApplicationConstants.stationSize, stationSize);
-                startActivity(intent);
-                finish();
+                if(address == null) {
+                   Toast.makeText(MapsActivity.this, "Please set a Location", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
+                    intent.putExtra(ApplicationConstants.stationLocation, location);
+                    intent.putExtra(ApplicationConstants.address, address.getAddressLine(0));
+
+                    intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                    intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }
 
-    private void onActivityResult(int requestCode, Intent data,int resultCode) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                 mPlace = PlacePicker.getPlace(this,data);
+                mPlace = PlacePicker.getPlace(this,data);
 
                 PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                         .getPlaceById(mGoogleApiClient, mPlace.getId());
                 placeResult.setResultCallback(updatePlaceDetaisCallBack);
-                String address= String.format("Place: %s" , mPlace.getAddress());
+                mapAddress = String.format("Place: %s" , mPlace.getAddress());
+
+                Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
+                intent.putExtra(ApplicationConstants.stationLocation, location);
+                intent.putExtra(ApplicationConstants.address, mapAddress);
+
+                intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                startActivity(intent);
+                finish();
             }
         }
     }
@@ -160,18 +193,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         searchInput.setAdapter(placeAutoCompleteAdapter);
 
-        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == KeyEvent.ACTION_DOWN
-                        || event.getAction() == KeyEvent.KEYCODE_ENTER) {
-
-                    geolocate();
-                }
-                return false;
-            }
-        });
     }
 
     public void geolocate() {
@@ -189,8 +210,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d(TAG, "geolocation found" + address.toString());
             locationBound = new LatLngBounds(new LatLng(address.getLatitude(), address.getLongitude()), new LatLng(address.getLatitude(), address.getLongitude()));
         }
-        else
-            locationBound= new LatLngBounds(new LatLng(1.3480323,103.7725324), new LatLng(1.3480323,103.7725324));
+        else {
+            locationBound = defaultLocationBound;
+        }
+
         location=new LatLng(address.getLatitude(),address.getLongitude());
 
         moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
@@ -206,6 +229,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is ready", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
+        defaultLocationBound = new LatLngBounds(new LatLng(1.3480323,103.7725324), new LatLng(1.3480323,103.7725324));
         initial();
     }
 
