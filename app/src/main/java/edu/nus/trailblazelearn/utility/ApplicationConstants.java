@@ -16,6 +16,7 @@ public interface ApplicationConstants {
     String trailStationAdapter="TrailStationAdapter";
     String mapsActivity ="MapsActivity";
     String trailCodeParam = "trailCode";
+    String trailCodeMap="trailCodeMap";
     String underScoreConstants = "_";
     String trailStation = "TrailStation";
     String dateFormat = "yyyy-MM-dd";

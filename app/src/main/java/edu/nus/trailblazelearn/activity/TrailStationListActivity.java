@@ -127,7 +127,7 @@ public class TrailStationListActivity extends AppCompatActivity {
         LearningTrail trailObj = (LearningTrail) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
         trailCode= trailObj.getTrailCode();
         if(trailCode==null)
-            trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
+            trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
         //TrailStation trailStation=new TrailStation();
         createStation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,14 +149,16 @@ public class TrailStationListActivity extends AppCompatActivity {
                             return;
                         }
                         for (DocumentChange doc : value.getDocumentChanges()) {
-                            TrailStation trailStationObj = doc.getDocument().toObject(TrailStation.class);
-                            if (doc.getType() == DocumentChange.Type.ADDED) {
-                                trailStationList.add(trailStationObj);
-                            } else if (doc.getType() == DocumentChange.Type.MODIFIED) {
-                                int editedPosition = trailStationAdapter.itemPosition;
-                                Log.d(TAG, "Edited position :: " + trailStationAdapter.itemPosition);
-                                Log.d(TAG, "Station Name ::" + trailStationObj.getTrailStationName());
-                                trailStationList.set(editedPosition, trailStationObj);
+                            if(doc.getDocument().exists()) {
+                                TrailStation trailStationObj = doc.getDocument().toObject(TrailStation.class);
+                                if (doc.getType() == DocumentChange.Type.ADDED) {
+                                    trailStationList.add(trailStationObj);
+                                } else if (doc.getType() == DocumentChange.Type.MODIFIED) {
+                                    int editedPosition = trailStationAdapter.itemPosition;
+                                    Log.d(TAG, "Edited position :: " + trailStationAdapter.itemPosition);
+                                    Log.d(TAG, "Station Name ::" + trailStationObj.getTrailStationName());
+                                    trailStationList.set(editedPosition, trailStationObj);
+                                }
                             }
 
                             trailStationAdapter.notifyDataSetChanged();
