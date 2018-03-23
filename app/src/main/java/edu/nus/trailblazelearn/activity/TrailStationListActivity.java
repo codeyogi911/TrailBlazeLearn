@@ -125,7 +125,9 @@ public class TrailStationListActivity extends AppCompatActivity {
         //Register context menu with list item
         registerForContextMenu(recyclerView);
         LearningTrail trailObj = (LearningTrail) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
-        trailCode= trailObj.getTrailCode();
+        if(trailObj != null) {
+            trailCode = trailObj.getTrailCode();
+        }
         if(trailCode==null)
             trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
         //TrailStation trailStation=new TrailStation();

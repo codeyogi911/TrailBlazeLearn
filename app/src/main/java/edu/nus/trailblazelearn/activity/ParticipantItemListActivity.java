@@ -111,10 +111,11 @@ public class ParticipantItemListActivity extends AppCompatActivity {
                 for(DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
                     ParticipantItem participantItem = documentSnapshot.toObject(ParticipantItem.class);
                     participantItemArrayList.add(participantItem);
+                    notFound.setVisibility(View.GONE);
                 }
                 participantItemAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
-                notFound.setVisibility(View.GONE);
+
             }
         });
 

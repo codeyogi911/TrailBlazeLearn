@@ -62,7 +62,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="@color/statusBar"
+        app:backgroundTint="@color/statusBar"
         android:src="@drawable/ic_search_black_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

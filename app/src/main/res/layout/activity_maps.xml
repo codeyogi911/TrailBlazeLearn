@@ -27,13 +27,14 @@
         android:id="@+id/ic_magnify"
         android:backgroundTint="@color/toolBar"
         android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/search_input"
+        android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
         android:src="@drawable/ic_magnify"/>
 
     <AutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginRight="40dp"
         android:id="@+id/search_input"
         android:layout_centerVertical="true"
         android:textSize="15sp"
@@ -56,5 +57,5 @@
         android:layout_alignParentEnd="true"
         android:backgroundTint="@color/toolBar"
         android:textColor="@color/white"
-        android:text="ok"/>
+        android:text="SET"/>
 </RelativeLayout>
