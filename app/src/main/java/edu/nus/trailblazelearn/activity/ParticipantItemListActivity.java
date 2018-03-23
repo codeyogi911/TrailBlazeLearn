@@ -1,6 +1,7 @@
 package edu.nus.trailblazelearn.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -44,6 +45,7 @@ public class ParticipantItemListActivity extends AppCompatActivity {
     private LearningTrail learningTrail = new LearningTrail();
     User user = User.getInstance(this);
     public boolean isTrainer = (boolean) user.getData().get("isTrainer");
+    public boolean isParticipant = (boolean) user.getData().get("isParticipant");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
         Toolbar toolbar = findViewById(R.id.tb_participant_item_list_header);
+        final TextView notFound = findViewById(R.id.items_not_found);
         TextView stationName = findViewById(R.id.station_name_in_activity);
         FloatingActionButton joinDiscussion = findViewById(R.id.btn_forum);
         setSupportActionBar(toolbar);
@@ -85,7 +88,13 @@ public class ParticipantItemListActivity extends AppCompatActivity {
                     }
                 });
 
-        if(isTrainer && learningTrail.getEndDate().before(new Date())) {
+        if(isTrainer) {
+            floatingActionButton.setVisibility(View.INVISIBLE);
+        }
+
+        if((isParticipant && learningTrail.getEndDate().before(new Date()))) {
+            stationName.setText(trailStation.getTrailStationName() + "(EXPIRED)");
+            stationName.setTextColor(Color.RED);
             floatingActionButton.setVisibility(View.INVISIBLE);
         }
 
@@ -105,6 +114,7 @@ public class ParticipantItemListActivity extends AppCompatActivity {
                 }
                 participantItemAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
+                notFound.setVisibility(View.GONE);
             }
         });
 

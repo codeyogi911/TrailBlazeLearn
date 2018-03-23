@@ -11,6 +11,12 @@
         android:id="@+id/audio_recycler_view">
 
     </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/audio_files_not_found"
+        android:text="NO AUDIO FILES ATTACHED"
+        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>

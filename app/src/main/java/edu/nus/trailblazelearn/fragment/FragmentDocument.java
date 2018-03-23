@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.AudioListAdapter;
@@ -35,6 +36,11 @@ public class FragmentDocument extends Fragment {
         LinearLayout audioLinearLayout = fragmentDocumentView.findViewById(R.id.fragment_docment_linear_layout);
 
         RecyclerView recyclerView = fragmentDocumentView.findViewById(R.id.document_recycler_view);
+        TextView notFoundDocument = fragmentDocumentView.findViewById(R.id.document_files_not_found);
+
+        if(participantItem.getFileUri().size() > 0) {
+            notFoundDocument.setVisibility(View.GONE);
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(fragmentDocumentView.getContext()));
         documentListAdapter = new DocumentListAdapter(fragmentDocumentView.getContext(), participantItem.getFileUri());
         recyclerView.setAdapter(documentListAdapter);
