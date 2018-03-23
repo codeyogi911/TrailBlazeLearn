@@ -11,6 +11,10 @@ public interface ApplicationConstants {
     String trailActivityCreateClassName ="CreateLearningTrailActivity";
     String trailStaionListActivity = "TrailStationListActivity";
     String participantItemListActivity = "ParticipantItemList";
+    String createTrailStationActivity="CreateTrailStationActivity";
+    String trailStationDetailsActivity="TrailStationDetailsActivity";
+    String trailStationAdapter="TrailStationAdapter";
+    String mapsActivity ="MapsActivity";
     String trailCodeParam = "trailCode";
     String underScoreConstants = "_";
     String trailStation = "TrailStation";
@@ -25,6 +29,11 @@ public interface ApplicationConstants {
     String Post = "Post";
     String createdDate = "createdDate";
     String users = "users";
+    String stationSize="stationSize";
+    String stationLocation="stationLocation";
+    String address="address";
+    String stationName = "stationName";
+    String TrailStation="TrailStation";
 
     /**Toast messages**/
     String toastMessageForDbFailure = "An error occurred,please try later!";

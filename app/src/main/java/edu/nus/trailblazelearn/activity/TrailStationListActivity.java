@@ -96,6 +96,12 @@ public class TrailStationListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Trail Stations");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(isTrainer) {
+           getSupportActionBar().setIcon(R.drawable.icons_trainer);
+        }
+        else {
+          getSupportActionBar().setIcon(R.drawable.icons_student);
+        }
 
         recyclerView = (RecyclerView) findViewById(R.id.StationRecyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -117,7 +123,9 @@ public class TrailStationListActivity extends AppCompatActivity {
         registerForContextMenu(recyclerView);
         LearningTrail trailObj = (LearningTrail) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
         trailCode= trailObj.getTrailCode();
-
+        if(trailCode==null)
+            trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
+        //TrailStation trailStation=new TrailStation();
         createStation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,8 +178,8 @@ public class TrailStationListActivity extends AppCompatActivity {
     public void createTrailStation() {
         Log.d(TAG, "Start CreateTrailStation");
         Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
-        intent.putExtra("trailCode",trailCode);
-        intent.putExtra("stationSize",trailStationList.size());
+        intent.putExtra(ApplicationConstants.trailCode,trailCode);
+        intent.putExtra(ApplicationConstants.stationSize,trailStationList.size());
         startActivity(intent);
         Log.d(TAG, "End Create Trail Station");
     }
@@ -215,7 +223,7 @@ public class TrailStationListActivity extends AppCompatActivity {
                 TrailStation stationObj = new TrailStation();
                 stationObj = trailStationList.get(position);
                 Intent intent = new Intent(this, CreateTrailStationActivity.class);
-                intent.putExtra("stationName", stationObj);
+                intent.putExtra(ApplicationConstants.stationName, stationObj);
                 startActivity(intent);
                 trailStationAdapter.notifyDataSetChanged();
                 return true;

@@ -14,9 +14,10 @@ import android.widget.TextView;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.model.TrailStation;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
 public class TrailStationDetailsActivity extends AppCompatActivity {
-    private final static String TAG = "Station Details Activity";
+    private final static String TAG = ApplicationConstants.trailStationDetailsActivity;
     Button btnActivities, btnPost;
     TextView stationName, stationInstructions;
     TrailStation trailStationbj;
@@ -37,7 +38,7 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        trailStationbj = (TrailStation) intent.getSerializableExtra("TrailStation");
+        trailStationbj = (TrailStation) intent.getSerializableExtra(ApplicationConstants.TrailStation);
         stationName = (TextView) findViewById(R.id.StationName);
         stationInstructions = (TextView) findViewById(R.id.StationInstructions);
         stringBuilderName.append(trailStationbj.getTrailStationName().toString());

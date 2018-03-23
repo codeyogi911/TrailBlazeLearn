@@ -23,13 +23,14 @@ import edu.nus.trailblazelearn.activity.CreateTrailStationActivity;
 import edu.nus.trailblazelearn.activity.TrailStationDetailsActivity;
 import edu.nus.trailblazelearn.interfaces.LongClickListener;
 import edu.nus.trailblazelearn.model.TrailStation;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
 /**
  * Created by Dharini.
  */
 
 public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationListAdapter.ViewHolder> {
-    private static final String TAG = "TrailStationAdaper";
+    private static final String TAG = ApplicationConstants.trailStationAdapter;
     public int itemPosition;
     private List<TrailStation> trailStationList;
     private Context context;
@@ -139,7 +140,7 @@ public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationLi
             TrailStation trailStationObj = new TrailStation();
             trailStationObj = trailStationList.get(position);
             Intent intent = new Intent(context, TrailStationDetailsActivity.class);
-            intent.putExtra("TrailStation", trailStationObj);
+            intent.putExtra(ApplicationConstants.TrailStation, trailStationObj);
             Log.i(TAG, "trailStationName:" + trailStationObj.getTrailStationName());
             context.startActivity(intent);
             Log.i(TAG, "End of onClick method");

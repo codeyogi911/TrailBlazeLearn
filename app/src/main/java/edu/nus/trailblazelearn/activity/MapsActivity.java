@@ -1,10 +1,13 @@
 package edu.nus.trailblazelearn.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +40,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import android.content.Intent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,25 +49,30 @@ import java.util.List;
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.PlaceAutoCompleteAdapter;
 import edu.nus.trailblazelearn.model.TrailStation;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
-    private final static String TAG = "Map Activity";
+    private final static String TAG = ApplicationConstants.mapsActivity;
     // private final static String FINE_LOCATION=Manifest.permission.ACCESS_FINE_LOCATION;
     //private final static String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private final static float DEFAULT_ZOOM = 15f;
     private LatLngBounds LAT_LNG_BOUNDS=new LatLngBounds(new LatLng(47.64299816, -122.14351988), new LatLng(47.64299816, -122.14351988));
     private GoogleMap mMap;
     private Integer placePickerRequest=1;
-    private ImageView mPlacePicker;
+    private FloatingActionButton mPlacePicker;
     private AutoCompleteTextView searchInput;
     PlaceAutoCompleteAdapter placeAutoCompleteAdapter;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private GoogleApiClient mGoogleApiClient;
+    Context context;
     Address address;
     private TextView getPlace;
+    private Button btn_selection;
     int PLACE_PICKER_REQUEST,result = 1;
     Place mPlace;
     TrailStation trailStationPlace;
+    private LatLngBounds locationBound;
+    private LatLng location;
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -79,13 +89,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         searchInput = (AutoCompleteTextView) findViewById(R.id.search_input);
         getPlace = (TextView) findViewById(R.id.getPlace);
-        mPlacePicker =(ImageView)findViewById(R.id.ic_place_picker);
-
+        mPlacePicker =(FloatingActionButton)findViewById(R.id.ic_place_picker);
+        btn_selection=(Button)findViewById(R.id.confirm_selection);
+        final String trailCode=(String)getIntent().getSerializableExtra(ApplicationConstants.trailCode);
+        final Integer stationSize=(Integer)getIntent().getSerializableExtra(ApplicationConstants.stationSize);
         mPlacePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PlacePicker.IntentBuilder builder= new PlacePicker.IntentBuilder();
-                builder.setLatLngBounds(LAT_LNG_BOUNDS);
+                builder.setLatLngBounds(locationBound);
                 Intent intent;
                 try {
                     startActivityForResult(builder.build(MapsActivity.this), PLACE_PICKER_REQUEST);
@@ -96,15 +108,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-      /*  getPlace.setOnContextClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-              //  PlacePicker.IntentBuilder builder= new PlacePicker.IntentBuilder();
-                Intent intent;
-                //intent= builder.build(getApplicationContext());
-                startActivityForPlace(intent,PLACE_PICKER_REQUEST);
-            }
-        });*/
+
         initial();
+       // public void onAttach(Activity activity){
+           // this.activity = activity;
+      //  }
+
+        btn_selection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder setaddress=new StringBuilder(address.getFeatureName());
+                setaddress.append(address.getFeatureName()).append(" ").append(address.getLocality())
+                .append(" ").append(address.getCountryName());
+                Intent intent=new Intent(getApplicationContext(),CreateTrailStationActivity.class);
+                intent.putExtra(ApplicationConstants.stationLocation,location);
+                intent.putExtra(ApplicationConstants.address, setaddress.toString());
+                intent.putExtra(ApplicationConstants.trailCode, trailCode);
+                intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                startActivity(intent);
+            }
+        });
     }
 
     private void onActivityResult(int requestCode, Intent data,int resultCode) {
@@ -116,7 +139,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .getPlaceById(mGoogleApiClient, mPlace.getId());
                 placeResult.setResultCallback(updatePlaceDetaisCallBack);
                 String address= String.format("Place: %s" , mPlace.getAddress());
-                trailStationPlace.setAddress(mPlace.getAddress().toString());
             }
         }
     }
@@ -165,6 +187,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             address = list.set(0, list.get(0));
             Log.d(TAG, "geolocation found" + address.toString());
         }
+        locationBound=new LatLngBounds(new LatLng(address.getLatitude(),address.getLongitude()), new LatLng(address.getLatitude(),address.getLongitude()));
+        location=new LatLng(address.getLatitude(),address.getLongitude());
 
         moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
     }
@@ -183,18 +207,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is ready", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        //  LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        // if (locationPermissionGranted)
-        //   getDeviceLocation();
-        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED
-        //&& ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=PackageManager.PERMISSION_GRANTED) {
-        //  return;
-        //mMap.setMyLocationEnabled(true);
-        //mMap.getUiSettings().setMyLocationButtonEnabled(false);
         initial();
     }
 
@@ -229,7 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             final Place place = places.get(0);
             trailStationPlace = new TrailStation();
-            trailStationPlace.setAddress(place.getAddress().toString());
+            trailStationPlace.setStationAddress(place.getAddress().toString());
             trailStationPlace.setLatLng(place.getLatLng());
             trailStationPlace.setLocationName(place.getName().toString());
             Log.d(TAG, "place detail" + trailStationPlace);
