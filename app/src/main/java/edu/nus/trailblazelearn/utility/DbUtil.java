@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -255,7 +256,11 @@ public final class DbUtil {
                             DocumentReference documentReference = FirebaseFirestore.getInstance()
                                     .collection("users").document(user.getId());
                             Map<String, Object> updatedlist = new HashMap<>();
-                            updatedlist.put("enrolledTrails", enrolledTrails);
+                            if (enrolledTrails.size() > 0) {
+                                updatedlist.put("enrolledTrails", enrolledTrails);
+                            } else {
+                                updatedlist.put("enrolledTrails", FieldValue.delete());
+                            }
                             documentReference.update(updatedlist)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
