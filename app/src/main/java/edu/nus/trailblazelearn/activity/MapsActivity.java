@@ -187,8 +187,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (list.size() > 0) {
             address = list.set(0, list.get(0));
             Log.d(TAG, "geolocation found" + address.toString());
+            locationBound = new LatLngBounds(new LatLng(address.getLatitude(), address.getLongitude()), new LatLng(address.getLatitude(), address.getLongitude()));
         }
-        locationBound=new LatLngBounds(new LatLng(address.getLatitude(),address.getLongitude()), new LatLng(address.getLatitude(),address.getLongitude()));
+        else
+            locationBound= new LatLngBounds(new LatLng(1.3480323,103.7725324), new LatLng(1.3480323,103.7725324));
         location=new LatLng(address.getLatitude(),address.getLongitude());
 
         moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
