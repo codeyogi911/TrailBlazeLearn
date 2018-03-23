@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +29,7 @@ import java.util.Random;
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.TrailStation;
+import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.DbUtil;
 
@@ -45,12 +48,15 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     private FloatingActionButton btnSearch;
     private String trailCode,address,gps;
     private Integer stationId,sequence,stationSize;
-    private boolean editStation;
+    private boolean editStation, isTrainer;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail_station);
+        user = User.getInstance(this);
+        isTrainer = (boolean) user.getData().get("isTrainer");
         toolbar = (Toolbar) findViewById(R.id.trail_header);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -155,6 +161,21 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             }
         });
         }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_role_icon, menu);
+        MenuItem participant = menu.findItem(R.id.participant_icon);
+        MenuItem trainer = menu.findItem(R.id.trainer_icon);
+        if(isTrainer) {
+            participant.setVisible(false);
+        }
+        else {
+            trainer.setVisible(false);
+        }
+        return true;
+    }
 
     /**
      * Creating new Trail Station node under 'Learning Trail'

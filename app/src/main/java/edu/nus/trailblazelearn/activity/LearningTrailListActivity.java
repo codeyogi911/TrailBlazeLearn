@@ -67,6 +67,8 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.participant_default, menu);
+        MenuItem participant = menu.findItem(R.id.participant_icon);
+        participant.setVisible(false);
         return true;
     }
 
@@ -102,9 +104,8 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         setSupportActionBar(toolBarListLearningActivity);
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setTitle(" " + getString(R.string.page_heading_learning_list));
+        getSupportActionBar().setTitle(getString(R.string.page_heading_learning_list));
 
-        getSupportActionBar().setIcon(R.drawable.icons_trainer);
         mRecyclerView = (RecyclerView) findViewById(R.id.learning_trail_recycler_view);
         createTrail = findViewById(R.id.fab_create_trail);
         mProgressBar = findViewById(R.id.pb_trail_list);

@@ -22,6 +22,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -161,13 +163,8 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle(" Record Activity");
-        if(isTrainer){
-            getSupportActionBar().setIcon(R.drawable.icons_trainer);
-        }
-        else {
-            getSupportActionBar().setIcon(R.drawable.icons_student);
-        }
+        getSupportActionBar().setTitle("Record Activity");
+
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -519,6 +516,21 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         Log.d("Image uri :", path);
         Toast.makeText(ParticipantAddItemActivity.this, path, Toast.LENGTH_LONG).show();
         return Uri.parse(path);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_role_icon, menu);
+        MenuItem participant = menu.findItem(R.id.participant_icon);
+        MenuItem trainer = menu.findItem(R.id.trainer_icon);
+        if(isTrainer) {
+            participant.setVisible(false);
+        }
+        else {
+            trainer.setVisible(false);
+        }
+        return true;
     }
 }
 

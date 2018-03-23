@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -10,12 +9,18 @@
     <!--app:showAsAction="ifRoom"/>-->
 
     <!-- Settings, should always be in the overflow -->
+
     <item
-        android:id="@+id/action_signout"
-        android:icon="@drawable/ic_action_name"
-        android:onClick="signOut"
-        android:title="@string/SignOut_text"
-        app:showAsAction="ifRoom"
-        android:iconTint="@color/cardview_light_background"/>
+        android:id="@+id/trainer_icon"
+        android:icon="@drawable/icons_trainer"
+        app:showAsAction="always"
+        android:iconTint="@color/cardview_light_background"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@+id/participant_icon"
+        android:icon="@drawable/icons_student"
+        app:showAsAction="always"
+        android:iconTint="@color/cardview_light_background"
+        tools:ignore="MenuTitle" />
 
 </menu>

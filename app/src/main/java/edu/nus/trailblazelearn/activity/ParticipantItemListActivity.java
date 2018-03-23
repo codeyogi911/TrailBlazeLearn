@@ -26,9 +26,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
+import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.model.User;
@@ -39,6 +41,7 @@ public class ParticipantItemListActivity extends AppCompatActivity {
     private ParticipantItemAdapter participantItemAdapter;
     private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
     private TrailStation trailStation = new TrailStation();
+    private LearningTrail learningTrail = new LearningTrail();
     User user = User.getInstance(this);
     public boolean isTrainer = (boolean) user.getData().get("isTrainer");
 
@@ -63,15 +66,29 @@ public class ParticipantItemListActivity extends AppCompatActivity {
         participantItemAdapter = new ParticipantItemAdapter(getApplicationContext(), participantItemArrayList);
         recyclerView.setAdapter(participantItemAdapter);
         trailStation = (TrailStation) getIntent().getSerializableExtra("TrailStation");
-        if(isTrainer) {
-            floatingActionButton.setVisibility(View.INVISIBLE);
-            getSupportActionBar().setIcon(R.drawable.icons_trainer);
-        }
-        else {
-            getSupportActionBar().setIcon(R.drawable.icons_student);
-        }
-        getSupportActionBar().setTitle(" Activities - " + trailStation.getStationId());
+
+        getSupportActionBar().setTitle("Activities - " + trailStation.getStationId());
         stationName.setText(trailStation.getTrailStationName());
+
+        String trailCode = trailStation.getTrailCode();
+        FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection)
+                .whereEqualTo("trailCode",trailCode)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+                    @Override
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        if(e != null) {
+                            Log.d("ParticipantItemList", e.getMessage());
+                        }
+                        for(DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
+                            learningTrail = documentSnapshot.toObject(LearningTrail.class);
+                        }
+                    }
+                });
+
+        if(isTrainer && learningTrail.getEndDate().before(new Date())) {
+            floatingActionButton.setVisibility(View.INVISIBLE);
+        }
 
         FirebaseFirestore.getInstance().collection("participantActivities")
                 .whereEqualTo("trailStationId",trailStation.getStationId())
@@ -116,6 +133,14 @@ public class ParticipantItemListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.participant_default, menu);
+        MenuItem participant = menu.findItem(R.id.participant_icon);
+        MenuItem trainer = menu.findItem(R.id.trainer_icon);
+        if(isTrainer) {
+            participant.setVisible(false);
+        }
+        else {
+            trainer.setVisible(false);
+        }
         return true;
     }
 

@@ -31,7 +31,8 @@
             android:background="@color/toolBar"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/PopupOverlay">
+            app:popupTheme="@style/PopupOverlay"
+            app:titleTextColor="@color/white">
 
         </android.support.v7.widget.Toolbar>
 

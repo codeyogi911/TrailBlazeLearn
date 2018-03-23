@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,16 +37,31 @@ public class RoleSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_role_select);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        CardView trainerCard = findViewById(R.id.card_view_trainer);
+        CardView participantCard = findViewById(R.id.card_view_participant);
+        trainerCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginTrainer();
+            }
+        });
+
+        participantCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginParticipant();
+            }
+        });
     }
 
-    public void loginTrainer(View view) {
+    public void loginTrainer() {
         edu.nus.trailblazelearn.model.User.getInstance(this).grantTrainer();
         Intent intent = new Intent(this, LearningTrailListActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void loginParticipant(View view) {
+    public void loginParticipant() {
         Intent intent = new Intent(this, ParticipantDefault.class);
         startActivity(intent);
         finish();
