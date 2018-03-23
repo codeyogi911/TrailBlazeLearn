@@ -257,6 +257,9 @@ public final class DbUtil {
                                         public void onSuccess(Void aVoid) {
                                             Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
                                             map.remove(trailID);
+                                            Map<String, Object> map1 = User.getInstance().getData();
+                                            map1.put("enrolledTrails", map);
+                                            User.getInstance().setData(map1);
                                             FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection).document(trailID)
                                                     .delete()
                                                     .addOnFailureListener(new OnFailureListener() {

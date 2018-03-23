@@ -138,7 +138,7 @@ public class User {
     }
 
     //  data setter
-    private void setData(Map<String, Object> in) {
+    public void setData(Map<String, Object> in) {
         data = in;
     }
 
