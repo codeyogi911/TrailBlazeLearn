@@ -21,7 +21,7 @@
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Required for sign-in flow styling -->
         <item name="colorPrimary">@color/toolBar</item>
-        <item name="colorPrimaryDark">@color/toolBar</item>
+        <item name="colorPrimaryDark">@color/actionBar</item>
         <item name="colorAccent">@color/statusBar</item>
 
         <item name="colorControlNormal">@color/white</item>

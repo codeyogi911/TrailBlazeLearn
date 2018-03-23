@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="green">#22bb45</color>
-    <color name="toolBar">#009688</color>
+    <color name="toolBar">#26A69A</color>
+    <color name="actionBar">#00796B</color>
     <color name="cardView">#E0F2F1</color>
     <color name="statusBar">#4DB6AC</color>
 </resources>
