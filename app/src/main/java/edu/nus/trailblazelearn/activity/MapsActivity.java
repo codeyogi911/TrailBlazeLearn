@@ -91,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getPlace = (TextView) findViewById(R.id.getPlace);
         mPlacePicker =(FloatingActionButton)findViewById(R.id.ic_place_picker);
         btn_selection=(Button)findViewById(R.id.confirm_selection);
-        final String trailCode=(String)getIntent().getSerializableExtra(ApplicationConstants.trailCode);
+        final String trailCode=(String)getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
         final Integer stationSize=(Integer)getIntent().getSerializableExtra(ApplicationConstants.stationSize);
         mPlacePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,9 +123,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Intent intent=new Intent(getApplicationContext(),CreateTrailStationActivity.class);
                 intent.putExtra(ApplicationConstants.stationLocation,location);
                 intent.putExtra(ApplicationConstants.address, setaddress.toString());
-                intent.putExtra(ApplicationConstants.trailCode, trailCode);
+                intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
                 intent.putExtra(ApplicationConstants.stationSize, stationSize);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -197,11 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     * Added markers or lines, listeners or move the camera.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -240,11 +237,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
             final Place place = places.get(0);
-            trailStationPlace = new TrailStation();
-            trailStationPlace.setStationAddress(place.getAddress().toString());
-            trailStationPlace.setLatLng(place.getLatLng());
-            trailStationPlace.setLocationName(place.getName().toString());
-            Log.d(TAG, "place detail" + trailStationPlace);
+          //  trailStationPlace = new TrailStation();
+           // trailStationPlace.setStationAddress(place.getAddress().toString());
+            //trailStationPlace.setLatLng(place.getLatLng());
+            //trailStationPlace.setLocationName(place.getName().toString());
+            //Log.d(TAG, "place detail" + trailStationPlace);
 
             moveCamera(place.getLatLng(), DEFAULT_ZOOM, place.getName().toString());
             places.release();

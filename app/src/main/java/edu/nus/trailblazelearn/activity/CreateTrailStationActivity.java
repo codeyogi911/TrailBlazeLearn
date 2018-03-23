@@ -57,6 +57,8 @@ public class CreateTrailStationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Get the values from Intent passed
             trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
+            if(trailCode==null)
+                trailCode=(String) getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
             stationSize = (Integer) getIntent().getSerializableExtra(ApplicationConstants.stationSize);
             stationLocation = (LatLng) getIntent().getParcelableExtra(ApplicationConstants.stationLocation);
             address = (String) getIntent().getSerializableExtra(ApplicationConstants.address);
@@ -76,7 +78,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 Intent intent = new Intent(CreateTrailStationActivity.this, MapsActivity.class);
-                intent.putExtra(ApplicationConstants.trailCode,trailCode);
+                intent.putExtra(ApplicationConstants.trailCodeMap,trailCode);
                 intent.putExtra(ApplicationConstants.stationSize, stationSize);
                 startActivity(intent);
 
