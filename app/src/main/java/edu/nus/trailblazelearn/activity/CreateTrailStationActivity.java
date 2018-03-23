@@ -43,7 +43,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     private TextView locationDetails;
     private Button btnSave;
     private FloatingActionButton btnSearch;
-    private String trailCode,address;
+    private String trailCode,address,gps;
     private Integer stationId,sequence,stationSize;
     private boolean editStation;
 
@@ -62,7 +62,8 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             stationSize = (Integer) getIntent().getSerializableExtra(ApplicationConstants.stationSize);
             stationLocation = (LatLng) getIntent().getParcelableExtra(ApplicationConstants.stationLocation);
             address = (String) getIntent().getSerializableExtra(ApplicationConstants.address);
-
+            if(stationLocation!=null)
+            gps=stationLocation.toString();
         edstationName = (EditText) findViewById(R.id.station_name);
         edinstructions = (EditText) findViewById(R.id.station_instructions);
         btnSave = (Button) findViewById(R.id.btn_save);
@@ -80,6 +81,8 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 Intent intent = new Intent(CreateTrailStationActivity.this, MapsActivity.class);
                 intent.putExtra(ApplicationConstants.trailCodeMap,trailCode);
                 intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                if(gps!=null)
+                intent.putExtra(ApplicationConstants.latlng,gps);
                 startActivity(intent);
 
             }
@@ -101,7 +104,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             stationId=editStationObj.getStationId();
             trailCode = editStationObj.getTrailCode();
             sequence=editStationObj.getSequence();
-            stationLocation=editStationObj.getLatLng();
+            gps=editStationObj.getGps();
         }
 
         btnSave.setOnClickListener(new OnClickListener() {
@@ -114,7 +117,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 trailStationObj.setStationInstructions(instructions);
                 trailStationObj.setTrailCode(trailCode);
                 trailStationObj.setStationAddress(address);
-                trailStationObj.setLatLng(stationLocation);
+                trailStationObj.setGps(gps);
 
                 if (TextUtils.isEmpty(stationName)) {
                     Toast.makeText(CreateTrailStationActivity.this, "You must enter the Station Name", Toast.LENGTH_LONG).show();
@@ -178,7 +181,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 throw new Exception("Error occurred in Create Station invoking addRecordForCollection ", daoException);
             }
         Intent intent=new Intent(getApplicationContext(),TrailStationListActivity.class);
-            intent.putExtra(ApplicationConstants.trailCode,trailCode);
+            intent.putExtra(ApplicationConstants.trailCodeMap,trailCode);
             startActivity(intent);
 
         }

@@ -19,14 +19,8 @@ public class TrailStation implements Serializable {
     private Integer stationId;
     private int sequence;
     private User user;
-    private LatLng latLng;
+    private String gps;
     private String stationAddress;
-
-    public String getLocationName() {
-        return locationName;
-    }
-
-    private String locationName;
 
 
     public void setStationId(Integer stationId) {
@@ -38,20 +32,16 @@ public class TrailStation implements Serializable {
         return stationId;
     }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+    public void setGps(String gps) {
+        this.gps = gps;
     }
 
     public void setStationAddress(String stationAddress) {
         this.stationAddress = stationAddress;
     }
 
-    public LatLng getLatLng() {
-        return latLng;
+    public String getGps() {
+        return gps;
     }
 
     public String getStationAddress() {
@@ -67,7 +57,7 @@ public class TrailStation implements Serializable {
 
         this.stationId = stationId;
         this.stationAddress= stationAddress;
-        this.latLng= latLng;
+        this.gps= gps;
     }
 
     public String getUserId() {

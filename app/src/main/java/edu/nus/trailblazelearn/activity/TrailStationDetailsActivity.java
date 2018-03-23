@@ -19,7 +19,7 @@ import edu.nus.trailblazelearn.utility.ApplicationConstants;
 public class TrailStationDetailsActivity extends AppCompatActivity {
     private final static String TAG = ApplicationConstants.trailStationDetailsActivity;
     Button btnActivities, btnPost;
-    TextView stationName, stationInstructions;
+    TextView stationName, stationInstructions,locationdetails;
     TrailStation trailStationbj;
     StringBuilder stringBuilderName= new StringBuilder("Station Name:");
     StringBuilder stringBuilderInstructions = new StringBuilder("Instructions:");
@@ -41,10 +41,13 @@ public class TrailStationDetailsActivity extends AppCompatActivity {
         trailStationbj = (TrailStation) intent.getSerializableExtra(ApplicationConstants.TrailStation);
         stationName = (TextView) findViewById(R.id.StationName);
         stationInstructions = (TextView) findViewById(R.id.StationInstructions);
+        locationdetails=(TextView)findViewById(R.id.StationPlace);
         stringBuilderName.append(trailStationbj.getTrailStationName().toString());
         stringBuilderInstructions.append(trailStationbj.getStationInstructions().toString());
+        stringBuilderLocation.append(trailStationbj.getGps());
         stationName.setText(trailStationbj.getTrailStationName());
         stationInstructions.setText(trailStationbj.getStationInstructions());
+        locationdetails.setText(trailStationbj.getGps());
         getSupportActionBar().setTitle("Station - " + trailStationbj.getStationId());
 
         joinDiscussion.setOnClickListener(new View.OnClickListener() {

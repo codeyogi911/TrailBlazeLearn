@@ -37,6 +37,28 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/instructions"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location"
+        android:layout_below="@+id/StationInstructions"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Location :"
+        android:textColor="@color/cardview_dark_background"/>
+
+
+    <TextView
+        android:id="@+id/StationPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="TextView"
+        android:textSize="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/location"/>
+
+
     <Button
         android:id="@+id/btn_activities"
         android:layout_width="match_parent"

@@ -35,6 +35,7 @@ public interface ApplicationConstants {
     String stationLocation="stationLocation";
     String address="address";
     String stationName = "stationName";
+    String latlng="latlng";
     String TrailStation="TrailStation";
 
     /**Toast messages**/
