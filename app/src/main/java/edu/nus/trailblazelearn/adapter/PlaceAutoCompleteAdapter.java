@@ -1,8 +1,5 @@
 package edu.nus.trailblazelearn.adapter;
 
-/**
- * Created by dharu on 22/3/2018.
- */
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.style.CharacterStyle;

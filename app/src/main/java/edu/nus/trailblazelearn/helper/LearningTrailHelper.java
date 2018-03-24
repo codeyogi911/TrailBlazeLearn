@@ -10,9 +10,7 @@ import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.DbUtil;
 
-/**
- * Created by RMukherjee on 06-03-2018.
- */
+
 
 public class LearningTrailHelper {
     private static final String TAG = "LearningTrailHelper.class";

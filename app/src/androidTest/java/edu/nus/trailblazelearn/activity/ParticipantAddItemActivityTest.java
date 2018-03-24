@@ -16,9 +16,7 @@ import edu.nus.trailblazelearn.model.User;
 
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by Ragu on 23/3/2018.
- */
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class ParticipantAddItemActivityTest {

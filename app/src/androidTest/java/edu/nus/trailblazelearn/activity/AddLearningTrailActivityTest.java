@@ -23,9 +23,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by RMukherjee on 18-03-2018.
- */
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class AddLearningTrailActivityTest {

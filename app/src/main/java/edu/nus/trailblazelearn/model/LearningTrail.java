@@ -3,9 +3,6 @@ package edu.nus.trailblazelearn.model;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by RMukherjee.
- */
 
 public class LearningTrail implements Serializable {
 

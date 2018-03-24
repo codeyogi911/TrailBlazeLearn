@@ -7,9 +7,7 @@ import android.view.View;
 
 import edu.nus.trailblazelearn.R;
 
-/**
- * Created by shashwatjain on 9/3/18.
- */
+
 
 public class NetworkError extends AppCompatActivity {
 

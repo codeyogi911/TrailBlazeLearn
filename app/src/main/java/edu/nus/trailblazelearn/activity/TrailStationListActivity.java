@@ -20,11 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +44,7 @@ public class TrailStationListActivity extends AppCompatActivity {
     private static final String TAG = ApplicationConstants.trailStaionListActivity;
     Toolbar toolBarStationListActivity;
     ProgressBar mProgressBar;
+    FloatingActionButton createStation;
     private RecyclerView recyclerView;
     private TrailStationListAdapter trailStationAdapter;
     private RecyclerView.LayoutManager recyclerLayoutManager;
@@ -55,7 +53,6 @@ public class TrailStationListActivity extends AppCompatActivity {
     private String trailCode;
     private TextView noStationMessage;
     private Boolean isTrainer,isParticipant;
-    FloatingActionButton createStation;
     private User user;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,16 +70,8 @@ public class TrailStationListActivity extends AppCompatActivity {
     }
 
     public void signOut(MenuItem menuItem) {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        edu.nus.trailblazelearn.model.User.signOut();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });    }
+        User.signOut(this);
+    }
 
     public void toRoleSelect(MenuItem menuItem) {
         Intent intent = new Intent(getApplicationContext(),
@@ -102,9 +91,9 @@ public class TrailStationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_station_list);
         toolBarStationListActivity = findViewById(R.id.StationListHeader);
-        user= User.getInstance(this);
-        isTrainer = (Boolean)user.getData().get("isTrainer");
-        isParticipant =(Boolean)user.getData().get("isParticipant");
+        user = User.getInstance();
+        isTrainer = (Boolean) User.getData().get("isTrainer");
+        isParticipant = (Boolean) User.getData().get("isParticipant");
         createStation = findViewById(R.id.fab_create_station);
         if(!isTrainer && isParticipant)
         createStation.hide();
@@ -113,9 +102,9 @@ public class TrailStationListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        noStationMessage =(TextView) findViewById(R.id.emptyStation);
+        noStationMessage = findViewById(R.id.emptyStation);
         noStationMessage.setText("No Trail Stations added to the Trail. Please Create a New Station");
-        recyclerView = (RecyclerView) findViewById(R.id.StationRecyclerView);
+        recyclerView = findViewById(R.id.StationRecyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         // use this setting to improve performance if you know that changes

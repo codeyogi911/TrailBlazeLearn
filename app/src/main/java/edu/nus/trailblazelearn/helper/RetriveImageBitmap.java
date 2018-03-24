@@ -17,9 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-/**
- * Created by dpak1 on 3/13/2018.
- */
+
 
 public class RetriveImageBitmap extends AsyncTask<String, Bitmap, Void>{
     private Context context;

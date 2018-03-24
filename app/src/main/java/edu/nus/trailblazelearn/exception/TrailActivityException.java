@@ -1,8 +1,6 @@
 package edu.nus.trailblazelearn.exception;
 
-/**
- * Created by RMukherjee.
- */
+
 public class TrailActivityException extends TrailException {
 
      private static final long serialVersionUID = 1L;

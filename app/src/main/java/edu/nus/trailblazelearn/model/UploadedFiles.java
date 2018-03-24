@@ -5,9 +5,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dpak1 on 3/11/2018.
- */
+
 
 public class UploadedFiles {
     public static ArrayList<String> downLoadUri;

@@ -9,9 +9,7 @@ import edu.nus.trailblazelearn.model.TrailStation;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Dharini on 24/3/2018.
- */
+
 
 public class TrailStationTest {
 

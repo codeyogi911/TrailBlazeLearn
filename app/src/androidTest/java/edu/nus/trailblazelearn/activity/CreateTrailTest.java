@@ -14,9 +14,7 @@ import edu.nus.trailblazelearn.model.LearningTrail;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by RMukherjee on 23-03-2018.
- */
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CreateTrailTest {

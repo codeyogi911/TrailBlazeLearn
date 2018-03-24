@@ -17,9 +17,6 @@ import java.util.ArrayList;
 
 import edu.nus.trailblazelearn.R;
 
-/**
- * Created by Ragu on 18/3/2018.
- */
 
 public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapter.ViewHolder> {
     private Context context;

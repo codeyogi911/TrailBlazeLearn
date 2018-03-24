@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -58,14 +57,14 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant_default);
-        final Context that = this;
+//        final Context that = this;
         createUI();
 
         getTrailList().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                participant = User.getInstance(that);
-                participant.grantParticipant();
+                participant = User.getInstance();
+                User.grantParticipant();
                 enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails");
                 if (enrolledTrails != null) {
                     populateCardList();
@@ -115,16 +114,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     }
 
     public void signOut(MenuItem menuItem) {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        edu.nus.trailblazelearn.model.User.signOut();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+        User.signOut(this);
     }
 
     private void populateCardList() {
@@ -168,7 +158,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
                             DocumentSnapshot documentSnapshot = task.getResult();
                             if (documentSnapshot.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + task.getResult());
-                                participant.enrollforTrail(documentSnapshot.getId());
+                                User.enrollforTrail(documentSnapshot.getId());
 //                                enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails");
                                 getTrailList().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override

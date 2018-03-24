@@ -8,7 +8,7 @@ import edu.nus.trailblazelearn.utility.DbUtil;
 
 /**
  * Helper class interacting with DB layer
- * @author Prannoy Sablok
+ *
  */
 
 public class PostHelper {
