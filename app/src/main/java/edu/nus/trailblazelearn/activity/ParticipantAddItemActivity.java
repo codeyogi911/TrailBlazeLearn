@@ -438,7 +438,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         createActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(imageDescription.getText())) {
+                if(!TextUtils.isEmpty(imageDescription.getText()) && DbUtil.imageUriList.size() > 0) {
                     participantItem = new ParticipantItem(userName, trailStation.getTrailCode(), trailStation.getStationId(), imageDescription.getText().toString());
                     if (DbUtil.imageUriList != null) {
                         participantItem.setImageUri(DbUtil.imageUriList);
