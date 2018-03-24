@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNotNull;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UsersTest {
 
-
     User userObj;
     Map<String, Object> userMap = new HashMap<>();
 
