@@ -247,16 +247,16 @@ public final class DbUtil {
      */
 
     public static void deleteTrail(final String trailID) {
-        Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
+        Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails_key");
         map.remove(trailID);
         Map<String, Object> map1 = User.getInstance().getData();
         if (map.size() > 0) {
-            map1.put("enrolledTrails", map);
+            map1.put("enrolledTrails_key", map);
         } else {
-            map1.remove("enrolledTrails");
+            map1.remove("enrolledTrails_key");
         }
         User.getInstance().setData(map1);
-        readWithKey("users", "enrolledTrails", trailID).addOnSuccessListener(
+        readWithKey("users", "enrolledTrails_key", trailID).addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -264,15 +264,15 @@ public final class DbUtil {
                         Iterator<DocumentSnapshot> iterator = userlist.iterator();
                         while (iterator.hasNext()) {
                             DocumentSnapshot user = iterator.next();
-                            Map<String, Object> enrolledTrails = (Map<String, Object>) user.getData().get("enrolledTrails");
+                            Map<String, Object> enrolledTrails = (Map<String, Object>) user.getData().get("enrolledTrails_key");
                             enrolledTrails.remove(trailID);
                             DocumentReference documentReference = FirebaseFirestore.getInstance()
                                     .collection("users").document(user.getId());
                             Map<String, Object> updatedlist = new HashMap<>();
                             if (enrolledTrails.size() > 0)
-                                updatedlist.put("enrolledTrails", enrolledTrails);
+                                updatedlist.put("enrolledTrails_key", enrolledTrails);
                             else
-                                updatedlist.put("enrolledTrails", FieldValue.delete());
+                                updatedlist.put("enrolledTrails_key", FieldValue.delete());
 
                             documentReference.update(updatedlist)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {

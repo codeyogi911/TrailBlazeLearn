@@ -22,7 +22,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -55,9 +54,9 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail_station);
-        user = User.getInstance(this);
-        isTrainer = (boolean) user.getData().get("isTrainer");
-        toolbar = (Toolbar) findViewById(R.id.trail_header);
+        user = User.getInstance();
+        isTrainer = (boolean) User.getData().get("isTrainer");
+        toolbar = findViewById(R.id.trail_header);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,19 +65,19 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             if(trailCode==null)
                 trailCode=(String) getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
             stationSize = (Integer) getIntent().getSerializableExtra(ApplicationConstants.stationSize);
-            stationLocation = (LatLng) getIntent().getParcelableExtra(ApplicationConstants.stationLocation);
+        stationLocation = getIntent().getParcelableExtra(ApplicationConstants.stationLocation);
             address = (String) getIntent().getSerializableExtra(ApplicationConstants.address);
             if(stationLocation!=null)
             gps=stationLocation.toString();
-        edstationName = (EditText) findViewById(R.id.station_name);
-        edinstructions = (EditText) findViewById(R.id.station_instructions);
-        btnSave = (Button) findViewById(R.id.btn_save);
-        btnSearch = (FloatingActionButton) findViewById(R.id.btn_search);
-        locationDetails=(TextView) findViewById(R.id.getPlace);
+        edstationName = findViewById(R.id.station_name);
+        edinstructions = findViewById(R.id.station_instructions);
+        btnSave = findViewById(R.id.btn_save);
+        btnSearch = findViewById(R.id.btn_search);
+        locationDetails = findViewById(R.id.getPlace);
         if(address!=null)
             locationDetails.setText(address);
 
-        firebaseStorage = firebaseStorage.getInstance();
+        firebaseStorage = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
         btnSearch.setOnClickListener(new OnClickListener() {

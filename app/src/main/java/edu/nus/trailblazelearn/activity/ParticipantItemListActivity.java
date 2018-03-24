@@ -3,7 +3,6 @@ package edu.nus.trailblazelearn.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,11 +16,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,20 +37,20 @@ import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class ParticipantItemListActivity extends AppCompatActivity {
     private static final String TAG = ApplicationConstants.participantItemListActivity;
+    public boolean isTrainer = (boolean) User.getData().get("isTrainer");
+    public boolean isParticipant = (boolean) User.getData().get("isParticipant");
+    User user = User.getInstance();
     private ParticipantItemAdapter participantItemAdapter;
     private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
     private TrailStation trailStation = new TrailStation();
     private LearningTrail learningTrail = new LearningTrail();
-    User user = User.getInstance(this);
-    public boolean isTrainer = (boolean) user.getData().get("isTrainer");
-    public boolean isParticipant = (boolean) user.getData().get("isParticipant");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_item_list);
         Log.d(TAG,"Start of onCreate participant List Activity");
-        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
+        final ProgressBar progressBar = findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.VISIBLE);
         final FloatingActionButton floatingActionButton = findViewById(R.id.add_item_ActionButton);
         Toolbar toolbar = findViewById(R.id.tb_participant_item_list_header);
@@ -162,16 +157,8 @@ public class ParticipantItemListActivity extends AppCompatActivity {
     }
 
     public void signOut(MenuItem menuItem) {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        edu.nus.trailblazelearn.model.User.signOut();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });    }
+        User.signOut(this);
+    }
 
     public boolean onOptionsItemSelected(MenuItem item){
         finish();

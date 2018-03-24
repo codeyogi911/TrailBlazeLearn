@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +38,7 @@ import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.adapter.RecyclerAdapter;
 import edu.nus.trailblazelearn.fragment.SelectTrailDialogFragment;
 import edu.nus.trailblazelearn.model.User;
+import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.DbUtil;
 
 public class ParticipantDefault extends AppCompatActivity implements SelectTrailDialogFragment.NoticeDialogListener {
@@ -50,22 +50,16 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     List<DocumentSnapshot> trailData = new ArrayList<>();
     View fragment;
     TextView textView;
-    private User participant;
     private Map<String, Object> enrolledTrails = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_participant_default);
-        final Context that = this;
         createUI();
-
         getTrailList().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                participant = User.getInstance(that);
-                participant.grantParticipant();
-                enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails");
+                enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get(ApplicationConstants.enrolledTrails_key);
                 if (enrolledTrails != null) {
                     populateCardList();
                 } else {
@@ -77,6 +71,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     }
 
     private void createUI() {
+        setContentView(R.layout.activity_participant_default);
         progressBar = findViewById(R.id.progress_bar);
         fragment = findViewById(R.id.recycler_view_fragment);
         textView = findViewById(R.id.trailnotfound_txt);
@@ -107,26 +102,13 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         finish();
     }
 
-    public void signOut(MenuItem menuItem) {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        edu.nus.trailblazelearn.model.User.signOut();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-    }
-
     private void populateCardList() {
         final Context that = this;
         trailData = new ArrayList<>();
 
         Iterator<String> iterator = enrolledTrails.keySet().iterator();
         while (iterator.hasNext()) {
-            DbUtil.readWithDocID("LearningTrail", iterator.next().toString()).addOnSuccessListener(
+            DbUtil.readWithDocID(ApplicationConstants.learningTrailCollection, iterator.next().toString()).addOnSuccessListener(
                     new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -161,12 +143,12 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
                             DocumentSnapshot documentSnapshot = task.getResult();
                             if (documentSnapshot.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + task.getResult());
-                                participant.enrollforTrail(documentSnapshot.getId());
-//                                enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails");
+                                User.enrollforTrail(documentSnapshot.getId());
+//                                enrolledTrails_key = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails_key");
                                 getTrailList().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails");
+                                        enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get(ApplicationConstants.enrolledTrails_key);
                                         if (enrolledTrails == null) {
                                             enrolledTrails = new HashMap<>();
                                             enrolledTrails.put(trailId, true);
@@ -176,20 +158,6 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
                                         populateCardList();
                                     }
                                 });
-
-//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                    @Override
-//                                    public void onSuccess(Void aVoid) {
-//                                        getTrailList().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                                            @Override
-//                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                        enrolledTrails = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
-//                                                enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails");
-//                                                populateCardList();
-//                                            }
-//                                        });
-//                                    }
-//                                });
                             } else {
                                 Log.d(TAG, "No such trail, try creating new trail");
                                 Snackbar.make(findViewById(R.id.participantdefault), "Trail not found!", Snackbar.LENGTH_LONG)
@@ -208,7 +176,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         Snackbar.make(findViewById(R.id.participantdefault), "Enter a trail code to continue!", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+                .show();
     }
 
     @Override
@@ -236,6 +204,10 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     }
 
     private Task<DocumentSnapshot> getTrailList() {
-        return DbUtil.readWithDocID("users", FirebaseAuth.getInstance().getUid());
+        return DbUtil.readWithDocID(ApplicationConstants.usersCollection_key, FirebaseAuth.getInstance().getUid());
+    }
+
+    public void signOut(MenuItem menuItem) {
+        User.signOut(this);
     }
 }

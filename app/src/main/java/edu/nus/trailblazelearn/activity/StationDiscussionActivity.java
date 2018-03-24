@@ -51,7 +51,11 @@ import edu.nus.trailblazelearn.utility.ApplicationConstants;
 public class StationDiscussionActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "StationDiscussionActivity";
+    private static final String TAG = "StationDiscussionAct";
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    final String userName = (String) User.getData().get("name");
+    User user = User.getInstance();
+    boolean isTrainer = (boolean) User.getData().get("isTrainer");
     /**
      * EditText type object
      */
@@ -60,14 +64,10 @@ public class StationDiscussionActivity extends AppCompatActivity {
      * An image button object
      */
     private ImageButton postButton, takePhotoButton;
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-
     private List<Post> postList;
-
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView postsRecyclerView;
-
     private FirebaseFirestore db;
     private TrailStation trailStation;
     private String trailCode;
@@ -76,14 +76,10 @@ public class StationDiscussionActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private String userNameDb;
 
-    User user = User.getInstance(this);
-    final String userName = (String) user.getData().get("name");
-    boolean isTrainer = (boolean) user.getData().get("isTrainer");
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        userNameDb = (String)user.getData().get("name");
+        userNameDb = (String) User.getData().get("name");
             if(requestCode == 1 && resultCode == RESULT_OK && data != null) {
                 imageUri = data.getData();
                 Bundle bundle = data.getExtras();
@@ -115,7 +111,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
         postButton = findViewById(R.id.sendButton);
         takePhotoButton = findViewById(R.id.takePhotoButton);
 
-        postsRecyclerView = (RecyclerView) findViewById(R.id.layout_recyclerview);
+        postsRecyclerView = findViewById(R.id.layout_recyclerview);
         postsRecyclerView.setHasFixedSize(true);
         postList = new ArrayList<Post>();
 
