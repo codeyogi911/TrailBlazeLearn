@@ -49,7 +49,7 @@ public interface ApplicationConstants {
 
     /**Error messages*/
     String errorDbSelectionForCollectionFailed = "Listen failed while selecting from collection Learning Trail.";
-
+    String updateTrailStationActivity="UpdateTrailStationActivity";
     /*result message on upload of files*/
     String imageUploadResult = "Image Uploaded Successfully";
     String videoUploadResult = "Video Uploaded Successfully";

@@ -78,7 +78,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng location,editLocation;
     private double editlatitude,editlongitude;
     String trailCode,editAddress;
-    Integer stationSize;
+    private boolean editMode;
+    Integer stationSize, stationId;
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -95,9 +96,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         trailCode=(String)getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
         stationSize=(Integer)getIntent().getSerializableExtra(ApplicationConstants.stationSize);
-        editlongitude=(double)getIntent().getSerializableExtra(ApplicationConstants.lat);
-        editlongitude=(double)getIntent().getSerializableExtra(ApplicationConstants.lon);
-        editAddress=(String)getIntent().getSerializableExtra("Address");
+        editMode=(Boolean) getIntent().getSerializableExtra("editMode");
+        stationId = (Integer) getIntent().getSerializableExtra("stationId");
+
         searchInput = (AutoCompleteTextView) findViewById(R.id.search_input);
         getPlace = (TextView) findViewById(R.id.getPlace);
         mPlacePicker =(FloatingActionButton)findViewById(R.id.ic_place_picker);
@@ -132,7 +133,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchedLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                geolocate();
+                    geolocate();
+
             }
         });
 
@@ -143,14 +145,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                    Toast.makeText(MapsActivity.this, "Please set a Location", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
-                    intent.putExtra(ApplicationConstants.stationLocation, location);
-                    intent.putExtra(ApplicationConstants.address, address.getAddressLine(0));
+                    if(!editMode) {
+                        Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
+                        intent.putExtra(ApplicationConstants.stationLocation, location);
+                        intent.putExtra(ApplicationConstants.address, address.getAddressLine(0));
 
-                    intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
-                    intent.putExtra(ApplicationConstants.stationSize, stationSize);
-                    startActivity(intent);
-                    finish();
+                        intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                        intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), UpdateTrailStationActivity.class);
+                        intent.putExtra(ApplicationConstants.stationLocation, location);
+                        intent.putExtra(ApplicationConstants.address, address.getAddressLine(0));
+                        intent.putExtra("stationId",stationId);
+                        intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                        intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
@@ -169,14 +183,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 placeResult.setResultCallback(updatePlaceDetaisCallBack);
                 mapAddress = String.format("Place: %s" , mPlace.getAddress());
 
-                Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
-                intent.putExtra(ApplicationConstants.stationLocation, location);
-                intent.putExtra(ApplicationConstants.address, mapAddress);
+                if(!editMode) {
+                    Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
+                    intent.putExtra(ApplicationConstants.stationLocation, location);
+                    intent.putExtra(ApplicationConstants.address, mapAddress);
 
-                intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
-                intent.putExtra(ApplicationConstants.stationSize, stationSize);
-                startActivity(intent);
-                finish();
+                    intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                    intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Intent intent = new Intent(getApplicationContext(), UpdateTrailStationActivity.class);
+                    intent.putExtra(ApplicationConstants.stationLocation, location);
+                    intent.putExtra(ApplicationConstants.address, mapAddress);
+                    intent.putExtra("stationId",stationId);
+                    intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                    intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }
     }
@@ -207,19 +234,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (IOException e) {
                 Log.e(TAG, "geolocate Exception" + e.getMessage());
             }
+                if (list.size() > 0) {
+                    address = list.set(0, list.get(0));
+                    Log.d(TAG, "geolocation found" + address.toString());
+                    locationBound = new LatLngBounds(new LatLng(address.getLatitude(), address.getLongitude()), new LatLng(address.getLatitude(), address.getLongitude()));
+                } else {
+                    locationBound = defaultLocationBound;
+                }
+                if(address != null) {
 
-            if (list.size() > 0) {
-                address = list.set(0, list.get(0));
-                Log.d(TAG, "geolocation found" + address.toString());
-                locationBound = new LatLngBounds(new LatLng(address.getLatitude(), address.getLongitude()), new LatLng(address.getLatitude(), address.getLongitude()));
-            } else {
-                locationBound = defaultLocationBound;
-            }
+                    location = new LatLng(address.getLatitude(), address.getLongitude());
 
-            location = new LatLng(address.getLatitude(), address.getLongitude());
-
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
-
+                    moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
+                }
         }
 
 

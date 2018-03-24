@@ -1,4 +1,4 @@
-package edu.nus.trailblazelearn;
+package edu.nus.trailblazelearn.activity;
 
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Date;
 
+import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.User;
 import edu.nus.trailblazelearn.utility.DbUtil;

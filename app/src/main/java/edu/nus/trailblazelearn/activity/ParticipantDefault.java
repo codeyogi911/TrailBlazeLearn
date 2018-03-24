@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 import edu.nus.trailblazelearn.R;
-import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.RecyclerAdapter;
 import edu.nus.trailblazelearn.fragment.SelectTrailDialogFragment;
 import edu.nus.trailblazelearn.model.User;

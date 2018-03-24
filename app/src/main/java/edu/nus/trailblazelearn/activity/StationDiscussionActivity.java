@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
-import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.PostsListAdapter;
 import edu.nus.trailblazelearn.helper.PostHelper;
 import edu.nus.trailblazelearn.model.Post;

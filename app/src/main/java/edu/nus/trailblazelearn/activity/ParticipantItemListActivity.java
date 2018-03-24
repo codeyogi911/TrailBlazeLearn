@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import edu.nus.trailblazelearn.R;
-import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.ParticipantItem;

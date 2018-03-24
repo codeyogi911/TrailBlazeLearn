@@ -22,7 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import edu.nus.trailblazelearn.R;
-import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.exception.TrailActivityException;
 import edu.nus.trailblazelearn.exception.TrailHelperException;
 import edu.nus.trailblazelearn.helper.LearningTrailHelper;
