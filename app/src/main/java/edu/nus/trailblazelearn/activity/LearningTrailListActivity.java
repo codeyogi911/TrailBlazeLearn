@@ -1,9 +1,5 @@
 package edu.nus.trailblazelearn.activity;
 
-/**
- * Created by RMukherjee on 07-03-2018.
- */
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;

@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import edu.nus.trailblazelearn.R;
 import edu.nus.trailblazelearn.activity.ParticipantAddItemActivity;
 
-/**
- * Created by dpak1 on 3/17/2018.
- */
 
 public class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.ViewHolder> {
     private Context context;

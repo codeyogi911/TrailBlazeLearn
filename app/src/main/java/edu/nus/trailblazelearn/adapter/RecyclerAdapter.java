@@ -1,7 +1,5 @@
 package edu.nus.trailblazelearn.adapter;
-/**
- * Created by Shashwat on 9/3/2018.
- */
+
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

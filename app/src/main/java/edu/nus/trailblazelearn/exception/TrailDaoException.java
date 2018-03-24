@@ -1,8 +1,6 @@
 package edu.nus.trailblazelearn.exception;
 
-/**
- * Created by RMukherjee.
- */
+
 
 public class TrailDaoException extends TrailException {
 

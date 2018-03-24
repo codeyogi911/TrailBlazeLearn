@@ -10,9 +10,6 @@ import edu.nus.trailblazelearn.fragment.FragmentImage;
 import edu.nus.trailblazelearn.fragment.FragmentVideo;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 
-/**
- * Created by dpak1 on 3/15/2018.
- */
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int itemCount;

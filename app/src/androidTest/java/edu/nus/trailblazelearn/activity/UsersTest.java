@@ -13,7 +13,7 @@ import edu.nus.trailblazelearn.model.User;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by SJain on 23-03-2018.
+ *
  * The test case should fail as the instance for this class can only exist
  * when getInstance() receives Activity class object.
  */

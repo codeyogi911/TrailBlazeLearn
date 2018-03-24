@@ -18,9 +18,6 @@ import edu.nus.trailblazelearn.activity.TrailStationListActivity;
 import edu.nus.trailblazelearn.interfaces.LongClickListener;
 import edu.nus.trailblazelearn.model.LearningTrail;
 
-/**
- * Created by RMukherjee on 07-03-2018.
- */
 
 public class LearningTrailAdapter extends RecyclerView.Adapter<LearningTrailAdapter.ViewHolder> {
 

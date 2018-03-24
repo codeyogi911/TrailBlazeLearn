@@ -25,9 +25,6 @@ import edu.nus.trailblazelearn.interfaces.LongClickListener;
 import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 
-/**
- * Created by Dharini.
- */
 
 public class TrailStationListAdapter extends RecyclerView.Adapter<TrailStationListAdapter.ViewHolder> {
     private static final String TAG = ApplicationConstants.trailStationAdapter;

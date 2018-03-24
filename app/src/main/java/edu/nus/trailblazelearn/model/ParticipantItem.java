@@ -3,9 +3,7 @@ package edu.nus.trailblazelearn.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Created by dpak1 on 3/11/2018.
- */
+
 
 public class ParticipantItem implements Serializable {
     private String  userId;

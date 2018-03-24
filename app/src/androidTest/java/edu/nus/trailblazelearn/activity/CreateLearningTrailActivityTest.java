@@ -18,9 +18,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by Hp on 17-03-2018.
- */
 public class CreateLearningTrailActivityTest {
 
     @Rule

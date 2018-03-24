@@ -12,9 +12,6 @@ import android.widget.EditText;
 
 import edu.nus.trailblazelearn.R;
 
-/**
- * Created by shashwatjain on 8/3/18.
- */
 
 public class SelectTrailDialogFragment extends DialogFragment {
     // Use this instance of the interface to deliver action events
