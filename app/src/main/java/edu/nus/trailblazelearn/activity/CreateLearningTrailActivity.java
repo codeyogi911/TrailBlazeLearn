@@ -55,9 +55,9 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         Log.d(TAG, "Start of onCreate API");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail);
-        user = User.getInstance(this);
-        userEmail = (String) user.getData().get(ApplicationConstants.email);
-        isTrainer = (boolean) user.getData().get("isTrainer");
+        user = User.getInstance();
+        userEmail = (String) User.getData().get(ApplicationConstants.email);
+        isTrainer = (boolean) User.getData().get("isTrainer");
         toolBarLearningActivity = findViewById(R.id.tb_trail_header);
         setSupportActionBar(toolBarLearningActivity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

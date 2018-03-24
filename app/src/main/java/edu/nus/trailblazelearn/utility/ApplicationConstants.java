@@ -6,15 +6,21 @@ package edu.nus.trailblazelearn.utility;
 
 public interface ApplicationConstants {
 
-    String enrolledTrails = "enrolledTrails";
+    //    **Db Keys**
+    String enrolledTrails_key = "enrolledTrails";
+    String usersCollection_key = "users";
+    String isTrainer_key = "isTrainer";
+    String isParticipant_key = "isParticipant";
+    String username_key = "name";
+//    String learningtrailcollection_key = "LearningTrail";
 
     /**Activity and Adapter related constants**/
-    String trailActivityListClassName = "LearningTrailListActivity";
-    String trailActivityCreateClassName ="CreateLearningTrailActivity";
-    String trailStaionListActivity = "TrailStationListActivity";
+    String trailActivityListClassName = "LearningTrailListAct";
+    String trailActivityCreateClassName = "CreateLearningTrailAct";
+    String trailStaionListActivity = "TrailStationListAct";
     String participantItemListActivity = "ParticipantItemList";
-    String createTrailStationActivity="CreateTrailStationActivity";
-    String trailStationDetailsActivity="TrailStationDetailsActivity";
+    String createTrailStationActivity = "CreateTrailStationAct";
+    String trailStationDetailsActivity = "TrailStationDetailsAct";
     String trailStationAdapter="TrailStationAdapter";
     String mapsActivity ="MapsActivity";
     String trailCodeParam = "trailCode";

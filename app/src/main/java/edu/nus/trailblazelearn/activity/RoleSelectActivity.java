@@ -3,7 +3,6 @@ package edu.nus.trailblazelearn.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -13,11 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.model.User;
 
 public class RoleSelectActivity extends AppCompatActivity {
     @Override
@@ -54,29 +50,15 @@ public class RoleSelectActivity extends AppCompatActivity {
     }
 
     public void loginTrainer() {
-        edu.nus.trailblazelearn.model.User.getInstance(this).grantTrainer();
-        Intent intent = new Intent(this, LearningTrailListActivity.class);
-        startActivity(intent);
-        finish();
+        User.loginTrainer(this);
     }
 
     public void loginParticipant() {
-        Intent intent = new Intent(this, ParticipantDefault.class);
-        startActivity(intent);
-        finish();
+        User.loginParticipant(this);
     }
 
     public void signOut(MenuItem menuItem) {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        edu.nus.trailblazelearn.model.User.signOut();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+        User.signOut(this);
     }
 
     @Override

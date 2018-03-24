@@ -3,7 +3,6 @@ package edu.nus.trailblazelearn.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -22,9 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -81,25 +77,17 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
     }
 
     public void signOut(MenuItem menuItem) {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        edu.nus.trailblazelearn.model.User.signOut();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });    }
+        User.signOut(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "Start of onCreate API call");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_trail_list);
-        user = User.getInstance(this);
-        userEmail = (String) user.getData().get(ApplicationConstants.email);
-        isTrainer = (boolean) user.getData().get("isTrainer");
+        user = User.getInstance();
+        userEmail = (String) User.getData().get(ApplicationConstants.email);
+        isTrainer = (boolean) User.getData().get("isTrainer");
 
         toolBarListLearningActivity = findViewById(R.id.tb_trail_list_header);
         setSupportActionBar(toolBarListLearningActivity);
