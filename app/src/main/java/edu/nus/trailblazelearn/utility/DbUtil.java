@@ -230,7 +230,7 @@ public final class DbUtil {
         return getDocumentRef(collectionName, docID).get();
     }
 
-    public static Task<Void> MergeData(String collectionName, String docID, Map<String, Object> data) {
+    public static Task<Void> mergeData(String collectionName, String docID, Map<String, Object> data) {
         return getDocumentRef(collectionName, docID).set(data, SetOptions.merge());
     }
 
@@ -247,16 +247,20 @@ public final class DbUtil {
      */
 
     public static void deleteTrail(final String trailID) {
-        Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails_key");
-        map.remove(trailID);
+        final Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
         Map<String, Object> map1 = User.getInstance().getData();
-        if (map.size() > 0) {
-            map1.put("enrolledTrails_key", map);
-        } else {
-            map1.remove("enrolledTrails_key");
+
+        if (null != map) {
+            map.remove(trailID);
+            if (map.size() > 0) {
+                map1.put("enrolledTrails", map);
+            } else {
+                map1.remove("enrolledTrails");
+            }
         }
+
         User.getInstance().setData(map1);
-        readWithKey("users", "enrolledTrails_key", trailID).addOnSuccessListener(
+        readWithKey("users", "enrolledTrails", trailID).addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -264,15 +268,15 @@ public final class DbUtil {
                         Iterator<DocumentSnapshot> iterator = userlist.iterator();
                         while (iterator.hasNext()) {
                             DocumentSnapshot user = iterator.next();
-                            Map<String, Object> enrolledTrails = (Map<String, Object>) user.getData().get("enrolledTrails_key");
+                            Map<String, Object> enrolledTrails = (Map<String, Object>) user.getData().get("enrolledTrails");
                             enrolledTrails.remove(trailID);
                             DocumentReference documentReference = FirebaseFirestore.getInstance()
                                     .collection("users").document(user.getId());
                             Map<String, Object> updatedlist = new HashMap<>();
                             if (enrolledTrails.size() > 0)
-                                updatedlist.put("enrolledTrails_key", enrolledTrails);
+                                updatedlist.put("enrolledTrails", enrolledTrails);
                             else
-                                updatedlist.put("enrolledTrails_key", FieldValue.delete());
+                                updatedlist.put("enrolledTrails", FieldValue.delete());
 
                             documentReference.update(updatedlist)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -290,8 +294,24 @@ public final class DbUtil {
                                     });
                         }
 
+
                     }
-                }
-        );
+
+
+                });
+
+        if (map == null) {
+
+            FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection).document(trailID)
+                    .delete()
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Error deleting learning trail", e);
+                        }
+                    });
+        }
     }
+
+
 }

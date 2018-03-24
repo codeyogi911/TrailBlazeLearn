@@ -47,6 +47,7 @@ public class FragmentVideo extends Fragment {
         View fragmentVideoView = inflater.inflate(R.layout.fragment_video, container, false);
         GridLayout videoGridLayout = fragmentVideoView.findViewById(R.id.fragment_video_grid_layout);
         TextView notFoundVideo = fragmentVideoView.findViewById(R.id.video_files_not_found);
+        notFoundVideo.setText("NO VIDEOS FOUND");
         for(int i = 0; i<participantItem.getVideoUri().size();i++) {
             notFoundVideo.setVisibility(View.GONE);
             final String videoUri = participantItem.getVideoUri().get(i);

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.PostsListAdapter;
 import edu.nus.trailblazelearn.helper.PostHelper;
 import edu.nus.trailblazelearn.model.Post;
@@ -101,6 +102,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         trailStation = (TrailStation) getIntent().getSerializableExtra(ApplicationConstants.trailStation);
+        getSupportActionBar().setTitle("Discussion - " + trailStation.getStationId());
 
         if (trailStation != null) {
             trailCode = trailStation.getTrailCode();
@@ -204,6 +206,12 @@ public class StationDiscussionActivity extends AppCompatActivity {
             trainer.setVisible(false);
         }
         return true;
+    }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 
     private void onClickListeners() {

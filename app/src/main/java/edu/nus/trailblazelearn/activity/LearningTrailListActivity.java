@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.LearningTrailAdapter;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.User;
@@ -72,6 +73,11 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                 RoleSelectActivity.class);
         startActivity(intent);
         finish();
+    }
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 
     public void signOut(MenuItem menuItem) {
@@ -228,22 +234,6 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                     Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
                 }
                 Log.d(TAG, "Trail code to be deleted.." + learningTrailLst.get(position).getTrailCode());
-//                mFireStore.collection(ApplicationConstants.learningTrailCollection).document("/" + learningTrailLst.get(position).getTrailCode())
-//                        .delete()
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void aVoid) {
-//                                mAdapter.removeLearningTrail(learningTrailLst.get(position));
-//                                Log.d(TAG, "Learning Trail successfully deleted...size is!" + learningTrailLst.size());
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.e(TAG, "Error deleting learning trail", e);
-//                                Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
                 mAdapter.removeLearningTrail(learningTrailLst.get(position));
                                 Log.d(TAG, "Learning Trail successfully deleted...size is!" + learningTrailLst.size());
                 return true;
@@ -262,7 +252,6 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //LearningTrailListActivity.this.finish();
                         Intent intent = new Intent(Intent.ACTION_MAIN);
                         intent.addCategory(Intent.CATEGORY_HOME);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

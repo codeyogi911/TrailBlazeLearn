@@ -22,10 +22,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.model.User;
@@ -45,18 +47,19 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     private TextView locationDetails;
     private Button btnSave;
     private FloatingActionButton btnSearch;
-    private String trailCode,address,gps;
+    private String trailCode,address,gps,gpsEdit;
     private Integer stationId,sequence,stationSize;
     private boolean editStation, isTrainer;
     private User user;
+    private double latitude,longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail_station);
-        user = User.getInstance();
-        isTrainer = (boolean) User.getData().get("isTrainer");
-        toolbar = findViewById(R.id.trail_header);
+        user = User.getInstance(this);
+        isTrainer = (boolean) user.getData().get("isTrainer");
+        toolbar = (Toolbar) findViewById(R.id.trail_header);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,19 +68,20 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             if(trailCode==null)
                 trailCode=(String) getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
             stationSize = (Integer) getIntent().getSerializableExtra(ApplicationConstants.stationSize);
-        stationLocation = getIntent().getParcelableExtra(ApplicationConstants.stationLocation);
+            stationLocation = (LatLng) getIntent().getParcelableExtra(ApplicationConstants.stationLocation);
             address = (String) getIntent().getSerializableExtra(ApplicationConstants.address);
             if(stationLocation!=null)
             gps=stationLocation.toString();
-        edstationName = findViewById(R.id.station_name);
-        edinstructions = findViewById(R.id.station_instructions);
-        btnSave = findViewById(R.id.btn_save);
-        btnSearch = findViewById(R.id.btn_search);
-        locationDetails = findViewById(R.id.getPlace);
+
+        edstationName = (EditText) findViewById(R.id.station_name);
+        edinstructions = (EditText) findViewById(R.id.station_instructions);
+        btnSave = (Button) findViewById(R.id.btn_save);
+        btnSearch = (FloatingActionButton) findViewById(R.id.btn_search);
+        locationDetails=(TextView) findViewById(R.id.getPlace);
         if(address!=null)
             locationDetails.setText(address);
 
-        firebaseStorage = FirebaseFirestore.getInstance();
+        firebaseStorage = firebaseStorage.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
         btnSearch.setOnClickListener(new OnClickListener() {
@@ -87,9 +91,12 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 intent.putExtra(ApplicationConstants.trailCodeMap,trailCode);
                 intent.putExtra(ApplicationConstants.stationSize, stationSize);
                 if(gps!=null)
-                intent.putExtra(ApplicationConstants.latlng,gps);
+                {
+                intent.putExtra(ApplicationConstants.lat,latitude);
+                intent.putExtra(ApplicationConstants.lon,longitude);
+                intent.putExtra("Address", address);
+                }
                 startActivity(intent);
-
             }
         });
         final TrailStation editStationObj = (TrailStation) getIntent().getSerializableExtra(ApplicationConstants.stationName);
@@ -97,8 +104,10 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             editStation = true;
 
         if (!editStation) {
+            getSupportActionBar().setTitle("Create Trail Station");
             btnSave.setText(getString(R.string.save));
         } else {
+            getSupportActionBar().setTitle("Update Trail Station");
             btnSave.setText(getString(R.string.update));
         }
         if (editStation) {
@@ -110,6 +119,19 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             trailCode = editStationObj.getTrailCode();
             sequence=editStationObj.getSequence();
             gps=editStationObj.getGps();
+            address=editStationObj.getStationAddress();
+            if (gps != null) {
+                gpsEdit=gps;
+                gpsEdit=gpsEdit.replace("lat/lng:", "");
+                gpsEdit = gpsEdit.replace("(", "");
+                gpsEdit = gpsEdit.replace(")", "");
+                String[] strLatLong = gpsEdit.split("\\|");
+                for (String item : strLatLong) {
+                    String[] str = item.split(",");
+                    latitude = Double.parseDouble(str[0]);
+                    longitude = Double.parseDouble(str[1]);
+                }
+            }
         }
 
         btnSave.setOnClickListener(new OnClickListener() {
@@ -125,13 +147,11 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 trailStationObj.setGps(gps);
 
                 if (TextUtils.isEmpty(stationName)) {
-                    Toast.makeText(CreateTrailStationActivity.this, "You must enter the Station Name", Toast.LENGTH_LONG).show();
                     edstationName.setError("Please enter the StationName");
                     return;
                 }
 
                 if (TextUtils.isEmpty(instructions)) {
-                    Toast.makeText(CreateTrailStationActivity.this, "You must enter Instructions for the Station", Toast.LENGTH_LONG).show();
                     edinstructions.setError("Please enter the instructions");
                     return;
                 }
@@ -144,13 +164,11 @@ public class CreateTrailStationActivity extends AppCompatActivity {
 
                 if (!editStation) {
                     try {
-                        getSupportActionBar().setTitle("Create Trail Station for" +trailStationObj.getTrailCode());
                         createStation(trailStationObj);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
-                    getSupportActionBar().setTitle("Update Trail Station for " + trailStationObj.getTrailCode());
                     try {
                         updateTrailStation();
                     } catch (Exception e) {
@@ -176,6 +194,11 @@ public class CreateTrailStationActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
+    }
     /**
      * Creating new Trail Station node under 'Learning Trail'
      */

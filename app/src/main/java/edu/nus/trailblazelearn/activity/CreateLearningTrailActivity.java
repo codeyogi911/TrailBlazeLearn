@@ -5,6 +5,7 @@ package edu.nus.trailblazelearn.activity;
  */
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.exception.TrailActivityException;
 import edu.nus.trailblazelearn.exception.TrailHelperException;
 import edu.nus.trailblazelearn.helper.LearningTrailHelper;
@@ -232,6 +234,12 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         finish();
         return true;
+    }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 
     /**

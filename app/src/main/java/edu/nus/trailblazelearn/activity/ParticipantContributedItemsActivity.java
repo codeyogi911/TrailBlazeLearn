@@ -1,10 +1,11 @@
 package edu.nus.trailblazelearn.activity;
 
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,14 +14,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.PagerAdapter;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.User;
 
 public class ParticipantContributedItemsActivity extends AppCompatActivity {
-    public boolean isTrainer = (boolean) User.getData().get("isTrainer");
-    User user = User.getInstance();
 private ParticipantItem participantItem = new ParticipantItem();
+User user = User.getInstance(this);
+public boolean isTrainer = (boolean) user.getData().get("isTrainer");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,5 +91,11 @@ private ParticipantItem participantItem = new ParticipantItem();
             trainer.setVisible(false);
         }
         return true;
+    }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 }

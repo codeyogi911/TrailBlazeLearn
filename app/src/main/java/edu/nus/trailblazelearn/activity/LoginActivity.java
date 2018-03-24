@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                             .setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build(),
                                     new AuthUI.IdpConfig.FacebookBuilder().build()))
                             .setTheme(R.style.ToolbarTheme)
+                            .setLogo(R.mipmap.ic_logo)
                             .setIsSmartLockEnabled(false)
                             .build(),
                     RC_SIGN_IN);

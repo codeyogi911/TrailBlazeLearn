@@ -35,7 +35,8 @@ public class FragmentImage extends Fragment {
 
         View fragmentImageView = inflater.inflate(R.layout.fragment_image, container, false);
         TextView notFoundImage = fragmentImageView.findViewById(R.id.image_files_not_found);
-        for (int i = 0; i < participantItem.getVideoUri().size(); i++) {
+        notFoundImage.setText("NO IMAGES FOUND");
+        for (int i = 0; i < participantItem.getImageUri().size(); i++) {
             notFoundImage.setVisibility(View.GONE);
             final String imageuri = participantItem.getImageUri().get(i);
             GridLayout imageGridLayout = fragmentImageView.findViewById(R.id.fragment_image_grid_layout);
