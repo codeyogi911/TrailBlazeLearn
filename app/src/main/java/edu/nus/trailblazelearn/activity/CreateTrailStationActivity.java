@@ -119,6 +119,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             trailCode = editStationObj.getTrailCode();
             sequence=editStationObj.getSequence();
             gps=editStationObj.getGps();
+            address=editStationObj.getStationAddress();
             if (gps != null) {
                 gpsEdit=gps;
                 gpsEdit=gpsEdit.replace("lat/lng:", "");
@@ -146,13 +147,11 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 trailStationObj.setGps(gps);
 
                 if (TextUtils.isEmpty(stationName)) {
-                    Toast.makeText(CreateTrailStationActivity.this, "You must enter the Station Name", Toast.LENGTH_LONG).show();
                     edstationName.setError("Please enter the StationName");
                     return;
                 }
 
                 if (TextUtils.isEmpty(instructions)) {
-                    Toast.makeText(CreateTrailStationActivity.this, "You must enter Instructions for the Station", Toast.LENGTH_LONG).show();
                     edinstructions.setError("Please enter the instructions");
                     return;
                 }

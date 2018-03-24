@@ -194,13 +194,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchInput.setOnItemClickListener(adapterAutoClickListener);
 
         placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, mGoogleApiClient, LAT_LNG_BOUNDS, null);
-
         searchInput.setAdapter(placeAutoCompleteAdapter);
 
     }
 
     public void geolocate() {
-        if(editlatitude==0 && editlongitude==0) {
             String searchlocation = searchInput.getText().toString();
             Geocoder geocoder = new Geocoder(MapsActivity.this);
             List<Address> list = new ArrayList();
@@ -223,13 +221,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
 
         }
-    else
-        {
-            locationBound=new LatLngBounds(new LatLng(editlatitude,editlongitude),new LatLng(editlatitude,editlongitude));
-            location = new LatLng(editlatitude,editlongitude);
-            moveCamera(new LatLng(editlatitude,editlongitude),DEFAULT_ZOOM,editAddress);
-        }
-    }
+
 
 
     /**
