@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.ParticipantItemAdapter;
 import edu.nus.trailblazelearn.model.LearningTrail;
 import edu.nus.trailblazelearn.model.ParticipantItem;
@@ -159,6 +160,12 @@ public class ParticipantItemListActivity extends AppCompatActivity {
                 RoleSelectActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 
     public void signOut(MenuItem menuItem) {

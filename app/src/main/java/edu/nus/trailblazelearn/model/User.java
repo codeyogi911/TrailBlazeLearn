@@ -114,14 +114,18 @@ public class User {
         Map<String, Object> map = new HashMap<>();
         map.put("isTrainer", true);
         map.put("isParticipant", false);
-        return DbUtil.MergeData("users", mAuth.getUid(), map);
+        user.getData().put("isTrainer", true);
+        user.getData().put("isParticipant", false);
+        return DbUtil.mergeData("users", mAuth.getUid(), map);
     }
 
     public Task<Void> grantParticipant() {
         Map<String, Object> map = new HashMap<>();
         map.put("isTrainer", false);
         map.put("isParticipant", true);
-        return DbUtil.MergeData("users", mAuth.getUid(), map);
+        user.getData().put("isTrainer", false);
+        user.getData().put("isParticipant", true);
+        return DbUtil.mergeData("users", mAuth.getUid(), map);
     }
 
     //  Saves to Firebase
@@ -169,7 +173,7 @@ public class User {
                     }
                     Map<String, Object> map = documentSnapshot.getData();
                     map.put(ApplicationConstants.enrolledTrails, trails);
-                    DbUtil.MergeData("users", mAuth.getUid(), map);
+                    DbUtil.mergeData("users", mAuth.getUid(), map);
                 }
             });
         }

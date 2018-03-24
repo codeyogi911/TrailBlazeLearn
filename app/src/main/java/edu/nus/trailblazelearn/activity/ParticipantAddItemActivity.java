@@ -43,6 +43,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.helper.AddParticipantItemHelper;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.TrailStation;
@@ -354,6 +355,12 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         }
         return mediaPlayer;
     }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
+    }
 /*
 * Onclick listeners to choose and create activity
 * */
@@ -431,7 +438,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
         createActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(imageDescription.getText())) {
+                if(!TextUtils.isEmpty(imageDescription.getText()) && DbUtil.imageUriList.size() > 0) {
                     participantItem = new ParticipantItem(userName, trailStation.getTrailCode(), trailStation.getStationId(), imageDescription.getText().toString());
                     if (DbUtil.imageUriList != null) {
                         participantItem.setImageUri(DbUtil.imageUriList);
