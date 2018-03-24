@@ -75,8 +75,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Place mPlace;
     TrailStation trailStationPlace;
     private LatLngBounds locationBound, defaultLocationBound;
-    private LatLng location;
-    String trailCode;
+    private LatLng location,editLocation;
+    private double editlatitude,editlongitude;
+    String trailCode,editAddress;
     Integer stationSize;
 
     @Override
@@ -94,6 +95,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         trailCode=(String)getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
         stationSize=(Integer)getIntent().getSerializableExtra(ApplicationConstants.stationSize);
+        editlongitude=(double)getIntent().getSerializableExtra(ApplicationConstants.lat);
+        editlongitude=(double)getIntent().getSerializableExtra(ApplicationConstants.lon);
+        editAddress=(String)getIntent().getSerializableExtra("Address");
         searchInput = (AutoCompleteTextView) findViewById(R.id.search_input);
         getPlace = (TextView) findViewById(R.id.getPlace);
         mPlacePicker =(FloatingActionButton)findViewById(R.id.ic_place_picker);
@@ -196,27 +200,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void geolocate() {
-        String searchlocation = searchInput.getText().toString();
-        Geocoder geocoder = new Geocoder(MapsActivity.this);
-        List<Address> list = new ArrayList();
-        try {
-            list = geocoder.getFromLocationName(searchlocation, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geolocate Exception" + e.getMessage());
-        }
+        if(editlatitude==0 && editlongitude==0) {
+            String searchlocation = searchInput.getText().toString();
+            Geocoder geocoder = new Geocoder(MapsActivity.this);
+            List<Address> list = new ArrayList();
+            try {
+                list = geocoder.getFromLocationName(searchlocation, 1);
+            } catch (IOException e) {
+                Log.e(TAG, "geolocate Exception" + e.getMessage());
+            }
 
-        if (list.size() > 0) {
-            address = list.set(0, list.get(0));
-            Log.d(TAG, "geolocation found" + address.toString());
-            locationBound = new LatLngBounds(new LatLng(address.getLatitude(), address.getLongitude()), new LatLng(address.getLatitude(), address.getLongitude()));
-        }
-        else {
-            locationBound = defaultLocationBound;
-        }
+            if (list.size() > 0) {
+                address = list.set(0, list.get(0));
+                Log.d(TAG, "geolocation found" + address.toString());
+                locationBound = new LatLngBounds(new LatLng(address.getLatitude(), address.getLongitude()), new LatLng(address.getLatitude(), address.getLongitude()));
+            } else {
+                locationBound = defaultLocationBound;
+            }
 
-        location=new LatLng(address.getLatitude(),address.getLongitude());
+            location = new LatLng(address.getLatitude(), address.getLongitude());
 
-        moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
+
+        }
+    else
+        {
+            locationBound=new LatLngBounds(new LatLng(editlatitude,editlongitude),new LatLng(editlatitude,editlongitude));
+            location = new LatLng(editlatitude,editlongitude);
+            moveCamera(new LatLng(editlatitude,editlongitude),DEFAULT_ZOOM,editAddress);
+        }
     }
 
 
@@ -229,7 +241,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is ready", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
-        defaultLocationBound = new LatLngBounds(new LatLng(1.3480323,103.7725324), new LatLng(1.3480323,103.7725324));
+        if(editlatitude==0 && editlongitude==0) {
+            defaultLocationBound = new LatLngBounds(new LatLng(1.3480323, 103.7725324), new LatLng(1.3480323, 103.7725324));
+        }
+        else {
+            defaultLocationBound = new LatLngBounds(new LatLng(editlatitude, editlongitude), new LatLng(editlatitude, editlongitude));
+            moveCamera(new LatLng(editlatitude,editlongitude),DEFAULT_ZOOM, editAddress);
+        }
         initial();
     }
 

@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -51,6 +52,7 @@ public class TrailStationListActivity extends AppCompatActivity {
     private List<TrailStation> trailStationList;
     private FirebaseFirestore firebaseFirestore;
     private String trailCode;
+    private TextView noStationMessage;
     private Boolean isTrainer,isParticipant;
     FloatingActionButton createStation;
     private User user;
@@ -105,7 +107,8 @@ public class TrailStationListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        noStationMessage =(TextView) findViewById(R.id.emptyStation);
+        noStationMessage.setText("No Trail Stations added to the Trail. Please Create a New Station");
         recyclerView = (RecyclerView) findViewById(R.id.StationRecyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -172,8 +175,12 @@ public class TrailStationListActivity extends AppCompatActivity {
 
 
         Log.d(TAG, "End of onCreate API call");
+        if(trailStationList.size()==0) {
+            noStationMessage.setVisibility(View.VISIBLE);
+        }else
+            noStationMessage.setVisibility(View.INVISIBLE);
+        }
 
-    }
 
     public boolean onOptionsItemSelected(MenuItem item){
         finish();
@@ -261,5 +268,4 @@ public class TrailStationListActivity extends AppCompatActivity {
         }
 
     }
-
 }

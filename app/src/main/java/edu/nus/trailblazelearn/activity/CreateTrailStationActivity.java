@@ -46,10 +46,11 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     private TextView locationDetails;
     private Button btnSave;
     private FloatingActionButton btnSearch;
-    private String trailCode,address,gps;
+    private String trailCode,address,gps,gpsEdit;
     private Integer stationId,sequence,stationSize;
     private boolean editStation, isTrainer;
     private User user;
+    private double latitude,longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             address = (String) getIntent().getSerializableExtra(ApplicationConstants.address);
             if(stationLocation!=null)
             gps=stationLocation.toString();
+
         edstationName = (EditText) findViewById(R.id.station_name);
         edinstructions = (EditText) findViewById(R.id.station_instructions);
         btnSave = (Button) findViewById(R.id.btn_save);
@@ -88,9 +90,12 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 intent.putExtra(ApplicationConstants.trailCodeMap,trailCode);
                 intent.putExtra(ApplicationConstants.stationSize, stationSize);
                 if(gps!=null)
-                intent.putExtra(ApplicationConstants.latlng,gps);
+                {
+                intent.putExtra(ApplicationConstants.lat,latitude);
+                intent.putExtra(ApplicationConstants.lon,longitude);
+                intent.putExtra("Address", address);
+                }
                 startActivity(intent);
-
             }
         });
         final TrailStation editStationObj = (TrailStation) getIntent().getSerializableExtra(ApplicationConstants.stationName);
@@ -111,6 +116,18 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             trailCode = editStationObj.getTrailCode();
             sequence=editStationObj.getSequence();
             gps=editStationObj.getGps();
+            if (gps != null) {
+                gpsEdit=gps;
+                gpsEdit=gpsEdit.replace("lat/lng:", "");
+                gpsEdit = gpsEdit.replace("(", "");
+                gpsEdit = gpsEdit.replace(")", "");
+                String[] strLatLong = gpsEdit.split("\\|");
+                for (String item : strLatLong) {
+                    String[] str = item.split(",");
+                    latitude = Double.parseDouble(str[0]);
+                    longitude = Double.parseDouble(str[1]);
+                }
+            }
         }
 
         btnSave.setOnClickListener(new OnClickListener() {
