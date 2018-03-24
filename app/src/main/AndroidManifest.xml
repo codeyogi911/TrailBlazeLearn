@@ -62,8 +62,7 @@
             android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".activity.TrailStationDetailsActivity" />
-        <activity android:name=".UserProfileActivity" />
-        <activity android:name=".activity.UpdateTrailStationActivity"></activity>
+        <activity android:name=".UserProfileActivity"></activity>
     </application>
 
 </manifest>

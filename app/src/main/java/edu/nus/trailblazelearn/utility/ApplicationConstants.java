@@ -22,7 +22,6 @@ public interface ApplicationConstants {
     String createTrailStationActivity = "CreateTrailStationAct";
     String trailStationDetailsActivity = "TrailStationDetailsAct";
     String trailStationAdapter="TrailStationAdapter";
-    String updateTrailStationActivity="UpdateTrailStationActivity";
     String mapsActivity ="MapsActivity";
     String trailCodeParam = "trailCode";
     String trailCodeMap="trailCodeMap";

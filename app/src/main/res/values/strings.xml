@@ -43,9 +43,9 @@
     <string name="btnSearchLocation">Search Location</string>
 
     <!--Station Discussion Activity added by Prannoy-->
-    <string name="station_discussion_heading">DISCUSSION</string>
-    <string name="message_box_description">Enter your message here</string>
-    <string name="Post_Message">Post Message</string>
+    <string name ="station_discussion_heading">DISCUSSION</string>
+    <string name = "message_box_description">Enter your message here</string>
+    <string name = "Post_Message">Post Message</string>
 
     <string name="trainer_note">You can create Learning trails, trail stations.</string>
     <string name="participant_note">You can enroll for trails and record your activities.</string>
@@ -54,6 +54,5 @@
     <string name="network_error_txt">Sorry communication with server was lost!</string>
     <string name="trail_not_found_txt">No learning trail found! \nTry enrolling for a new one</string>
     <string name="trail_not_found">No Learning Trail available.Please add one.</string>
-    <string name="station_not_found">No Trail Station available.Please add one.</string>
 
 </resources>
