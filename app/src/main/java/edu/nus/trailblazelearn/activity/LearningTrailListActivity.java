@@ -240,22 +240,6 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
                     Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
                 }
                 Log.d(TAG, "Trail code to be deleted.." + learningTrailLst.get(position).getTrailCode());
-//                mFireStore.collection(ApplicationConstants.learningTrailCollection).document("/" + learningTrailLst.get(position).getTrailCode())
-//                        .delete()
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void aVoid) {
-//                                mAdapter.removeLearningTrail(learningTrailLst.get(position));
-//                                Log.d(TAG, "Learning Trail successfully deleted...size is!" + learningTrailLst.size());
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Log.e(TAG, "Error deleting learning trail", e);
-//                                Toast.makeText(LearningTrailListActivity.this, ApplicationConstants.toastMessageForDbFailure, Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
                 mAdapter.removeLearningTrail(learningTrailLst.get(position));
                                 Log.d(TAG, "Learning Trail successfully deleted...size is!" + learningTrailLst.size());
                 return true;
