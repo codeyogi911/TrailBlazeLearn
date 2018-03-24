@@ -45,7 +45,6 @@ public class RoleSelectActivity extends AppCompatActivity {
                 loginTrainer();
             }
         });
-
         participantCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,10 +67,6 @@ public class RoleSelectActivity extends AppCompatActivity {
     }
 
     public void signOut(MenuItem menuItem) {
-        navtoLogin();
-    }
-
-    public void navtoLogin() {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

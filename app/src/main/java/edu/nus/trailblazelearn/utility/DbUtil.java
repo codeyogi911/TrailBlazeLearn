@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -226,7 +227,15 @@ public final class DbUtil {
 
     //      Query DB using docID
     public static Task<DocumentSnapshot> readWithDocID(String collectionName, String docID) {
-        return db.collection(collectionName).document(docID).get();
+        return getDocumentRef(collectionName, docID).get();
+    }
+
+    public static Task<Void> MergeData(String collectionName, String docID, Map<String, Object> data) {
+        return getDocumentRef(collectionName, docID).set(data, SetOptions.merge());
+    }
+
+    public static DocumentReference getDocumentRef(String collectionName, String docID) {
+        return db.collection(collectionName).document(docID);
     }
 
     /**
@@ -241,7 +250,11 @@ public final class DbUtil {
         Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
         map.remove(trailID);
         Map<String, Object> map1 = User.getInstance().getData();
-        map1.put("enrolledTrails", map);
+        if (map.size() > 0) {
+            map1.put("enrolledTrails", map);
+        } else {
+            map1.remove("enrolledTrails");
+        }
         User.getInstance().setData(map1);
         readWithKey("users", "enrolledTrails", trailID).addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {

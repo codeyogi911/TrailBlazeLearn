@@ -6,6 +6,8 @@ package edu.nus.trailblazelearn.utility;
 
 public interface ApplicationConstants {
 
+    String enrolledTrails = "enrolledTrails";
+
     /**Activity and Adapter related constants**/
     String trailActivityListClassName = "LearningTrailListActivity";
     String trailActivityCreateClassName ="CreateLearningTrailActivity";

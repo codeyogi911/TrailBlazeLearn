@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:hint="Select a Location"
         android:layout_below="@+id/trail_header"
         android:layout_alignParentLeft="true"
@@ -27,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/getPlace"
         android:layout_marginTop="33dp"
-        android:hint="@string/station_name" />
+        android:hint="@string/station_name"
+        android:maxLength="25"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_search"
@@ -46,6 +48,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/station_name"
         android:layout_marginTop="33dp"
+        android:maxLength="250"
         android:hint="@string/station_instructions"
         tools:layout_editor_absoluteX="0dp" />
 

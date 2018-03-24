@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.model.User;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
@@ -27,10 +28,12 @@ public class CreateLearningTrailActivityTest {
     Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(CreateLearningTrailActivity.class.getCanonicalName(), null, false);
     private LearningTrailListActivity mListTrailActivity = null;
     private Activity createLearningActivity;
+    private User user;
 
     @Before
     public void setUp() throws Exception {
         mListTrailActivity = mActivityTestRule.getActivity();
+        user = User.getInstance(mListTrailActivity.getApplicationContext());
     }
 
     @After
