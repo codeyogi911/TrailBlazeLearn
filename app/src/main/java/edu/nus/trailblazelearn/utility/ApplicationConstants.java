@@ -35,7 +35,8 @@ public interface ApplicationConstants {
     String stationLocation="stationLocation";
     String address="address";
     String stationName = "stationName";
-    String latlng="latlng";
+    String lat="lat";
+    String lon="long";
     String TrailStation="TrailStation";
 
     /**Toast messages**/
@@ -53,4 +54,5 @@ public interface ApplicationConstants {
     String audioUploadResult = "Audio Uploaded Successfully";
     String documentUploadResult = "Document Uploaded Successfully";
 
+    String noTrailStationMessage ="No Trail Stations added to the Trail. Please Create a New Station";
 }
