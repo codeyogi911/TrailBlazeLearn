@@ -247,14 +247,18 @@ public final class DbUtil {
      */
 
     public static void deleteTrail(final String trailID) {
-        Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
-        map.remove(trailID);
+        final Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails");
         Map<String, Object> map1 = User.getInstance().getData();
-        if (map.size() > 0) {
-            map1.put("enrolledTrails", map);
-        } else {
-            map1.remove("enrolledTrails");
+
+        if (null != map) {
+            map.remove(trailID);
+            if (map.size() > 0) {
+                map1.put("enrolledTrails", map);
+            } else {
+                map1.remove("enrolledTrails");
+            }
         }
+
         User.getInstance().setData(map1);
         readWithKey("users", "enrolledTrails", trailID).addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {
@@ -290,8 +294,24 @@ public final class DbUtil {
                                     });
                         }
 
+
                     }
-                }
-        );
+
+
+                });
+
+        if (map == null) {
+
+            FirebaseFirestore.getInstance().collection(ApplicationConstants.learningTrailCollection).document(trailID)
+                    .delete()
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "Error deleting learning trail", e);
+                        }
+                    });
+        }
     }
+
+
 }
