@@ -230,7 +230,7 @@ public final class DbUtil {
         return getDocumentRef(collectionName, docID).get();
     }
 
-    public static Task<Void> MergeData(String collectionName, String docID, Map<String, Object> data) {
+    public static Task<Void> mergeData(String collectionName, String docID, Map<String, Object> data) {
         return getDocumentRef(collectionName, docID).set(data, SetOptions.merge());
     }
 
