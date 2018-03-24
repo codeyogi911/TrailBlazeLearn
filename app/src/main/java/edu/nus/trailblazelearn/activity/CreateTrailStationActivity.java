@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.model.User;
@@ -88,7 +89,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
                 intent.putExtra(ApplicationConstants.trailCodeMap,trailCode);
                 intent.putExtra(ApplicationConstants.stationSize, stationSize);
                 if(gps!=null)
-                intent.putExtra(ApplicationConstants.latlng,gps);
+                intent.putExtra(ApplicationConstants.lat,gps);
                 startActivity(intent);
 
             }
@@ -239,6 +240,12 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         finish();
         return true;
+    }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 
 }

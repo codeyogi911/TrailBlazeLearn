@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.RecyclerAdapter;
 import edu.nus.trailblazelearn.fragment.SelectTrailDialogFragment;
 import edu.nus.trailblazelearn.model.User;
@@ -105,6 +106,12 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         Intent intent = new Intent(getApplicationContext(), RoleSelectActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 
     public void signOut(MenuItem menuItem) {

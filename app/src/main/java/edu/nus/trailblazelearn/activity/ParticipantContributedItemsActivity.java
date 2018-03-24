@@ -1,6 +1,7 @@
 package edu.nus.trailblazelearn.activity;
 
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.adapter.PagerAdapter;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.User;
@@ -89,5 +91,11 @@ public boolean isTrainer = (boolean) user.getData().get("isTrainer");
             trainer.setVisible(false);
         }
         return true;
+    }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 }

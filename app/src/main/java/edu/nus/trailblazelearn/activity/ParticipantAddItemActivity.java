@@ -43,6 +43,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.helper.AddParticipantItemHelper;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.TrailStation;
@@ -353,6 +354,12 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return mediaPlayer;
+    }
+
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
     }
 /*
 * Onclick listeners to choose and create activity

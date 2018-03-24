@@ -39,11 +39,13 @@
         <activity android:name=".activity.UploadButtonActivity" />
         <activity android:name=".activity.AudioListActivity" />
         <activity android:name=".activity.UploadDocumentActivity" />
-        <activity android:name=".activity.DocumentListActivity"></activity>
+        <activity android:name=".activity.DocumentListActivity" />
         <activity android:name=".activity.TrailStationListActivity" />
         <activity android:name=".activity.CreateTrailStationActivity" />
-        <activity android:name=".exception.NetworkError"></activity>
-        <activity android:name=".activity.StationDiscussionActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".exception.NetworkError" />
+        <activity
+            android:name=".activity.StationDiscussionActivity"
+            android:windowSoftInputMode="adjustPan" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -59,7 +61,8 @@
         <activity
             android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".activity.TrailStationDetailsActivity"></activity>
+        <activity android:name=".activity.TrailStationDetailsActivity" />
+        <activity android:name=".UserProfileActivity"></activity>
     </application>
 
 </manifest>
