@@ -56,7 +56,7 @@ public class CreateTrailStationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail_station);
-        user = User.getInstance();
+//        user = User.getInstance();
         isTrainer = (boolean) User.getData().get("isTrainer");
         toolbar = findViewById(R.id.trail_header);
         setSupportActionBar(toolbar);

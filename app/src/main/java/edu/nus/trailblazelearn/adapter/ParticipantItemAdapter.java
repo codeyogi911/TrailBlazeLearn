@@ -27,8 +27,8 @@ import edu.nus.trailblazelearn.model.User;
 public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItemAdapter.ViewHolder> {
     private static Context context;
     private ViewHolder viewHolder;
-    private User user = User.getInstance();
-    private String userEmail = (String) user.getData().get("email");
+    //    private User user = User.getInstance();
+    private String userEmail = (String) User.getData().get("email");
     private ProgressBar progressBar;
     private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
 

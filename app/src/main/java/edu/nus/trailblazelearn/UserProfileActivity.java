@@ -12,7 +12,7 @@ import edu.nus.trailblazelearn.model.User;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private User user;
+    //    private User user;
     private String username;
     private String userEmail;
     private boolean isTrainer;
@@ -25,7 +25,7 @@ public class UserProfileActivity extends AppCompatActivity {
         TextView userProfileName = findViewById(R.id.user_name);
         final TextView role = findViewById(R.id.role);
         Button okButton = findViewById(R.id.okay);
-        user = User.getInstance();
+//        user = User.getInstance();
         username = (String) User.getData().get("name");
         isTrainer = (boolean) User.getData().get("isTrainer");
         if(isTrainer) {

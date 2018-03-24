@@ -33,20 +33,20 @@ public class AddLearningTrailActivityTest {
     @Rule
     public ActivityTestRule<CreateLearningTrailActivity> mActivityTestRule = new ActivityTestRule<CreateLearningTrailActivity>(CreateLearningTrailActivity.class);
     private CreateLearningTrailActivity mAddTrailActivity = null;
-    private User user;
+//    private User user;
 
 
     @Before
     public void setUp() throws Exception {
         mAddTrailActivity = mActivityTestRule.getActivity();
-        user = User.getInstance(mAddTrailActivity);
+//        user = User.getInstance();
 
         Map<String, Object> temp = new HashMap<>();
         temp.put("name", "Romila Mukherjee");
         temp.put("email", "ms.romila@gmail.com");
         temp.put("isTrainer", true);
 
-        user.grantTrainer();
+        User.grantTrainer();
     }
 
     @Test

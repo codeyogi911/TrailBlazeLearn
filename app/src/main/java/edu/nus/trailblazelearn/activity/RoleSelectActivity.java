@@ -50,11 +50,11 @@ public class RoleSelectActivity extends AppCompatActivity {
     }
 
     public void loginTrainer() {
-        User.loginTrainer(this);
+        User.loginasTrainer(this);
     }
 
     public void loginParticipant() {
-        User.loginParticipant(this);
+        User.loginasParticipant(this);
     }
 
     public void signOut(MenuItem menuItem) {

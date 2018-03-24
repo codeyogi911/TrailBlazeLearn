@@ -89,7 +89,7 @@ public class LearningTrailListActivity extends AppCompatActivity implements Appl
         Log.d(TAG, "Start of onCreate API call");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_trail_list);
-        user = User.getInstance();
+//        user = User.getInstance();
         userEmail = (String) User.getData().get(ApplicationConstants.email);
         isTrainer = (boolean) User.getData().get("isTrainer");
 

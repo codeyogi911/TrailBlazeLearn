@@ -46,7 +46,6 @@ public final class DbUtil {
     public static ArrayList<String> audioUriList = new ArrayList<>();
     public static ArrayList<String> documentUriList = new ArrayList<>();
     private static StorageReference storageReference;
-//    private static ArrayList<String> fileTypes;
 
     static {
         db = FirebaseFirestore.getInstance();
@@ -247,15 +246,15 @@ public final class DbUtil {
      */
 
     public static void deleteTrail(final String trailID) {
-        Map<String, Object> map = (Map<String, Object>) User.getInstance().getData().get("enrolledTrails_key");
+        Map<String, Object> map = (Map<String, Object>) User.getData().get("enrolledTrails_key");
         map.remove(trailID);
-        Map<String, Object> map1 = User.getInstance().getData();
+        Map<String, Object> map1 = User.getData();
         if (map.size() > 0) {
             map1.put("enrolledTrails_key", map);
         } else {
             map1.remove("enrolledTrails_key");
         }
-        User.getInstance().setData(map1);
+        User.setData(map1);
         readWithKey("users", "enrolledTrails_key", trailID).addOnSuccessListener(
                 new OnSuccessListener<QuerySnapshot>() {
                     @Override

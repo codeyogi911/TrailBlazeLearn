@@ -22,23 +22,18 @@ import edu.nus.trailblazelearn.activity.RoleSelectActivity;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.DbUtil;
 
+/**
+ * Class performing the functions for a logged in user.
+ */
 public class User {
-    private static User user;
     private static Map<String, Object> data = new HashMap<>();
-
-    public static User getInstance() {
-        if (user == null) {
-            user = new User();
-        }
-        return user;
-    }
 
     public static void signOut(final AppCompatActivity context) {
         AuthUI.getInstance()
                 .signOut(context)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
-                        user = null;
+//                        user = null;
                         Intent intent = new Intent(context.getApplicationContext(), LoginActivity.class);
                         context.startActivity(intent);
                         context.finish();
@@ -51,7 +46,7 @@ public class User {
                 .getCurrentUser().getUid());
     }
 
-    public static void loginTrainer(final AppCompatActivity context) {
+    public static void loginasTrainer(final AppCompatActivity context) {
         grantTrainer().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -62,7 +57,7 @@ public class User {
         });
     }
 
-    public static void loginParticipant(final AppCompatActivity context) {
+    public static void loginasParticipant(final AppCompatActivity context) {
         grantParticipant().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -123,30 +118,36 @@ public class User {
         if (isParticipant()) {
             DbUtil.readWithDocID(ApplicationConstants.usersCollection_key, FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    Map<String, Object> trails = (Map<String, Object>) documentSnapshot.get(ApplicationConstants.enrolledTrails_key);
-                    if (trails != null) {
-                        if (trails.get(trailID.toUpperCase()) == null)
-                            trails.put(trailID, true);
-                    } else {
-                        trails = new HashMap<>();
-                        trails.put(trailID, true);
-                    }
-                    Map<String, Object> map = documentSnapshot.getData();
-                    map.put(ApplicationConstants.enrolledTrails_key, trails);
-                    DbUtil.MergeData(ApplicationConstants.usersCollection_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), map);
-                }
-            });
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Map<String, Object> trails = (Map<String, Object>) documentSnapshot.get(ApplicationConstants.enrolledTrails_key);
+                            if (trails != null) {
+                                if (trails.get(trailID.toUpperCase()) == null)
+                                    trails.put(trailID, true);
+                            } else {
+                                trails = new HashMap<>();
+                                trails.put(trailID, true);
+                            }
+                            Map<String, Object> map = documentSnapshot.getData();
+                            map.put(ApplicationConstants.enrolledTrails_key, trails);
+                            DbUtil.MergeData(ApplicationConstants.usersCollection_key, FirebaseAuth.getInstance().getCurrentUser().getUid(), map);
+                        }
+                    });
         }
     }
 
-    //  Returns true if user is participant
+    /**
+     * Method to check if the user is logged in as a participant
+     *
+     * @return boolean
+     */
     private static boolean isParticipant() {
         return data.get(ApplicationConstants.isParticipant_key) != null;
     }
 
-    //  Returns true if user is trainer
+    /** Returns true if user is trainer
+     *
+     */
     private boolean isTrainer() {
         return data.get(ApplicationConstants.isTrainer_key) != null;
     }

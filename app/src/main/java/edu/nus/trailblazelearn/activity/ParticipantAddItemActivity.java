@@ -117,7 +117,7 @@ public class ParticipantAddItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_add_item);
-        user = User.getInstance();
+//        user = User.getInstance();
         userName = (String) User.getData().get("name");
         isTrainer = (boolean) User.getData().get("isTrainer");
 

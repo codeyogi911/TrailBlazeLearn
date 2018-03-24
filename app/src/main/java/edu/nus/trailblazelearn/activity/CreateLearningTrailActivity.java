@@ -48,7 +48,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
     private boolean editMode;
     private boolean addOperationSuccess;
     private boolean updateOperationSuccess;
-    private User user;
+    //    private User user;
     private String userEmail;
     private boolean isTrainer;
 
@@ -57,7 +57,7 @@ public class CreateLearningTrailActivity extends AppCompatActivity {
         Log.d(TAG, "Start of onCreate API");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trail);
-        user = User.getInstance();
+//        user = User.getInstance();
         userEmail = (String) User.getData().get(ApplicationConstants.email);
         isTrainer = (boolean) User.getData().get("isTrainer");
         toolBarLearningActivity = findViewById(R.id.tb_trail_header);

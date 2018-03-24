@@ -21,7 +21,7 @@ import edu.nus.trailblazelearn.model.User;
 
 public class ParticipantContributedItemsActivity extends AppCompatActivity {
     public boolean isTrainer = (boolean) User.getData().get("isTrainer");
-    User user = User.getInstance();
+    //    User user = User.getInstance();
 private ParticipantItem participantItem = new ParticipantItem();
 
     @Override

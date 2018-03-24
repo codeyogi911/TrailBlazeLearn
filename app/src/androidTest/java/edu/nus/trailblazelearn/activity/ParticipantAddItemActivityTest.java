@@ -26,19 +26,19 @@ public class ParticipantAddItemActivityTest {
     @Rule
     public ActivityTestRule<ParticipantAddItemActivity> activityActivityTestRule = new ActivityTestRule<ParticipantAddItemActivity>(ParticipantAddItemActivity.class);
     private ParticipantAddItemActivity participantAddItemActivity = null;
-    private User user;
+//    private User user;
 
     @Before
     public void setUp() throws Exception {
         participantAddItemActivity = activityActivityTestRule.getActivity();
-        user = User.getInstance(participantAddItemActivity);
+//        user = User.getInstance(participantAddItemActivity);
 
         Map<String, Object> temp = new HashMap<>();
         temp.put("name", "Ragu");
         temp.put("email", "ragupathy@gmail.com");
         temp.put("isTrainer", true);
 
-        user.grantTrainer();
+        User.grantTrainer();
     }
 
     @Test

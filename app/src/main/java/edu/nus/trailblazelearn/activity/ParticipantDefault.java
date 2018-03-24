@@ -50,7 +50,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
     List<DocumentSnapshot> trailData = new ArrayList<>();
     View fragment;
     TextView textView;
-    private User participant;
+    //    private User participant;
     private Map<String, Object> enrolledTrails = new HashMap<>();
 
     @Override
@@ -63,7 +63,7 @@ public class ParticipantDefault extends AppCompatActivity implements SelectTrail
         getTrailList().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                participant = User.getInstance();
+//                participant = User.getInstance();
                 User.grantParticipant();
                 enrolledTrails = (Map<String, Object>) documentSnapshot.getData().get("enrolledTrails");
                 if (enrolledTrails != null) {

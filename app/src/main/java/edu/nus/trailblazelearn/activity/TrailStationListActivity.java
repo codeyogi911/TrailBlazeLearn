@@ -53,7 +53,8 @@ public class TrailStationListActivity extends AppCompatActivity {
     private String trailCode;
     private TextView noStationMessage;
     private Boolean isTrainer,isParticipant;
-    private User user;
+
+    //    private User user;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -91,7 +92,7 @@ public class TrailStationListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_station_list);
         toolBarStationListActivity = findViewById(R.id.StationListHeader);
-        user = User.getInstance();
+//        user = User.getInstance();
         isTrainer = (Boolean) User.getData().get("isTrainer");
         isParticipant = (Boolean) User.getData().get("isParticipant");
         createStation = findViewById(R.id.fab_create_station);

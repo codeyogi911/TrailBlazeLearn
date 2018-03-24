@@ -33,7 +33,7 @@ public class CreateLearningTrailActivityTest {
     @Before
     public void setUp() throws Exception {
         mListTrailActivity = mActivityTestRule.getActivity();
-        user = User.getInstance(mListTrailActivity.getApplicationContext());
+//        user = User.getInstance(mListTrailActivity.getApplicationContext());
     }
 
     @After

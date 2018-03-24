@@ -40,7 +40,7 @@ public class ParticipantItemListActivity extends AppCompatActivity {
     private static final String TAG = ApplicationConstants.participantItemListActivity;
     public boolean isTrainer = (boolean) User.getData().get("isTrainer");
     public boolean isParticipant = (boolean) User.getData().get("isParticipant");
-    User user = User.getInstance();
+    //    User user = User.getInstance();
     private ParticipantItemAdapter participantItemAdapter;
     private ArrayList<ParticipantItem> participantItemArrayList = new ArrayList<>();
     private TrailStation trailStation = new TrailStation();

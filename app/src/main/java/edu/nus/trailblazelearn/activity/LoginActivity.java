@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                             .setIsSmartLockEnabled(false)
                             .build(),
                     RC_SIGN_IN);
+            finish();
         } else {
             navToWelcome();
         }
@@ -85,9 +86,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void redirect() {
         if (User.getData().get("isTrainer") != null && (boolean) User.getData().get("isTrainer")) {
-            User.loginTrainer(this);
+            User.loginasTrainer(this);
         } else if (User.getData().get("isParticipant") != null && (boolean) User.getData().get("isParticipant")) {
-            User.loginParticipant(this);
+            User.loginasParticipant(this);
         } else {
             User.loginRoleSelect(this);
         }

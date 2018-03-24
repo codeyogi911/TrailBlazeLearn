@@ -55,7 +55,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
     private static final String TAG = "StationDiscussionAct";
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     final String userName = (String) User.getData().get("name");
-    User user = User.getInstance();
+    //    User user = User.getInstance();
     boolean isTrainer = (boolean) User.getData().get("isTrainer");
     /**
      * EditText type object
