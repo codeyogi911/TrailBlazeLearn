@@ -16,9 +16,6 @@ import edu.nus.trailblazelearn.helper.RetriveImageBitmap;
 import edu.nus.trailblazelearn.model.Post;
 import edu.nus.trailblazelearn.utility.DateUtil;
 
-/**
- * Created by e0267645 on 17/3/2018.
- */
 
 public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.ViewHolder>{
 

@@ -5,9 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 import edu.nus.trailblazelearn.model.User;
 
-/**
- * Created by Dharini.
- */
+
 
 public class TrailStation implements Serializable {
     private static final String TAG = "TrailStation.CLASS";

@@ -13,9 +13,7 @@ import java.util.HashMap;
 import edu.nus.trailblazelearn.utility.ApplicationConstants;
 import edu.nus.trailblazelearn.utility.DbUtil;
 
-/**
- * Created by dpak1 on 3/5/2018.
- */
+
 
 public class AddParticipantItemHelper extends AsyncTask<ArrayList<Uri>, Void, Void>{
     String resultMessgae = null;

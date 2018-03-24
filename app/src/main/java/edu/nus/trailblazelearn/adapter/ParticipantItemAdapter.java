@@ -20,9 +20,7 @@ import edu.nus.trailblazelearn.activity.ParticipantContributedItemsActivity;
 import edu.nus.trailblazelearn.model.ParticipantItem;
 import edu.nus.trailblazelearn.model.User;
 
-/**
- * Created by dpak1 on 3/10/2018.
- */
+
 
 public class ParticipantItemAdapter extends RecyclerView.Adapter<ParticipantItemAdapter.ViewHolder> {
     private static Context context;

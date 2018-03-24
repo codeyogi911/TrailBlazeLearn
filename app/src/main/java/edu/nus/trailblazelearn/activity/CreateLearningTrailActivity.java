@@ -1,8 +1,6 @@
 package edu.nus.trailblazelearn.activity;
 
-/**
- * Created by Romila on 10-03-2018.
- */
+
 
 import android.app.DatePickerDialog;
 import android.content.Intent;

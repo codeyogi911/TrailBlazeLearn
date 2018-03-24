@@ -1,8 +1,6 @@
 package edu.nus.trailblazelearn.exception;
 
-/**
- * Created by RMukherjee on 15-03-2018.
- */
+
 
 public class TrailHelperException extends TrailException {
 

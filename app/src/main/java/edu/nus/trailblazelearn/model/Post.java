@@ -4,17 +4,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Class that represents a discussion.
- * @author Prannoy Sablok
+ * Class that represents a post.
+ *
  */
 
 public class Post {
 
     private static final String TAG = "Post.CLASS";
 
-    private String stationID="1234";
+    private String stationID;
 
-    private String trailCode="1212";
+    private String trailCode;
 
     private String userName;
     private String message;
