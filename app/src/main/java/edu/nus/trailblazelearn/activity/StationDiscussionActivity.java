@@ -106,6 +106,7 @@ public class StationDiscussionActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         trailStation = (TrailStation) getIntent().getSerializableExtra(ApplicationConstants.trailStation);
+        getSupportActionBar().setTitle("Discussion - " + trailStation.getStationId());
 
         if (trailStation != null) {
             trailCode = trailStation.getTrailCode();

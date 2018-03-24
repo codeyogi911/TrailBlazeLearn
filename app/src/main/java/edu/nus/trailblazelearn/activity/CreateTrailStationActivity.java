@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.nus.trailblazelearn.R;
+import edu.nus.trailblazelearn.UserProfileActivity;
 import edu.nus.trailblazelearn.exception.TrailDaoException;
 import edu.nus.trailblazelearn.model.TrailStation;
 import edu.nus.trailblazelearn.model.User;
@@ -103,8 +104,10 @@ public class CreateTrailStationActivity extends AppCompatActivity {
             editStation = true;
 
         if (!editStation) {
+            getSupportActionBar().setTitle("Create Trail Station");
             btnSave.setText(getString(R.string.save));
         } else {
+            getSupportActionBar().setTitle("Update Trail Station");
             btnSave.setText(getString(R.string.update));
         }
         if (editStation) {
@@ -162,13 +165,11 @@ public class CreateTrailStationActivity extends AppCompatActivity {
 
                 if (!editStation) {
                     try {
-                        getSupportActionBar().setTitle("Create Trail Station for" +trailStationObj.getTrailCode());
                         createStation(trailStationObj);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
-                    getSupportActionBar().setTitle("Update Trail Station for " + trailStationObj.getTrailCode());
                     try {
                         updateTrailStation();
                     } catch (Exception e) {
@@ -194,6 +195,11 @@ public class CreateTrailStationActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onIconSelect(MenuItem menuItem) {
+        Intent intent = new Intent(getApplicationContext(),
+                UserProfileActivity.class);
+        startActivity(intent);
+    }
     /**
      * Creating new Trail Station node under 'Learning Trail'
      */
