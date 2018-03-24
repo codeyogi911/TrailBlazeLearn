@@ -48,10 +48,13 @@
         android:src="@drawable/ic_add_black_24dp" />
     
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:id="@+id/emptyStation"/>
+        android:id="@+id/emptyStation"
+        android:gravity="center"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/trail_not_found"
+        android:textAlignment="center"
+        android:textAllCaps="true" />
 
 </RelativeLayout>

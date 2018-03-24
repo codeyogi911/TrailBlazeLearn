@@ -134,10 +134,10 @@ public class TrailStationListActivity extends AppCompatActivity {
         //Register context menu with list item
         registerForContextMenu(recyclerView);
         LearningTrail trailObj = (LearningTrail) getIntent().getSerializableExtra(ApplicationConstants.trailCode);
-        if(trailObj != null) {
+        if (trailObj != null) {
             trailCode = trailObj.getTrailCode();
         }
-        if(trailCode==null)
+        if (trailCode == null)
             trailCode = (String) getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
         //TrailStation trailStation=new TrailStation();
         createStation.setOnClickListener(new View.OnClickListener() {
@@ -160,10 +160,11 @@ public class TrailStationListActivity extends AppCompatActivity {
                             return;
                         }
                         for (DocumentChange doc : value.getDocumentChanges()) {
-                            if(doc.getDocument().exists()) {
+                            if (doc.getDocument().exists()) {
                                 TrailStation trailStationObj = doc.getDocument().toObject(TrailStation.class);
                                 if (doc.getType() == DocumentChange.Type.ADDED) {
                                     trailStationList.add(trailStationObj);
+                                    noStationMessage.setVisibility(View.INVISIBLE);
                                 } else if (doc.getType() == DocumentChange.Type.MODIFIED) {
                                     int editedPosition = trailStationAdapter.itemPosition;
                                     Log.d(TAG, "Edited position :: " + trailStationAdapter.itemPosition);
@@ -179,13 +180,8 @@ public class TrailStationListActivity extends AppCompatActivity {
                     }
                 });
 
-
         Log.d(TAG, "End of onCreate API call");
-        if(trailStationList.size()==0) {
-            noStationMessage.setVisibility(View.VISIBLE);
-        }else
-            noStationMessage.setVisibility(View.INVISIBLE);
-        }
+    }
 
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -242,7 +238,7 @@ public class TrailStationListActivity extends AppCompatActivity {
             case R.id.edit_menu_item:
                 TrailStation stationObj = new TrailStation();
                 stationObj = trailStationList.get(position);
-                Intent intent = new Intent(this, CreateTrailStationActivity.class);
+                Intent intent = new Intent(this, UpdateTrailStationActivity.class);
                 intent.putExtra(ApplicationConstants.stationName, stationObj);
                 startActivity(intent);
                 trailStationAdapter.notifyDataSetChanged();

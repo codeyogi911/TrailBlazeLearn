@@ -78,7 +78,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng location,editLocation;
     private double editlatitude,editlongitude;
     String trailCode,editAddress;
-    Integer stationSize;
+    private Boolean editMode;
+    Integer stationSize, statioId;
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -95,9 +96,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         trailCode=(String)getIntent().getSerializableExtra(ApplicationConstants.trailCodeMap);
         stationSize=(Integer)getIntent().getSerializableExtra(ApplicationConstants.stationSize);
-        editlongitude=(double)getIntent().getSerializableExtra(ApplicationConstants.lat);
-        editlongitude=(double)getIntent().getSerializableExtra(ApplicationConstants.lon);
-        editAddress=(String)getIntent().getSerializableExtra("Address");
+        editMode=(Boolean) getIntent().getSerializableExtra("editMode");
+        statioId = (Integer) getIntent().getSerializableExtra("stationId");
+
         searchInput = (AutoCompleteTextView) findViewById(R.id.search_input);
         getPlace = (TextView) findViewById(R.id.getPlace);
         mPlacePicker =(FloatingActionButton)findViewById(R.id.ic_place_picker);
@@ -139,18 +140,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btn_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(address == null) {
-                   Toast.makeText(MapsActivity.this, "Please set a Location", Toast.LENGTH_SHORT).show();
+                if (address == null) {
+                    Toast.makeText(MapsActivity.this, "Please set a Location", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
-                    intent.putExtra(ApplicationConstants.stationLocation, location);
-                    intent.putExtra(ApplicationConstants.address, address.getAddressLine(0));
+                    if (!editMode) {
+                        Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
+                        intent.putExtra(ApplicationConstants.stationLocation, location);
+                        intent.putExtra(ApplicationConstants.address, address.getAddressLine(0));
 
-                    intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
-                    intent.putExtra(ApplicationConstants.stationSize, stationSize);
-                    startActivity(intent);
-                    finish();
+                        intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                        intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), UpdateTrailStationActivity.class);
+                        intent.putExtra(ApplicationConstants.stationLocation, location);
+                        intent.putExtra(ApplicationConstants.address, address.getAddressLine(0));
+                        intent.putExtra("stationId",statioId);
+                        intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                        intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
@@ -168,7 +180,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .getPlaceById(mGoogleApiClient, mPlace.getId());
                 placeResult.setResultCallback(updatePlaceDetaisCallBack);
                 mapAddress = String.format("Place: %s" , mPlace.getAddress());
-
+            if(!editMode) {
                 Intent intent = new Intent(getApplicationContext(), CreateTrailStationActivity.class);
                 intent.putExtra(ApplicationConstants.stationLocation, location);
                 intent.putExtra(ApplicationConstants.address, mapAddress);
@@ -177,6 +189,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra(ApplicationConstants.stationSize, stationSize);
                 startActivity(intent);
                 finish();
+            }
+            else {
+                Intent intent = new Intent(getApplicationContext(), UpdateTrailStationActivity.class);
+                intent.putExtra(ApplicationConstants.stationLocation, location);
+                intent.putExtra(ApplicationConstants.address, mapAddress);
+                intent.putExtra("stationId",statioId);
+                intent.putExtra(ApplicationConstants.trailCodeMap, trailCode);
+                intent.putExtra(ApplicationConstants.stationSize, stationSize);
+                startActivity(intent);
+                finish();
+            }
             }
         }
     }
@@ -233,13 +256,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is ready", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
-        if(editlatitude==0 && editlongitude==0) {
             defaultLocationBound = new LatLngBounds(new LatLng(1.3480323, 103.7725324), new LatLng(1.3480323, 103.7725324));
-        }
-        else {
-            defaultLocationBound = new LatLngBounds(new LatLng(editlatitude, editlongitude), new LatLng(editlatitude, editlongitude));
-            moveCamera(new LatLng(editlatitude,editlongitude),DEFAULT_ZOOM, editAddress);
-        }
+
         initial();
     }
 

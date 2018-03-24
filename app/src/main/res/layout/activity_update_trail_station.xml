@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/ToolbarTheme"
+    tools:context="edu.nus.trailblazelearn.activity.UpdateTrailStationActivity">
+
+
+    <TextView
+        android:id="@+id/getEditPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="25dp"
+        android:hint="Select a Location"
+        android:layout_below="@+id/trail_header"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/station_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/getEditPlace"
+        android:layout_marginTop="33dp"
+        android:hint="@string/station_name"
+        android:maxLength="25"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_search"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/getEditPlace"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="18dp"
+        android:src="@drawable/ic_add_location" />
+
+    <EditText
+        android:id="@+id/station_instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/station_name"
+        android:layout_marginTop="33dp"
+        android:maxLength="250"
+        android:hint="@string/station_instructions"
+        tools:layout_editor_absoluteX="0dp" />
+
+
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/toolBar"
+        android:text="@string/save"
+        android:textColor="@android:color/white" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/trail_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolBar"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/white"/>
+
+
+</RelativeLayout>
